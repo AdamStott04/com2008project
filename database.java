@@ -18,8 +18,22 @@ public class database {
         catch (Exception ex) {
             ex.printStackTrace();
         }
-        finally {
-            if (con != null) con.close();
+
+        Statement stmt = null;
+
+        try {
+            stmt = con.createStatement();
+            int count = stmt.executeUpdate(
+                    "CREATE TABLE users ( userID int PRIMARY KEY, forename varchar(255), surname varchar(255), email varchar(255), password varchar(255));");
         }
+        catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        finally {
+            if (stmt != null)
+                stmt.close();
+        }
+
+        con.close();
     }
 }
