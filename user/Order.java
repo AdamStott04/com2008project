@@ -1,3 +1,7 @@
+package user;
+
+import items.OrderLine;
+
 import java.time.LocalDateTime;
 
 public class Order {

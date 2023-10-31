@@ -1,3 +1,5 @@
+package user;
+
 public class Address {
     private int houseNumber;
     private String streetName;

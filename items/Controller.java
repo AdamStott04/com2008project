@@ -1,3 +1,5 @@
+package items;
+
 public class Controller extends Item {
     enum Type {Analogue, DCC}
 

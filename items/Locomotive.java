@@ -1,3 +1,5 @@
+package items;
+
 public class Locomotive extends Item {
     enum Type {Analogue, DCCReady, DCCFitted, DCCSound}
 

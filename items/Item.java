@@ -1,3 +1,4 @@
+package items;
 public class Item {
     public enum Gauge {OO, TT, N}
 

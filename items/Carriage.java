@@ -1,3 +1,5 @@
+package items;
+
 public class Carriage extends Item {
 
     private int era;
