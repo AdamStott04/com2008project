@@ -2,13 +2,16 @@ import java.sql.*;
 import java.util.*;
 
 public class database {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws SQLException {
         System.out.println("\nDrivers loaded as properties:");
         System.out.println(System.getProperty("jdbc.drivers"));
         System.out.println("\nDrivers loaded by DriverManager:");
         Enumeration<Driver> list = DriverManager.getDrivers();
         while (list.hasMoreElements())
             System.out.println(list.nextElement());
+
+    }
+    public static void databaseSQL(String statement) throws SQLException {
 
         Connection con = null;
 
@@ -21,15 +24,13 @@ public class database {
 
         Statement stmt = null;
 
+
         try {
             stmt = con.createStatement();
-            int count = stmt.executeUpdate(
-                    "CREATE TABLE users ( userID int PRIMARY KEY, forename varchar(255), surname varchar(255), email varchar(255), password varchar(255));");
-        }
-        catch (SQLException ex) {
+            int count = stmt.executeUpdate(statement);
+        } catch (SQLException ex) {
             ex.printStackTrace();
-        }
-        finally {
+        } finally {
             if (stmt != null)
                 stmt.close();
         }
