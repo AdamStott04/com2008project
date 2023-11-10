@@ -29,7 +29,7 @@ public class database {
 
         try {
             stmt = con.createStatement();
-            ResultSet count = stmt.executeQuery("SELECT * FROM users WHERE email = 'admin@adminmail.com' AND password = 'admin123';");
+            int count = stmt.executeUpdate("INSERT INTO users (userID, forename, surname, email, password, houseNo, postcode, cardNo, isStaff, isManager) VALUES (1, 'Admin', 'Admin', 'admin@adminmail.com', 'admin123', NULL, NULL, NULL, 1, 1);");
             System.out.println(count);
         } catch (SQLException ex) {
             ex.printStackTrace();
