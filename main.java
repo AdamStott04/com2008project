@@ -11,7 +11,7 @@ public class main {
     public static void main(String[] args) throws SQLException {
         ResultSet users = loadFromDb();
         login(users);
-
+        ui.Catalog.getAllItems(DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team025", "team025", "uChahgh6z"));
     }
 
     public static ResultSet loadFromDb() {
