@@ -1,37 +1,45 @@
 package ui;
 
+import database.database;
+
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import javax.swing.table.DefaultTableModel;
 
-public class Catalog {
-    private JPanel itemList;
+public class Catalog extends JFrame {
+    public JPanel rootPanel;
+    private JScrollPane itemsList;
+    private JTable rows;
 
-    public static void getAllItems(Connection con) throws SQLException {
+    public Catalog(ResultSet items) throws SQLException {
         try {
-            String selectSQL = "SELECT * FROM items";
-            PreparedStatement preparedStatement = con.prepareStatement(selectSQL);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            System.out.println("<=================== GET ALL ITEMS ====================>");
-            while (resultSet.next()) {
-                // Print each item's information in the specified format
-                System.out.println("{" +
-                        "productCode='" + resultSet.getString("productCode") + "'" +
-                        ", brand='" + resultSet.getString("brand") + "'" +
-                        ", productName='" + resultSet.getString("productName") + "'" +
-                        ", price='" + resultSet.getFloat("price") + "'" +
-                        ", stockCount='" + resultSet.getInt("stockCount") + "'" +
-                        ", description='" + resultSet.getString("price") + "'" +
-                        ", era='" + resultSet.getString("era") + "'" +
-                        ", gauge='" + resultSet.getString("gauge") + "'" +
-                        "}");
+            DefaultTableModel tableModel = new DefaultTableModel();
+
+            // Create columns based on ResultSet metadata
+            for (int i = 1; i <= items.getMetaData().getColumnCount(); i++) {
+                tableModel.addColumn(items.getMetaData().getColumnName(i));
             }
-            System.out.println("<======================================================>");
+
+            // Populate the table model with data
+            while (items.next()) {
+                Object[] row = new Object[items.getMetaData().getColumnCount()];
+                for (int i = 1; i <= items.getMetaData().getColumnCount(); i++) {
+                    if (items.getObject(i) == null)
+                        row[i - 1] = " ";
+                    else
+                        row[i - 1] = items.getObject(i);
+                }
+                tableModel.addRow(row);
+            }
+
+            rows.setModel(tableModel);
+            itemsList.setViewportView(rows);
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw e;// Re-throw the exception to signal an error.
         }
     }
 }
+
+
