@@ -2,14 +2,14 @@ package items;
 public class Item {
     public enum Gauge {OO, TT, N}
 
-    private String brand;
-    private String productName;
-    private int productCode;
-    private double price;
-    private int stockCount;
-    private String description;
+    public String brand;
+    public String productName;
+    public String productCode;
+    public double price;
+    public int stockCount;
+    public String description;
 
-    public Item(String brand, String productName, int productCode, double price, int stockNumber, String description) {
+    public Item(String brand, String productName, String productCode, double price, int stockNumber, String description) {
         this.brand = brand;
         this.productName = productName;
         this.productCode = productCode;

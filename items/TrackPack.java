@@ -1,19 +1,17 @@
 package items;
 
-public class Locomotive extends Item {
+public class TrackPack extends Item {
     private Gauge gauge;
-    private String era;
 
-    public Locomotive(Gauge gauge, String era, String brand, String productName,
+
+    public TrackPack(Gauge gauge, String brand, String productName,
                       String productCode, Double price, Integer stockCount, String description) {
         super(brand, productName, productCode, price, stockCount, description);
         this.gauge = gauge;
-        this.era = era;
     }
     public String toString() {
-        return "Locomotive{" +
+        return "TrackPack{" +
                 "gauge=" + gauge +
-                ", era='" + era + '\'' +
                 ", brand='" + brand + '\'' +
                 ", productName='" + productName + '\'' +
                 ", productCode='" + productCode + '\'' +

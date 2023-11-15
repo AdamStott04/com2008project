@@ -2,12 +2,29 @@ package items;
 
 public class Carriage extends Item {
 
-    private int era;
+    private String era;
     private Gauge gauge;
 
-    public Carriage(int era, Gauge gauge, String brand, String productName, int productCode, double price, int stockCount, String description) {
+    public Carriage(String era, Gauge gauge, String brand, String productName, String productCode, double price, int stockCount, String description) {
         super(brand, productName, productCode, price, stockCount, description);
         this.era = era;
         this.gauge = gauge;
     }
+
+    public String toString() {
+        return "Carriage{" +
+                "era='" + era + '\'' +
+                ", gauge=" + gauge +
+                ", brand='" + brand + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productCode='" + productCode + '\'' +
+                ", price=" + price +
+                ", stockCount=" + stockCount +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+
+
+
 }

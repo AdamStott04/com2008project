@@ -19,6 +19,11 @@
             <constraints/>
             <properties>
               <autoCreateRowSorter value="true"/>
+              <enabled value="true"/>
+              <gridColor color="-16777216"/>
+              <rowHeight value="30"/>
+              <rowSelectionAllowed value="false"/>
+              <showVerticalLines value="false"/>
             </properties>
           </component>
         </children>
