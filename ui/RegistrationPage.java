@@ -1,19 +1,17 @@
 package ui;
 
 import database.database;
+import App.App;
+import user.User;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Arrays;
+import java.sql.*;
 
 import static helper.passwordHash.hashPassword;
 
-public class RegistrationPage {
+public class RegistrationPage extends JFrame {
     public JPanel rootPanel;
     private JTextField forenameTextField;
     private JTextField surnameTextField;
@@ -24,8 +22,9 @@ public class RegistrationPage {
     private JTextField postcodeField;
     private JTextField countryField;
     private JButton registerButton;
+    private JButton backToLoginButton;
 
-    public RegistrationPage() {
+    public RegistrationPage(JFrame frame) {
         registerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -93,6 +92,18 @@ public class RegistrationPage {
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
+                }
+            }
+        });
+        backToLoginButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+
+                try {
+                    App.login();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });

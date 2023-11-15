@@ -1,6 +1,7 @@
 package user;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import database.database;
 
@@ -10,35 +11,42 @@ import static helper.passwordHash.hashPassword;
 
 public class User {
 
-    private String id;
+    private int id;
     private String forename;
     private String surname;
     private String email;
     private String password;
+    private int isStaff;
+    private int isManager;
 
     private Address address;
 
     private BankDetails bankDetails;
 
-    public User(String id, String forename, String surname, String email, String password) {
+    public User(int id, String forename, String surname, String email, String password, int isStaff, int isManager) {
         this.id = id;
         this.forename = forename;
         this.surname = surname;
         this.email = email;
         this.password = password;
+        this.isManager = isManager;
+        this.isStaff = isStaff;
     }
 
-    public static boolean validUser(String email, String password, ResultSet results) throws SQLException {
+    public static ArrayList<User> users = new ArrayList<>();
 
-        while (results.next()) {
-            String dbEmail = results.getString("email");
-            String dbPassword = results.getString("password");
+    public static void createUser(int id, String forename, String surname, String email, String password, int isStaff, int isManager) {
+        User newUser = new User(id, forename, surname, email, password, isStaff, isManager);
+        users.add(newUser);
+    }
 
-            if (dbEmail.equals(email) && dbPassword.equals(hashPassword(password))) {
-                return true;
+    public static boolean validUser(String email, String password) throws SQLException {
+        for (User user : User.users) {
+            if (user.email.equals(email) && user.password.equals(hashPassword(password))) {
+                return true; // Found a matching user
             }
         }
-        return false;
+        return false; // No matching user found
     }
 
 }
