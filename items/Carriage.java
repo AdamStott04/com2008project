@@ -24,7 +24,12 @@ public class Carriage extends Item {
                 '}';
     }
 
-
+    public Gauge getGauge() {
+        return gauge;
+    }
+    public String getEra() {
+        return era;
+    }
 
 
 }

@@ -18,4 +18,19 @@ public class Item {
         this.description = description;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getName() {
+        return productName;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }

@@ -20,4 +20,7 @@ public class Track extends Item {
                 '}';
     }
 
+    public Gauge getGauge() {
+        return gauge;
+    }
 }

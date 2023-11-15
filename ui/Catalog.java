@@ -5,6 +5,7 @@ import items.Carriage;
 import items.Locomotive;
 import items.Track;
 import items.Controller;
+import items.Item;
 import items.Item.Gauge;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,10 @@ public class Catalog extends JFrame {
     private JScrollPane itemsList;
     private JTable rows;
     private List<Object> allItemsInOrder;
+    private List<Locomotive> locomotives;
+    private List<Carriage> carriages;
+    private List<Track> track;
+    private List<Controller> controllers;
 
     public Catalog(ResultSet items) throws SQLException {
         try {
@@ -31,10 +36,13 @@ public class Catalog extends JFrame {
             tableModel.addColumn("Brand");
             tableModel.addColumn("Name");
             tableModel.addColumn("Price");
-            List<Locomotive> locomotives = new ArrayList<>();
-            List<Carriage> carriages = new ArrayList<>();
-            List<Track> track = new ArrayList<>();
-            List<Controller> controllers = new ArrayList<>();
+
+            locomotives = new ArrayList<>();
+            carriages = new ArrayList<>();
+            track = new ArrayList<>();
+            controllers = new ArrayList<>();
+            allItemsInOrder = new ArrayList<>();
+
             // Populate the table model with data
             while (items.next()) {
                 Object[] row = new Object[3]; // Three columns: brand, productName, price
@@ -65,7 +73,6 @@ public class Catalog extends JFrame {
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description")));
                 }
-                List<Object> allItemsInOrder = new ArrayList<>();
                 allItemsInOrder.add(locomotives);
                 allItemsInOrder.add(controllers);
                 allItemsInOrder.add(track);
@@ -94,15 +101,37 @@ public class Catalog extends JFrame {
         }
     }
     private void displayItemInformation(int rowIndex, List<Object> allItems) {
-        // Retrieve information about the selected item
-
-        // Create a panel to hold the components
         JPanel panel = new JPanel(new GridLayout(0, 1));
+        // Retrieve information about the selected item
+        System.out.println(allItems.get(rowIndex));
+        /*String productName = selectedItem.getName();
+        String brand = selectedItem.getBrand();
+        Double price = selectedItem.getPrice();
+        String description = selectedItem.getDescription();
 
-        // Add labels with item information
-        //panel.add(new JLabel("Item: " + productName));
-        //panel.add(new JLabel("Price: $" + price));
-        //panel.add(new JLabel("Description: " + description));
+        panel.add(new JLabel("Item: " + productName));
+        panel.add(new JLabel("Brand: $" + brand));
+        panel.add(new JLabel("Price: $" + price));
+        panel.add(new JLabel("Description: " + description));
+
+        // Check the type of the selected item and cast it accordingly
+        if (selectedItem instanceof Locomotive) {
+            Locomotive locomotive = (Locomotive) selectedItem;
+            Gauge gauge = locomotive.getGauge();
+            panel.add(new JLabel("Gauge: " + gauge));
+            String era = locomotive.getEra();
+            panel.add(new JLabel("Era: " + era));
+        } else if (selectedItem instanceof Track) {
+            Track track = (Track) selectedItem;
+            Gauge gauge = track.getGauge();
+            panel.add(new JLabel("Gauge: " + gauge));
+        } else if (selectedItem instanceof Carriage) {
+            Carriage carriage = (Carriage) selectedItem;
+            Gauge gauge = carriage.getGauge();
+            panel.add(new JLabel("Gauge: " + gauge));
+            String era = carriage.getEra();
+            panel.add(new JLabel("Era: " + era));
+        }*/
 
         // Add buttons for user interaction
         JButton addToBagButton = new JButton("Add to Bag");
