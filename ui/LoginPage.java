@@ -13,8 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 
-public class LoginPage extends JFrame{
-    private static ResultSet users;
+public class LoginPage extends JFrame {
     public JPanel rootPanel;
     private JLabel loginLabel;
     private JButton loginButton;
@@ -29,10 +28,11 @@ public class LoginPage extends JFrame{
             public void actionPerformed(ActionEvent e) {
 
                 String email_entered = emailTextField.getText();
-                String password_entered = Arrays.toString(passwordPasswordField.getPassword());
+                char[] password = passwordPasswordField.getPassword();
+                String password_entered = new String(password);
                 try {
                     if (User.validUser(email_entered, password_entered)) {
-                        users.close();
+                        System.out.println("Success");
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

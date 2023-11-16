@@ -54,7 +54,7 @@ public class RegistrationPage extends JFrame {
                     JOptionPane.showMessageDialog(null, "The house number you have entered is not a valid integer." +
                             " Please re-enter a valid house number!", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    // Create address instance in db first so it can be used in user table
+                    // Create address instance in db first, so it can be used in user table
                     String address_sql = "INSERT INTO addresses (houseNo, postcode, street, country) VALUES (?, ?, ?, ?)";
 
                     PreparedStatement preparedStatement = null;
@@ -70,7 +70,6 @@ public class RegistrationPage extends JFrame {
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
-
 
 
                     String sql = "INSERT INTO users (forename, surname, email, password, houseNo, postcode, isStaff, isManager, bankID) VALUES (?, ?, ?, ?, ?, ?, 0, 0, NULL)";
@@ -92,6 +91,7 @@ public class RegistrationPage extends JFrame {
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
+                    App.loadFromDb();
                 }
             }
         });

@@ -44,7 +44,7 @@ public class App {
                 String password = userSet.getString("password");
                 int isStaff = userSet.getInt("isStaff");
                 int isManager = userSet.getInt("isManager");
-                createUser(id,forename,surname,email,password,isStaff,isManager);
+                createUser(id, forename, surname, email, password, isStaff, isManager);
 
             }
             preparedStatement.close();
