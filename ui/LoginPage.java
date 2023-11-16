@@ -31,8 +31,10 @@ public class LoginPage extends JFrame {
                 char[] password = passwordPasswordField.getPassword();
                 String password_entered = new String(password);
                 try {
-                    if (User.validUser(email_entered, password_entered)) {
+                    User user = User.validUser(email_entered, password_entered);
+                    if (user != null) {
                         System.out.println("Success");
+
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

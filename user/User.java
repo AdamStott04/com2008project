@@ -3,10 +3,6 @@ package user;
 import java.sql.*;
 import java.util.ArrayList;
 
-import database.database;
-
-import javax.xml.transform.Result;
-
 import static helper.passwordHash.hashPassword;
 
 public class User {
@@ -33,6 +29,63 @@ public class User {
         this.isStaff = isStaff;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int value) {
+        this.id = value;
+    }
+
+    public String getForename() {
+        return forename;
+    }
+
+    public void setForename(String value) {
+        this.forename = value;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String value) {
+        this.surname = value;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String value) {
+        this.email = value;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String value) {
+        this.password = value;
+    }
+
+    public int getIsManager() {
+        return isManager;
+    }
+
+    public void setIsManager(int value) {
+        this.isManager = value;
+    }
+
+    public int getIsStaff() {
+        return isStaff;
+    }
+
+    public void setIsStaff(int value) {
+        this.isStaff = value;
+    }
+
+
     public static ArrayList<User> users = new ArrayList<>();
 
     public static void createUser(int id, String forename, String surname, String email, String password, int isStaff, int isManager) {
@@ -40,13 +93,13 @@ public class User {
         users.add(newUser);
     }
 
-    public static boolean validUser(String email, String password) throws SQLException {
+    public static User validUser(String email, String password) throws SQLException {
         for (User user : User.users) {
             if (user.email.equals(email) && user.password.equals(hashPassword(password))) {
-                return true; // Found a matching user
+                return user; // Found a matching user
             }
         }
-        return false; // No matching user found
+        return null; // No matching user found
     }
 
 }

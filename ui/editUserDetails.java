@@ -1,5 +1,7 @@
 package ui;
 
+import user.User;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +23,8 @@ public class editUserDetails {
     private JButton saveButton;
 
 
-    public editUserDetails() {
+    public editUserDetails(User user) {
+
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,9 +37,10 @@ public class editUserDetails {
 
             }
         });
-    }
 
-    public static void main(String[] args) {
+        forenameField.setText(user.getForename());
+        surnameField.setText(user.getSurname());
+        emailField.setText(user.getEmail());
 
     }
 }
