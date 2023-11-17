@@ -5,6 +5,8 @@ import items.Carriage;
 import items.Locomotive;
 import items.Track;
 import items.Controller;
+import items.TrackPack;
+import items.TrainSet;
 import items.Item;
 import items.Item.Gauge;
 import java.util.ArrayList;
@@ -27,6 +29,10 @@ public class Catalog extends JFrame {
     private List<Carriage> carriages;
     private List<Track> track;
     private List<Controller> controllers;
+
+    private List<TrackPack> trackpack;
+
+    private List<TrainSet> trainset;
 
     public Catalog(ResultSet items) throws SQLException {
         try {
@@ -72,6 +78,21 @@ public class Catalog extends JFrame {
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(carriage);
+                }
+                  else if (items.getString("productCode").charAt(0) == 'P') {
+                    TrackPack trackpack = new TrackPack(Gauge.valueOf(items.getString("gauge")),
+                            items.getString("brand"), items.getString("productName"),
+                            items.getString("productCode"), items.getDouble("price"),
+                            items.getInt("stockCount"), items.getString("description"));
+                    allItemsInOrder.add(trackpack);
+                }
+                  else if (items.getString("productCode").charAt(0) == 'M'){
+                    TrainSet trainset = new TrainSet(Gauge.valueOf(items.getString("gauge")),
+                            items.getString("era"), items.getString("brand"),
+                            items.getString("productName"), items.getString("productCode"),
+                            items.getDouble("price"), items.getInt("stockCount"),
+                            items.getString("description"));
+                    allItemsInOrder.add(trainset);
                 }
             }
 
