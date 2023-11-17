@@ -22,7 +22,7 @@ public class Catalog extends JFrame {
     public JPanel rootPanel;
     private JScrollPane itemsList;
     private JTable rows;
-    private List<Object> allItemsInOrder;
+    private List<Item> allItemsInOrder;
     private List<Locomotive> locomotives;
     private List<Carriage> carriages;
     private List<Track> track;
@@ -37,10 +37,6 @@ public class Catalog extends JFrame {
             tableModel.addColumn("Name");
             tableModel.addColumn("Price");
 
-            locomotives = new ArrayList<>();
-            carriages = new ArrayList<>();
-            track = new ArrayList<>();
-            controllers = new ArrayList<>();
             allItemsInOrder = new ArrayList<>();
 
             // Populate the table model with data
@@ -52,36 +48,50 @@ public class Catalog extends JFrame {
 
                 tableModel.addRow(row);
                 if (items.getString("productCode").charAt(0) == 'L'){
-                    locomotives.add(new Locomotive(Gauge.valueOf(items.getString("gauge")),
+                    Locomotive locomotive = new Locomotive(Gauge.valueOf(items.getString("gauge")),
                             items.getString("era"), items.getString("brand"),
                             items.getString("productName"), items.getString("productCode"),
                             items.getDouble("price"), items.getInt("stockCount"),
-                            items.getString("description")));
+                            items.getString("description"));
+                    allItemsInOrder.add(locomotive);
                 } else if (items.getString("productCode").charAt(0) == 'C') {
-                    controllers.add(new Controller(items.getString("brand"), items.getString("productName"),
+                    Controller controller = new Controller(items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
-                            items.getInt("stockCount"), items.getString("description")));
+                            items.getInt("stockCount"), items.getString("description"));
+                    allItemsInOrder.add(controller);
                 } else if (items.getString("productCode").charAt(0) == 'R') {
-                    track.add(new Track(Gauge.valueOf(items.getString("gauge")),
+                    Track newTrack = new Track(Gauge.valueOf(items.getString("gauge")),
                                     items.getString("brand"), items.getString("productName"),
                                     items.getString("productCode"), items.getDouble("price"),
-                                    items.getInt("stockCount"), items.getString("description")));
+                                    items.getInt("stockCount"), items.getString("description"));
+                    allItemsInOrder.add(newTrack);
                 } else if (items.getString("productCode").charAt(0) == 'S') {
-                    carriages.add(new Carriage(items.getString("era"),
+                    Carriage carriage = new Carriage(items.getString("era"),
                             Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
-                            items.getInt("stockCount"), items.getString("description")));
+                            items.getInt("stockCount"), items.getString("description"));
+                    allItemsInOrder.add(carriage);
                 }
-                allItemsInOrder.add(locomotives);
-                allItemsInOrder.add(controllers);
-                allItemsInOrder.add(track);
-                allItemsInOrder.add(carriages);
             }
 
             rows.setModel(tableModel);
             rows.setDefaultEditor(Object.class, null);
             itemsList.setViewportView(rows);
+
+            System.out.println("Order in table model:");
+            for (int i = 0; i < tableModel.getRowCount(); i++) {
+                System.out.println(tableModel.getValueAt(i, 0) + ", " +
+                        tableModel.getValueAt(i, 1) + ", " +
+                        tableModel.getValueAt(i, 2));
+            }
+
+            System.out.println("Order in allItemsInOrder:");
+            for (Item item : allItemsInOrder) {
+                System.out.println(item.getBrand() + ", " +
+                        item.getName() + ", " +
+                        item.getPrice());
+            }
 
             rows.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
@@ -100,11 +110,13 @@ public class Catalog extends JFrame {
             throw e;// Re-throw the exception to signal an error.
         }
     }
-    private void displayItemInformation(int rowIndex, List<Object> allItems) {
+    private void displayItemInformation(int rowIndex, List<Item> allItems) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         // Retrieve information about the selected item
+        System.out.println(rowIndex);
         System.out.println(allItems.get(rowIndex));
-        /*String productName = selectedItem.getName();
+        Item selectedItem = allItems.get(rowIndex);
+        String productName = selectedItem.getName();
         String brand = selectedItem.getBrand();
         Double price = selectedItem.getPrice();
         String description = selectedItem.getDescription();
@@ -131,7 +143,7 @@ public class Catalog extends JFrame {
             panel.add(new JLabel("Gauge: " + gauge));
             String era = carriage.getEra();
             panel.add(new JLabel("Era: " + era));
-        }*/
+        }
 
         // Add buttons for user interaction
         JButton addToBagButton = new JButton("Add to Bag");
