@@ -1,6 +1,5 @@
 package ui;
 
-import database.database;
 import items.*;
 import items.Item.Gauge;
 import java.util.ArrayList;
@@ -20,7 +19,9 @@ public class Catalog extends JFrame {
     public JPanel rootPanel;
     private JScrollPane itemsList;
     private JTable rows;
+    private JButton viewCurrentOrderButton;
     private List<Item> allItemsInOrder;
+    private List<Item> currentOrderItems = new ArrayList<>();
     private Order currentOrder = new Order(1, Status.Pending, null, null);
 
     public Catalog(ResultSet items) throws SQLException {
@@ -91,6 +92,13 @@ public class Catalog extends JFrame {
             rows.setModel(tableModel);
             rows.setDefaultEditor(Object.class, null);
             itemsList.setViewportView(rows);
+
+            viewCurrentOrderButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    OrderEdit orderEdit = new OrderEdit(Catalog.this, currentOrderItems);
+                }
+            });
 
             System.out.println("Order in table model:");
             for (int i = 0; i < tableModel.getRowCount(); i++) {
@@ -196,7 +204,8 @@ public class Catalog extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Add your logic for adding the item to the shopping bag
+                currentOrderItems.add(selectedItem);
+                System.out.println(currentOrderItems);
                 JOptionPane.showMessageDialog(null, "Item added to order!");
             }
         });
@@ -212,7 +221,7 @@ public class Catalog extends JFrame {
 
         // Show the option pane with the custom panel
         int result = JOptionPane.showOptionDialog(
-                this, // Parent component
+                this,
                 panel,
                 "Item Information",
                 JOptionPane.YES_NO_OPTION,
@@ -221,10 +230,6 @@ public class Catalog extends JFrame {
                 new Object[]{},
                 null);
 
-        // Handle the result if needed
-        if (result == JOptionPane.YES_OPTION) {
-            OrderLine newLine = new OrderLine (selectedItem, 1);
-        }
     }
 }
 

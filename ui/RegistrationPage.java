@@ -91,7 +91,7 @@ public class RegistrationPage extends JFrame {
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
-                    App.loadFromDb();
+                    //App.loadFromDb();
                 }
             }
         });
