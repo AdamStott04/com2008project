@@ -8,6 +8,11 @@ public class database {
     public static String url = "jdbc:mysql://stusql.dcs.shef.ac.uk/team025";
     public static String username = "team025";
     public static String password = "uChahgh6z";
+
+    public static Connection connect() throws SQLException {
+        return DriverManager.getConnection(url,username,password);
+    }
+
     public static void main(String[] args) throws SQLException {
         System.out.println("\nDrivers loaded as properties:");
         System.out.println(System.getProperty("jdbc.drivers"));
