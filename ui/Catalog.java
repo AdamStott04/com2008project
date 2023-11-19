@@ -1,13 +1,7 @@
 package ui;
 
 import database.database;
-import items.Carriage;
-import items.Locomotive;
-import items.Track;
-import items.Controller;
-import items.TrackPack;
-import items.TrainSet;
-import items.Item;
+import items.*;
 import items.Item.Gauge;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +13,15 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import user.Order;
+import user.Order.Status;
 
 public class Catalog extends JFrame {
     public JPanel rootPanel;
     private JScrollPane itemsList;
     private JTable rows;
     private List<Item> allItemsInOrder;
-    private List<Locomotive> locomotives;
-    private List<Carriage> carriages;
-    private List<Track> track;
-    private List<Controller> controllers;
-
-    private List<TrackPack> trackpack;
-
-    private List<TrainSet> trainset;
+    private Order currentOrder = new Order(1, Status.Pending, null, null);
 
     public Catalog(ResultSet items) throws SQLException {
         try {
@@ -60,18 +49,21 @@ public class Catalog extends JFrame {
                             items.getDouble("price"), items.getInt("stockCount"),
                             items.getString("description"));
                     allItemsInOrder.add(locomotive);
-                } else if (items.getString("productCode").charAt(0) == 'C') {
+                }
+                  else if (items.getString("productCode").charAt(0) == 'C') {
                     Controller controller = new Controller(items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(controller);
-                } else if (items.getString("productCode").charAt(0) == 'R') {
+                }
+                  else if (items.getString("productCode").charAt(0) == 'R') {
                     Track newTrack = new Track(Gauge.valueOf(items.getString("gauge")),
                                     items.getString("brand"), items.getString("productName"),
                                     items.getString("productCode"), items.getDouble("price"),
                                     items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(newTrack);
-                } else if (items.getString("productCode").charAt(0) == 'S') {
+                }
+                  else if (items.getString("productCode").charAt(0) == 'S') {
                     Carriage carriage = new Carriage(items.getString("era"),
                             Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
@@ -140,12 +132,11 @@ public class Catalog extends JFrame {
         String productName = selectedItem.getName();
         String brand = selectedItem.getBrand();
         Double price = selectedItem.getPrice();
-        String description = selectedItem.getDescription();
 
         panel.add(new JLabel("Item: " + productName));
-        panel.add(new JLabel("Brand: $" + brand));
-        panel.add(new JLabel("Price: $" + price));
-        panel.add(new JLabel("Description: " + description));
+        panel.add(new JLabel("Brand: " + brand));
+        panel.add(new JLabel("Price: £" + price));
+
 
         // Check the type of the selected item and cast it accordingly
         if (selectedItem instanceof Locomotive) {
@@ -154,31 +145,59 @@ public class Catalog extends JFrame {
             panel.add(new JLabel("Gauge: " + gauge));
             String era = locomotive.getEra();
             panel.add(new JLabel("Era: " + era));
-        } else if (selectedItem instanceof Track) {
+        }
+        else if (selectedItem instanceof Track) {
             Track track = (Track) selectedItem;
             Gauge gauge = track.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
-        } else if (selectedItem instanceof Carriage) {
+        }
+        else if (selectedItem instanceof Carriage) {
             Carriage carriage = (Carriage) selectedItem;
             Gauge gauge = carriage.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
             String era = carriage.getEra();
             panel.add(new JLabel("Era: " + era));
         }
-
+        else if (selectedItem instanceof TrackPack) {
+            TrackPack trackPack = (TrackPack) selectedItem;
+            Gauge gauge = trackPack.getGauge();
+            panel.add(new JLabel("Gauge: " + gauge));
+            String description = trackPack.getDescription();
+            panel.add(new JLabel("Description: " + description));
+        }
+        else if (selectedItem instanceof TrainSet) {
+            TrainSet trainSet = (TrainSet) selectedItem;
+            Gauge gauge = trainSet.getGauge();
+            panel.add(new JLabel("Gauge: " + gauge));
+            String description = trainSet.getDescription();
+            panel.add(new JLabel("Description: " + description));
+        }
         // Add buttons for user interaction
-        JButton addToBagButton = new JButton("Add to Bag");
+        JButton addButton = new JButton("Add to Order");
         JButton cancelButton = new JButton("Cancel");
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // User chose not to add the item
+                JOptionPane.showMessageDialog(null, "Cancelled.");
 
-        panel.add(addToBagButton);
+                // Close the JOptionPane
+                Window window = SwingUtilities.getWindowAncestor(panel);
+                if (window != null) {
+                    window.dispose();
+                }
+            }
+        });
+
+        panel.add(addButton);
         panel.add(cancelButton);
 
         // ActionListener for the Add to Bag button
-        addToBagButton.addActionListener(new ActionListener() {
+        addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Add your logic for adding the item to the shopping bag
-                JOptionPane.showMessageDialog(null, "Item added to the shopping bag!");
+                JOptionPane.showMessageDialog(null, "Item added to order!");
             }
         });
 
@@ -187,7 +206,7 @@ public class Catalog extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // User chose not to add the item
-                JOptionPane.showMessageDialog(null, "Operation canceled.");
+                JOptionPane.showMessageDialog(null, "Cancelled.");
             }
         });
 
@@ -204,11 +223,7 @@ public class Catalog extends JFrame {
 
         // Handle the result if needed
         if (result == JOptionPane.YES_OPTION) {
-            // User clicked "Add to Bag"
-            // Perform the action you want when the user adds the item
-        } else {
-            // User clicked "Cancel" or closed the dialog
-            // Handle accordingly or do nothing
+            OrderLine newLine = new OrderLine (selectedItem, 1);
         }
     }
 }

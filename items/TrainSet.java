@@ -23,6 +23,9 @@ public class TrainSet extends Item {
                 '}';
     }
 
+    public Gauge getGauge() {
+        return gauge;
+    }
 
 
 }

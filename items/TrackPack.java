@@ -21,6 +21,9 @@ public class TrackPack extends Item {
                 '}';
     }
 
+    public Gauge getGauge() {
+        return gauge;
+    }
 
 
 }
