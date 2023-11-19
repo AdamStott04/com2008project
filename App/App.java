@@ -18,7 +18,7 @@ import static user.BankDetails.createBankDetails;
 public class App {
     public static void main(String[] args) throws SQLException {
         loadFromDb();
-        login();
+        showCatalog(loadItems());
 
     }
 
@@ -87,6 +87,29 @@ public class App {
         }
     }
 
+    public static ResultSet loadItems() {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(database.url, database.username, database.password);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // Create the sql to gather all user data from sql table.
+        String sql = "SELECT * FROM items";
+        ResultSet itemSet = null;
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = con.prepareStatement(sql);
+
+            itemSet = preparedStatement.executeQuery();;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return itemSet;
+    }
+
     public static void login() throws SQLException {
         JFrame frame = new JFrame("Login");
         frame.setContentPane(new LoginPage(frame).rootPanel);
@@ -107,6 +130,14 @@ public class App {
         JFrame frame = new JFrame("Edit User Details");
         frame.setContentPane(new editUserDetails(user).rootPanel);
         frame.setSize(500, 450);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    public static void showCatalog(ResultSet items) throws SQLException {
+        JFrame frame = new JFrame("Catalog");
+        frame.setContentPane(new ui.Catalog(items).rootPanel);
+        frame.setSize(500, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
