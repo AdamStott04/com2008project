@@ -39,8 +39,21 @@ public class OrderEdit extends JDialog {
         orderItemsTable.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
         orderItemsTable.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox()));
 
+        JButton checkoutButton = new JButton("Checkout");
+        checkoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = new JFrame("Checkout");
+                frame.setContentPane(new ui.Checkout().rootPanel);
+                frame.setSize(500, 300);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setVisible(true);;
+            }
+        });
+
         // Set up the layout
-        setLayout(new BorderLayout());
+        setLayout(new GridLayout(2, 1));  // 2 rows, 1 column
+        add(checkoutButton);
         JScrollPane scrollPane = new JScrollPane(orderItemsTable);
         add(scrollPane, BorderLayout.CENTER);
 
