@@ -1,13 +1,23 @@
 package items;
 
 public class Controller extends Item {
-    enum Type {Analogue, DCC}
 
-    private Type type;
 
-    public Controller(Type type, String brand, String productName, int productCode, double price, int stockCount, String description) {
+    public Controller(String brand, String productName, String productCode, double price, int stockCount, String description) {
         super(brand, productName, productCode, price, stockCount, description);
-        this.type = type;
     }
+
+    public String toString() {
+        return "Controller{" +
+                "brand='" + brand + '\'' +
+                ", productName='" + productName + '\'' +
+                ", productCode='" + productCode + '\'' +
+                ", price=" + price +
+                ", stockCount=" + stockCount +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
+
 
 }

@@ -8,4 +8,11 @@ public class OrderLine<T extends Item> {
         this.item = item;
         this.quantity = quantity;
     }
+
+    public String toString() {
+        return "OrderLine{" +
+                "item='" + item + '\'' +
+                ", quantity=" + quantity +
+                '}';
+    }
 }
