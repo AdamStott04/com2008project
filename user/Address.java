@@ -41,8 +41,8 @@ public class Address {
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO addresses VALUES (?, ?, ?, ?);")) {
             preparedStatement.setInt(1, houseNumber);
-            preparedStatement.setString(2, streetName);
-            preparedStatement.setString(3, postcode);
+            preparedStatement.setString(2, postcode);
+            preparedStatement.setString(3, streetName);
             preparedStatement.setString(4, country);
 
             preparedStatement.executeUpdate();

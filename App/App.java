@@ -4,6 +4,8 @@ import database.database;
 import ui.LoginPage;
 import ui.RegistrationPage;
 import ui.editUserDetails;
+import user.Address;
+import user.BankDetails;
 import user.User;
 
 
@@ -68,15 +70,15 @@ public class App {
                 String postcode = addressSet.getString("postcode");
                 String street = addressSet.getString("street");
                 String country = addressSet.getString("country");
-                createAddress(houseNo, street, postcode, country);
+                Address.addresses.add(new Address(houseNo, street, postcode, country));
             }
             while (bankDetailsSet.next()) {
-                int cardNum = bankDetailsSet.getInt("cardNo");
+                int cardNum = (int) bankDetailsSet.getDouble("cardNo");
                 String cardName = bankDetailsSet.getString("cardName");
                 String expiryDate = bankDetailsSet.getString("expiryDate");
                 int bankID = bankDetailsSet.getInt("bankID");
                 int cvv = bankDetailsSet.getInt("cvv");
-                createBankDetails(bankID, cardNum, cardName, expiryDate, cvv);
+                BankDetails.bankDetails.add(new BankDetails(bankID, cardNum, cardName, expiryDate, cvv));
             }
             preparedStatement.close();
             preparedStatement2.close();
