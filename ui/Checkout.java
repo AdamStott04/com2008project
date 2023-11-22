@@ -1,9 +1,15 @@
 package ui;
 
+import items.Item;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
+import user.BankDetails;
+import user.BankDetails.*;
 
 public class Checkout {
     public JPanel rootPanel;
@@ -12,46 +18,35 @@ public class Checkout {
     private JTextField cardName;
     private JTextField cardNo;
     private JTextField expiryDate;
+    private JLabel displayPrice;
     private JButton checkoutButton;
+    private JLabel enterDetailsLabel;
+    private JLabel bankIDLabel;
 
-    public Checkout() {
-        bankID = new JTextField();
-        cvv = new JTextField();
-        cardName = new JTextField();
-        cardNo = new JTextField();
-        expiryDate = new JTextField();
 
-        rootPanel = new JPanel();
-        rootPanel.setLayout(new GridLayout(7, 2));
+    public Checkout(List<Item> orderItems) {
 
-        rootPanel.add(new JLabel("Bank ID:"));
-        rootPanel.add(bankID);
-        rootPanel.add(new JLabel("CVV:"));
-        rootPanel.add(cvv);
-        rootPanel.add(new JLabel("Card Name:"));
-        rootPanel.add(cardName);
-        rootPanel.add(new JLabel("Card Number:"));
-        rootPanel.add(cardNo);
-        rootPanel.add(new JLabel("Expiry Date:"));
-        rootPanel.add(expiryDate);
+        Double total = 0.00;
+        for (int i = 0; i < orderItems.size(); i++) {
+            total += orderItems.get(i).getPrice();
+        }
 
-        checkoutButton = new JButton("Checkout");
+        String formattedTotal = String.format("%.2f", total);
+        displayPrice.setText("Price: £" + formattedTotal);
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Check if all bank details are filled in
                 if (areBankDetailsFilledIn()) {
-                    JOptionPane.showMessageDialog(null, "Checkout Complete!");
+                    JOptionPane.showMessageDialog(null, "Bank details correct, processing order");
                 } else {
                     JOptionPane.showMessageDialog(null, "Please fill in all bank details.");
                 }
             }
         });
-        rootPanel.add(checkoutButton);
     }
 
     private boolean areBankDetailsFilledIn() {
-        // Check if all bank details are filled in (add your logic here)
         return !bankID.getText().isEmpty() &&
                 !cvv.getText().isEmpty() &&
                 !cardName.getText().isEmpty() &&
@@ -59,12 +54,6 @@ public class Checkout {
                 !expiryDate.getText().isEmpty();
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Checkout");
-        frame.setContentPane(new Checkout().rootPanel);
-        frame.setSize(500, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-    }
+
 }
 

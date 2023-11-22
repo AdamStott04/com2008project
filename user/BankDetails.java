@@ -59,7 +59,7 @@ public class BankDetails {
     }
 
     public static boolean validBank(int cardNo, String expiryDate, int cvv) {
-        if (String.valueOf(cardNo).length() == 12 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3) {
+        if (String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3) {
             return true;
         }
         return false;

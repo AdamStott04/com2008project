@@ -44,7 +44,7 @@ public class OrderEdit extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new JFrame("Checkout");
-                frame.setContentPane(new ui.Checkout().rootPanel);
+                frame.setContentPane(new ui.Checkout(orderItems).rootPanel);
                 frame.setSize(500, 300);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);;
