@@ -1,5 +1,10 @@
 package user;
 
+import database.database;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -7,12 +12,12 @@ import java.util.regex.Matcher;
 
 public class BankDetails {
     private int bankID;
-    private int cardNo;
+    private long cardNo;
     private String cardName;
     private String expiryDate;
     private int cvv;
 
-    public BankDetails(int bankID, int cardNo, String cardName, String expiryDate, int cvv) {
+    public BankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv) {
         this.bankID = bankID;
         this.cardNo = cardNo;
         this.cardName = cardName;
@@ -20,7 +25,7 @@ public class BankDetails {
         this.cvv = cvv;
     }
 
-    public int getCardNo() {
+    public long getCardNo() {
         return cardNo;
     }
 
@@ -39,7 +44,7 @@ public class BankDetails {
 
     public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
 
-    public static void createBankDetails(int bankID, int cardNo, String cardName, String expiryDate, int cvv) {
+    public static void createBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv) {
         BankDetails bank = new BankDetails(bankID, cardNo, cardName, expiryDate, cvv);
         bankDetails.add(bank);
     }
@@ -58,7 +63,7 @@ public class BankDetails {
         return matcher.matches();
     }
 
-    public static boolean validBank(int cardNo, String expiryDate, int cvv) {
+    public static boolean validBank(long cardNo, String expiryDate, int cvv) {
         if (String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3) {
             return true;
         }
@@ -72,5 +77,61 @@ public class BankDetails {
             }
         }
         return null; // No matching bank account found
+    }
+
+    public static int findBankID(long cardNo, String cardName, String expiryDate, int cvv) throws SQLException {
+        ResultSet result = null;
+        int bankId = 0;
+        try (Connection con = database.connect();
+                            PreparedStatement preparedStatement = con.prepareStatement(
+                                    "SELECT bankID FROM bankDetails WHERE cardNo = ? AND cardName = ? AND expiryDate = ? AND cvv = ?;")) {
+            preparedStatement.setLong(1, cardNo);
+            preparedStatement.setString(2, cardName);
+            preparedStatement.setString(3, expiryDate);
+            preparedStatement.setInt(4, cvv);
+
+            result = preparedStatement.executeQuery();
+            if (result.next()) {
+                bankId = result.getInt("bankID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bankId;
+    }
+    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv) throws SQLException {
+        int ID = 0;
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv) VALUES (?, ?, ?, ?);")) {
+            preparedStatement.setLong(1, cardNo);
+            preparedStatement.setString(2, cardName);
+            preparedStatement.setString(3, expiryDate);
+            preparedStatement.setInt(4, cvv);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv);
+        bankDetails.add(bank);
+    }
+
+    public static BankDetails updateBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv) throws SQLException {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "UPDATE bankDetails SET cardNo = ?, cardName = ?, expiryDate = ?, cvv = ? " +
+                             "WHERE bankID = ?")) {
+            preparedStatement.setLong(1, cardNo);
+            preparedStatement.setString(2, cardName);
+            preparedStatement.setString(3, expiryDate);
+            preparedStatement.setInt(4, cvv);
+            preparedStatement.setInt(5, bankID);
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bankExists(bankID);
     }
 }

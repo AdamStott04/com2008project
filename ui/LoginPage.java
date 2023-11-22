@@ -34,8 +34,7 @@ public class LoginPage extends JFrame {
                     User user = User.validUser(email_entered, password_entered);
                     if (user != null) {
                         frame.dispose();
-                        App.userDetails(user);
-                        System.out.println("Success");
+                        App.userDashboard(user);
 
                     }
                 } catch (SQLException ex) {

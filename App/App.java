@@ -4,6 +4,8 @@ import database.database;
 import ui.LoginPage;
 import ui.RegistrationPage;
 import ui.editUserDetails;
+import user.Address;
+import user.BankDetails;
 import user.User;
 
 
@@ -19,7 +21,6 @@ public class App {
     public static void main(String[] args) throws SQLException {
         //loadFromDb();
         showCatalog(loadItems());
-
     }
 
     /*public static void loadFromDb() {
@@ -49,6 +50,21 @@ public class App {
             userSet = preparedStatement.executeQuery();
             addressSet = preparedStatement2.executeQuery();
             bankDetailsSet = preparedStatement3.executeQuery();
+            while (addressSet.next()) {
+                int houseNo = addressSet.getInt("houseNo");
+                String postcode = addressSet.getString("postcode");
+                String street = addressSet.getString("street");
+                String country = addressSet.getString("country");
+                Address.addresses.add(new Address(houseNo, street, postcode, country));
+            }
+            while (bankDetailsSet.next()) {
+                long cardNum = bankDetailsSet.getLong("cardNo");
+                String cardName = bankDetailsSet.getString("cardName");
+                String expiryDate = bankDetailsSet.getString("expiryDate");
+                int bankID = bankDetailsSet.getInt("bankID");
+                int cvv = bankDetailsSet.getInt("cvv");
+                BankDetails.bankDetails.add(new BankDetails(bankID, cardNum, cardName, expiryDate, cvv));
+            }
             while (userSet.next()) {
                 int id = userSet.getInt("userID");
                 String forename = userSet.getString("forename");
@@ -62,21 +78,6 @@ public class App {
                 int bankID = userSet.getInt("bankID");
                 createUser(id, forename, surname, email, password, houseNo, postcode, isStaff, isManager, bankID);
 
-            }
-            while (addressSet.next()) {
-                int houseNo = addressSet.getInt("houseNo");
-                String postcode = addressSet.getString("postcode");
-                String street = addressSet.getString("street");
-                String country = addressSet.getString("country");
-                createAddress(houseNo, street, postcode, country);
-            }
-            while (bankDetailsSet.next()) {
-                int cardNum = bankDetailsSet.getInt("cardNo");
-                String cardName = bankDetailsSet.getString("cardName");
-                String expiryDate = bankDetailsSet.getString("expiryDate");
-                int bankID = bankDetailsSet.getInt("bankID");
-                int cvv = bankDetailsSet.getInt("cvv");
-                createBankDetails(bankID, cardNum, cardName, expiryDate, cvv);
             }
             preparedStatement.close();
             preparedStatement2.close();
@@ -128,7 +129,7 @@ public class App {
 
     public static void userDetails(User user) {
         JFrame frame = new JFrame("Edit User Details");
-        frame.setContentPane(new editUserDetails(user).rootPanel);
+        frame.setContentPane(new editUserDetails(user, frame).rootPanel);
         frame.setSize(500, 450);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -140,5 +141,14 @@ public class App {
         frame.setSize(500, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+    }
+
+    public static void userDashboard(User user) {
+        JFrame frame = new JFrame("Dashboard");
+        frame.setContentPane(new ui.userDashboard(user, frame).rootPanel);
+        frame.setSize(500, 500);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        
     }
 }

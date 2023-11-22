@@ -53,6 +53,9 @@ public class RegistrationPage extends JFrame {
                 } else if (!areAllDigits(houseNumber)) {
                     JOptionPane.showMessageDialog(null, "The house number you have entered is not a valid integer." +
                             " Please re-enter a valid house number!", "Error", JOptionPane.ERROR_MESSAGE);
+                } else if (!(User.uniqueEmail(email))) {
+                    JOptionPane.showMessageDialog(null, "The email you have entered already exists" +
+                            " Please re-enter a unique email!", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     // Create address instance in db first, so it can be used in user table
                     String address_sql = "INSERT INTO addresses (houseNo, postcode, street, country) VALUES (?, ?, ?, ?)";
@@ -92,6 +95,13 @@ public class RegistrationPage extends JFrame {
                         throw new RuntimeException(ex);
                     }
                     //App.loadFromDb();
+                }
+                JOptionPane.showMessageDialog(null, "You successfully created an account!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                try {
+                    frame.dispose();
+                    App.login();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
             }
         });
