@@ -94,7 +94,7 @@ public class RegistrationPage extends JFrame {
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
-                    App.loadFromDb();
+                    //App.loadFromDb();
                 }
                 JOptionPane.showMessageDialog(null, "You successfully created an account!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 try {
