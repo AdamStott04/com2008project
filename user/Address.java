@@ -36,7 +36,7 @@ public class Address {
 
     public static ArrayList<Address> addresses = new ArrayList<>();
 
-    public static void createAddress(int houseNumber, String streetName, String postcode, String country) throws SQLException {
+    public static void createAddress(int houseNumber, String postcode, String streetName, String country) throws SQLException {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO addresses VALUES (?, ?, ?, ?);")) {
@@ -54,16 +54,16 @@ public class Address {
         addresses.add(address);
     }
 
-    public static Address validAddress(int houseNumber, String postcode) throws SQLException {
+    public static Address validAddress(int houseNumber, String postcode) {
         for (Address address : Address.addresses) {
             if (address.houseNumber == houseNumber && address.postcode.equals(postcode)) {
-                return address; // Found a matching user
+                return address; // Found a matching address
             }
         }
-        return null; // No matching user found
+        return null; // No matching address found
     }
 
-    public Address updateAddress(int oldHouseNo, String oldPostcode, int newHouseNo, String newStreet, String newPostcode, String newCountry) throws SQLException {
+    public static Address updateAddress(int oldHouseNo, String oldPostcode, int newHouseNo, String newStreet, String newPostcode, String newCountry) throws SQLException {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "UPDATE addresses SET houseNo = ?, postcode = ?, street = ?, country = ? " +

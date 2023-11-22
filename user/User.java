@@ -4,11 +4,10 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import static helper.passwordHash.hashPassword;
-import static user.Address.createAddress;
-import static user.BankDetails.createBankDetails;
 
 public class User {
 
+    private int bankID;
     private int id;
     private String forename;
     private String surname;
@@ -33,6 +32,7 @@ public class User {
         this.postcode = postcode;
         this.isManager = isManager;
         this.isStaff = isStaff;
+        this.bankID = bankID;
         this.address = Address.validAddress(houseNo, postcode);
         this.bankDetails = BankDetails.bankExists(bankID);
     }
@@ -101,6 +101,10 @@ public class User {
         }
     }
 
+    public int getBankID() { return bankID; }
+
+    public void setBankID(int value) { this.bankID = value;}
+
     public Address getAddress() {
         return address;
     }
@@ -132,6 +136,15 @@ public class User {
             }
         }
         return null; // No matching user found
+    }
+
+    public static boolean uniqueEmail(String email) {
+        for (User user : User.users) {
+            if (user.email.equals(email)) {
+                return false; // Found a matching user
+            }
+        }
+        return true; // No matching user found
     }
 
 }
