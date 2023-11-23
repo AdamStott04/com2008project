@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import user.Order;
 import user.Order.Status;
+import user.User;
 
 public class Catalog extends JFrame {
     public JPanel rootPanel;
@@ -24,7 +25,7 @@ public class Catalog extends JFrame {
     private List<Item> currentOrderItems = new ArrayList<>();
     private Order currentOrder = new Order(1, Status.Pending, null, null);
 
-    public Catalog(ResultSet items) throws SQLException {
+    public Catalog(ResultSet items, User user) throws SQLException {
         try {
             DefaultTableModel tableModel = new DefaultTableModel();
 
@@ -96,7 +97,7 @@ public class Catalog extends JFrame {
             viewCurrentOrderButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    OrderEdit orderEdit = new OrderEdit(Catalog.this, currentOrderItems);
+                    OrderEdit orderEdit = new OrderEdit(Catalog.this, currentOrderItems, user);
                 }
             });
 
