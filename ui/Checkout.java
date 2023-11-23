@@ -39,6 +39,10 @@ public class Checkout {
                     JOptionPane.showMessageDialog(null, "Please fill in all bank details.");
                 } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText())) ) {
                     JOptionPane.showMessageDialog(null, "Processing Order");
+                } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user) ){
+                    JOptionPane.showMessageDialog(null, "Processing Order");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Invalid bank details.");
                 }
             }
         });
@@ -53,12 +57,24 @@ public class Checkout {
 
     private boolean hasBankDetailsSaved(User user) {
         if (user.getBankDetails() == null) {
-           return false;
+            return false;
         } else {
             return true;
         }
-
     }
+
+
+
+
+    private boolean sameDetailsEntered(User user) {
+         if (user.getBankDetails().getCardName() == cardName.getText() && user.getBankDetails().getCvv() == Integer.parseInt(cvv.getText()) && user.getBankDetails().getExpiryDate() == expiryDate.getText() && user.getBankDetails().getCardNo() == Long.parseLong(cardNo.getText())      ) {
+                return true;
+         } else {
+                return false;
+            }
+    }
+
+
 
 
 
