@@ -19,11 +19,10 @@ import static user.BankDetails.createBankDetails;
 
 public class App {
     public static void main(String[] args) throws SQLException {
-        //loadFromDb();
-        showCatalog(loadItems());
+        login();
     }
 
-    /*public static void loadFromDb() {
+    public static void loadFromDb() {
         Connection con = null;
         try {
             con = DriverManager.getConnection(database.url, database.username, database.password);
@@ -86,7 +85,7 @@ public class App {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-    }*/
+    }
 
     public static ResultSet loadItems() {
         Connection con = null;
