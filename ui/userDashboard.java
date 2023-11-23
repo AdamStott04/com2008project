@@ -30,7 +30,7 @@ public class userDashboard {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    App.showCatalog(App.loadItems());
+                    App.showCatalog(App.loadItems(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

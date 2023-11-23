@@ -8,6 +8,7 @@ import java.util.List;
 import items.Item;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import user.User;
 
 public class OrderEdit extends JDialog {
     private JTable orderItemsTable;
@@ -15,7 +16,7 @@ public class OrderEdit extends JDialog {
     private JButton removeButton;
     public List<Item> orderItems;
 
-    public OrderEdit(JFrame parent, List<Item> orderItems) {
+    public OrderEdit(JFrame parent, List<Item> orderItems, User user) {
         super(parent, "Edit Order", true);
 
         this.orderItems = orderItems;
@@ -44,7 +45,7 @@ public class OrderEdit extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = new JFrame("Checkout");
-                frame.setContentPane(new ui.Checkout(orderItems).rootPanel);
+                frame.setContentPane(new ui.Checkout(orderItems, user).rootPanel);
                 frame.setSize(500, 300);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setVisible(true);;

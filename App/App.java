@@ -134,9 +134,9 @@ public class App {
         frame.setVisible(true);
     }
 
-    public static void showCatalog(ResultSet items) throws SQLException {
+    public static void showCatalog(ResultSet items, User user) throws SQLException {
         JFrame frame = new JFrame("Catalog");
-        frame.setContentPane(new ui.Catalog(items).rootPanel);
+        frame.setContentPane(new ui.Catalog(items, user).rootPanel);
         frame.setSize(500, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
