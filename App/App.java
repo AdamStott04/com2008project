@@ -12,8 +12,6 @@ import javax.swing.*;
 import java.sql.*;
 
 import static user.User.createUser;
-import static user.Address.createAddress;
-import static user.BankDetails.createBankDetails;
 
 
 public class App {

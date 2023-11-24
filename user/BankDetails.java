@@ -1,6 +1,5 @@
 package user;
 
-import App.App;
 import database.database;
 
 import java.sql.*;
@@ -90,10 +89,7 @@ public class BankDetails {
     }
 
     public static boolean validBank(long cardNo, String expiryDate, int cvv) {
-        if (String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3) {
-            return true;
-        }
-        return false;
+        return String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3;
     }
 
     public static BankDetails bankExists(int bankID) throws SQLException {
@@ -143,7 +139,7 @@ public class BankDetails {
         bankDetails.add(bank);
     }
 
-    public static BankDetails updateBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv, String cardType) throws SQLException {
+    public static void updateBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv, String cardType) throws SQLException {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "UPDATE bankDetails SET cardNo = ?, cardName = ?, expiryDate = ?, cvv = ?, cardType = ? " +
@@ -161,6 +157,5 @@ public class BankDetails {
             e.printStackTrace();
         }
         reloadBankDetailsArray();
-        return bankExists(bankID);
     }
 }
