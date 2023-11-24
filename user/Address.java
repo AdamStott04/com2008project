@@ -1,5 +1,6 @@
 package user;
 
+import App.App;
 import database.database;
 import java.sql.SQLException;
 import java.sql.*;
@@ -82,5 +83,21 @@ public class Address {
             e.printStackTrace();
         }
         return validAddress(newHouseNo, newPostcode);
+    }
+
+    public static void deleteAddress(int houseNumber, String postcode) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "DELETE FROM addresses WHERE houseNo = ?, postcode = ?")) {
+            preparedStatement.setInt(1, houseNumber);
+            preparedStatement.setString(2, postcode);
+
+            preparedStatement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        App.loadFromDb();
     }
 }

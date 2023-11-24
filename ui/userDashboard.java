@@ -1,6 +1,8 @@
 package ui;
 
 import App.App;
+import user.Address;
+import user.BankDetails;
 import user.User;
 
 import javax.swing.*;
@@ -45,6 +47,10 @@ public class userDashboard {
         editAccountDetailsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Address.addresses.clear();
+                User.users.clear();
+                BankDetails.bankDetails.clear();
+                App.loadFromDb();
                 frame.dispose();
                 App.userDetails(user);
 

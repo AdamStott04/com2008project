@@ -7,7 +7,7 @@ import static helper.passwordHash.hashPassword;
 
 public class User {
 
-    private int bankID;
+    private Integer bankID;
     private int id;
     private String forename;
     private String surname;
@@ -22,7 +22,7 @@ public class User {
 
     private BankDetails bankDetails;
 
-    public User(int id, String forename, String surname, String email, String password, int houseNo, String postcode, int isStaff, int isManager, int bankID) throws SQLException {
+    public User(int id, String forename, String surname, String email, String password, int houseNo, String postcode, int isStaff, int isManager, Integer bankID) throws SQLException {
         this.id = id;
         this.forename = forename;
         this.surname = surname;
@@ -101,9 +101,9 @@ public class User {
         }
     }
 
-    public int getBankID() { return bankID; }
+    public Integer getBankID() { return bankID; }
 
-    public void setBankID(int value) { this.bankID = value;}
+    public void setBankID(Integer value) { this.bankID = value;}
 
     public Address getAddress() {
         return address;
