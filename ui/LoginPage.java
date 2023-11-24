@@ -22,7 +22,6 @@ public class LoginPage extends JFrame {
     private JButton registerButton;
 
     public LoginPage(JFrame frame) throws SQLException {
-
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

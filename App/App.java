@@ -13,8 +13,6 @@ import javax.swing.*;
 import java.sql.*;
 
 import static user.User.createUser;
-import static user.Address.createAddress;
-import static user.BankDetails.createBankDetails;
 
 
 public class App {
@@ -135,9 +133,9 @@ public class App {
         frame.setVisible(true);
     }
 
-    public static void showCatalog(ResultSet items, User user) throws SQLException {
+    public static void showCatalog(ResultSet items, User user, String itemButtonPressed) throws SQLException {
         JFrame frame = new JFrame("Catalog");
-        frame.setContentPane(new ui.Catalog(items, user).rootPanel);
+        frame.setContentPane(new ui.Catalog(items, user, itemButtonPressed).rootPanel);
         frame.setSize(500, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
