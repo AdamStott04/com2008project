@@ -53,7 +53,8 @@ public class userDashboard {
         staffDashboardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                frame.dispose();
+                App.staffDashboard(user);
             }
         });
         logoutButton.addActionListener(new ActionListener() {

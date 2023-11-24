@@ -19,11 +19,12 @@ import static user.BankDetails.createBankDetails;
 
 public class App {
     public static void main(String[] args) throws SQLException {
-        //loadFromDb();
-        showCatalog(loadItems());
+        loadFromDb();
+        //showCatalog(loadItems());
+        login();
     }
 
-    /*public static void loadFromDb() {
+    public static void loadFromDb() {
         Connection con = null;
         try {
             con = DriverManager.getConnection(database.url, database.username, database.password);
@@ -86,7 +87,7 @@ public class App {
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-    }*/
+    }
 
     public static ResultSet loadItems() {
         Connection con = null;
@@ -149,6 +150,13 @@ public class App {
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        
+    }
+
+    public static void staffDashboard(User user) {
+        JFrame frame = new JFrame("Staff Dashboard");
+        frame.setContentPane(new ui.staffDashboard(user, frame).rootPanel);
+        frame.setSize(1000, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 }
