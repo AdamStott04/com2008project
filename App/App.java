@@ -248,8 +248,9 @@ public class App {
         return details;
     }
 
-    public static ResultSet loadOrders() {
+    public static int loadOrders() {
         Connection con = null;
+        int ordersCount = 0;
         try {
             con = DriverManager.getConnection(database.url, database.username, database.password);
         } catch (SQLException ex) {
@@ -257,18 +258,21 @@ public class App {
         }
 
         // Create the sql to gather all user data from sql table.
-        String sql = "SELECT * FROM orders;";
+        String sql = "SELECT COUNT(*) FROM orders;";
         ResultSet orderSet = null;
 
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = con.prepareStatement(sql);
+            orderSet = preparedStatement.executeQuery();
+            orderSet.next();
 
-            orderSet = preparedStatement.executeQuery();;
+            ordersCount = orderSet.getInt(1);
+
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-        return orderSet;
+        return ordersCount;
     }
 
     public static void login() throws SQLException {

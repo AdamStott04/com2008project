@@ -17,6 +17,9 @@ public class OrderLine {
     public String getProductCode() {
         return productCode;
     }
+    public int getQuantity() {
+        return quantity;
+    }
 
     public String toString() {
         return "OrderLine{" +

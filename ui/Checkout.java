@@ -9,10 +9,9 @@ import java.util.ArrayList;
 
 import App.App;
 import items.OrderLine;
+import user.Order;
 import user.User;
 import user.BankDetails;
-
-
 
 public class Checkout {
     public JPanel rootPanel;
@@ -45,6 +44,7 @@ public class Checkout {
                     JOptionPane.showMessageDialog(null, "Processing Order");
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user) ){
                     JOptionPane.showMessageDialog(null, "Processing Order");
+                    Order.addToDb(orderItems, user);
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid bank details.");
                 }
@@ -66,9 +66,6 @@ public class Checkout {
             return true;
         }
     }
-
-
-
 
     private boolean sameDetailsEntered(User user) {
          if (user.getBankDetails().getCardName() == cardName.getText() && user.getBankDetails().getCvv() == Integer.parseInt(cvv.getText()) && user.getBankDetails().getExpiryDate() == expiryDate.getText() && user.getBankDetails().getCardNo() == Long.parseLong(cardNo.getText())      ) {

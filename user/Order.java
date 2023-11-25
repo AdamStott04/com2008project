@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import App.*;
+
 import items.Item;
 
 public class Order {
@@ -38,23 +41,39 @@ public class Order {
         return status;
     }
 
-    /*public void addToDb (Order order) {
-        int orderID = order.getOrderID();
+    public static void addToDb (ArrayList<OrderLine> currentOrder, User user) {
+        int count = 1;
+        for (OrderLine item : currentOrder) {
+            String productCode = item.getProductCode();
+            int quantity = item.getQuantity();
+            int lineID = count;
+            int orderID = App.loadOrders();
 
-
+            try (Connection con = database.connect();
+                 PreparedStatement preparedStatement = con.prepareStatement(
+                         "INSERT INTO orderLines (productCode, quantity, lineID, orderID) VALUES (?, ?, ?, ?);")) {
+                preparedStatement.setString(1, productCode);
+                preparedStatement.setInt(2, quantity);
+                preparedStatement.setInt(3, lineID);
+                preparedStatement.setInt(4, orderID);
+                preparedStatement.executeUpdate();
+                count += 1;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
-                     "INSERT INTO orders (cardNo, cardName, expiryDate, cvv) VALUES (?, ?, ?, ?);")) {
-            preparedStatement.setLong(1, cardNo);
-            preparedStatement.setString(2, cardName);
-            preparedStatement.setString(3, expiryDate);
-            preparedStatement.setInt(4, cvv);
+                     "INSERT INTO orders (orderID, status, orderDate, userID) VALUES (?, ?, ?, ?);")) {
+            preparedStatement.setLong(1, App.loadOrders());
+            preparedStatement.setString(2, Status.Confirmed.name());
+            preparedStatement.setString(3, LocalDateTime.now().toString());
+            preparedStatement.setInt(4, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv);
-        bankDetails.add(bank);
-    }*/
+
+    }
 
 }
