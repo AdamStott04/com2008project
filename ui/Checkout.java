@@ -1,14 +1,30 @@
 package ui;
 
+import database.database;
 import items.Item;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import user.User;
 import user.BankDetails;
+import java.sql.*;
+import database.database;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 
 
@@ -21,6 +37,8 @@ public class Checkout {
     private JLabel displayPrice;
     private JButton checkoutButton;
     private JLabel enterDetailsLabel;
+
+    public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
 
     public Checkout(List<Item> orderItems, User user) {
 
@@ -38,8 +56,10 @@ public class Checkout {
                 if (!areBankDetailsFilledIn()) {
                     JOptionPane.showMessageDialog(null, "Please fill in all bank details.");
                 } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText())) ) {
+                    addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()));
                     JOptionPane.showMessageDialog(null, "Processing Order");
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user) ){
+                    // add order to the database
                     JOptionPane.showMessageDialog(null, "Processing Order");
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid bank details.");
@@ -47,6 +67,8 @@ public class Checkout {
             }
         });
     }
+
+
 
     private boolean areBankDetailsFilledIn() {
         return  !cvv.getText().isEmpty() &&
@@ -73,6 +95,46 @@ public class Checkout {
                 return false;
             }
     }
+
+    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv) {
+        int ID = 0;
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv) VALUES (?, ?, ?, ?);")) {
+            preparedStatement.setLong(1, cardNo);
+            preparedStatement.setString(2, cardName);
+            preparedStatement.setString(3, expiryDate);
+            preparedStatement.setInt(4, cvv);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv);
+        bankDetails.add(bank);
+    }
+
+    public static void addNewOrder(long cardNo, String cardName, String expiryDate, int cvv) {
+        int ID = 0;
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv) VALUES (?, ?, ?, ?);")) {
+            preparedStatement.setLong(1, cardNo);
+            preparedStatement.setString(2, cardName);
+            preparedStatement.setString(3, expiryDate);
+            preparedStatement.setInt(4, cvv);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv);
+        bankDetails.add(bank);
+    }
+
+
+
+
+
+
 
 
 
