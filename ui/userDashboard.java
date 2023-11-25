@@ -16,6 +16,7 @@ public class userDashboard {
     private JButton pastOrdersButton;
     private JButton staffDashboardButton;
     private JLabel welcomeLabel;
+    private JButton catalogButton;
 
     public userDashboard(User user, JFrame frame) {
 
@@ -51,6 +52,17 @@ public class userDashboard {
                 frame.dispose();
                 try {
                     App.login();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        catalogButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                try {
+                    App.showCategories(user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

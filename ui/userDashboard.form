@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="3ef74" binding="buttons" layout-manager="GridLayoutManager" row-count="10" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="3ef74" binding="buttons" layout-manager="GridLayoutManager" row-count="9" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -16,22 +16,6 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="33c15" class="javax.swing.JButton" binding="locomotiveButton">
-            <constraints>
-              <grid row="0" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Locomotives"/>
-            </properties>
-          </component>
-          <component id="b1e87" class="javax.swing.JButton" binding="pastOrdersButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="2" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Past Orders"/>
-            </properties>
-          </component>
           <component id="11904" class="javax.swing.JButton" binding="editAccountDetailsButton" default-binding="true">
             <constraints>
               <grid row="1" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
@@ -42,7 +26,7 @@
           </component>
           <component id="e2e5" class="javax.swing.JButton" binding="logoutButton" default-binding="true">
             <constraints>
-              <grid row="4" column="1" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="1" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Logout"/>
@@ -50,7 +34,7 @@
           </component>
           <component id="34af4" class="javax.swing.JButton" binding="staffDashboardButton" default-binding="true">
             <constraints>
-              <grid row="7" column="1" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="6" column="1" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <text value="Staff Dashboard"/>
@@ -64,44 +48,20 @@
               <text value="welcomeText"/>
             </properties>
           </component>
-          <component id="5b1e8" class="javax.swing.JButton" binding="trackPackButton">
+          <component id="b1e87" class="javax.swing.JButton" binding="pastOrdersButton" default-binding="true">
             <constraints>
-              <grid row="2" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="2" row-span="3" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Track Packs"/>
+              <text value="Past Orders"/>
             </properties>
           </component>
-          <component id="ff506" class="javax.swing.JButton" binding="trackButton">
+          <component id="ff506" class="javax.swing.JButton" binding="catalogButton">
             <constraints>
-              <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <text value="Track"/>
-            </properties>
-          </component>
-          <component id="58885" class="javax.swing.JButton" binding="controllerButton">
-            <constraints>
-              <grid row="4" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Controllers"/>
-            </properties>
-          </component>
-          <component id="d6b6" class="javax.swing.JButton" binding="trainsetButton">
-            <constraints>
-              <grid row="6" column="0" row-span="2" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Trainsets"/>
-            </properties>
-          </component>
-          <component id="93d3e" class="javax.swing.JButton" binding="rollingStockButton">
-            <constraints>
-              <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Rolling Stock"/>
+              <text value="Catalog"/>
             </properties>
           </component>
         </children>

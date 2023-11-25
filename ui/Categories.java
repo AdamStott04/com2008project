@@ -6,24 +6,28 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import items.Item;
 import user.User;
 
-public class Categories {
+public class Categories extends JFrame {
     private JButton rollingStockButton;
     private JButton controllersButton;
     private JButton locomotivesButton;
     private JButton trackButton;
     private JButton trackPacksButton;
     private JButton trainsetsButton;
-    private String itemButtonPressed;
+
+    public JPanel rootPanel;
 
     public Categories(User user) {
         locomotivesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    itemButtonPressed = "locomotive";
-                    catalog.displayLocomotiveCatalog();
+                    App.showCatalog(App.loadLocomotives(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -33,8 +37,7 @@ public class Categories {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    itemButtonPressed = "trackPack";
-                    App.showCatalog(App.loadItems(), user, itemButtonPressed);
+                    App.showCatalog(App.loadTrackPacks(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -44,8 +47,7 @@ public class Categories {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    itemButtonPressed = "controller";
-                    App.showCatalog(App.loadItems(), user, itemButtonPressed);
+                    App.showCatalog(App.loadControllers(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -55,8 +57,7 @@ public class Categories {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    itemButtonPressed = "trainset";
-                    App.showCatalog(App.loadItems(), user, itemButtonPressed);
+                    App.showCatalog(App.loadTrainsets(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -66,8 +67,7 @@ public class Categories {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    itemButtonPressed = "rollingStock";
-                    App.showCatalog(App.loadItems(), user, itemButtonPressed);
+                    App.showCatalog(App.loadCarriages(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -77,8 +77,7 @@ public class Categories {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    itemButtonPressed = "trackButton";
-                    App.showCatalog(App.loadItems(), user, itemButtonPressed);
+                    App.showCatalog(App.loadTrack(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
