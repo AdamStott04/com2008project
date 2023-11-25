@@ -9,7 +9,6 @@ import user.BankDetails;
 import user.Order;
 import user.User;
 
-
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
@@ -63,7 +62,8 @@ public class App {
                 String expiryDate = bankDetailsSet.getString("expiryDate");
                 int bankID = bankDetailsSet.getInt("bankID");
                 int cvv = bankDetailsSet.getInt("cvv");
-                BankDetails.bankDetails.add(new BankDetails(bankID, cardNum, cardName, expiryDate, cvv));
+                String cardType = bankDetailsSet.getString("cardType");
+                BankDetails.bankDetails.add(new BankDetails(bankID, cardNum, cardName, expiryDate, cvv, cardType));
             }
             while (userSet.next()) {
                 int id = userSet.getInt("userID");
