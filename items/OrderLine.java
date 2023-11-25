@@ -1,18 +1,29 @@
 package items;
-public class OrderLine<T extends Item> {
+public class OrderLine {
 
-    private T item;
+    private String productCode;
     private int quantity;
+    private int lineID;
+    private int orderID;
 
-    public OrderLine(T item, int quantity) {
-        this.item = item;
+
+    public OrderLine(String productCode, int quantity, int lineID, int orderID) {
+        this.productCode = productCode;
         this.quantity = quantity;
+        this.lineID = lineID;
+        this.orderID = orderID;
+    }
+
+    public String getProductCode() {
+        return productCode;
     }
 
     public String toString() {
         return "OrderLine{" +
-                "item='" + item + '\'' +
-                ", quantity=" + quantity +
+                "productCode='" + productCode + '\'' +
+                ", quantity=" + quantity + '\'' +
+                ", lineID=" + lineID + '\'' +
+                ", orderID=" + orderID +
                 '}';
     }
 }

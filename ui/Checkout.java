@@ -1,12 +1,14 @@
 package ui;
 
-import items.Item;
-
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import App.App;
+import items.OrderLine;
 import user.User;
 import user.BankDetails;
 
@@ -22,11 +24,13 @@ public class Checkout {
     private JButton checkoutButton;
     private JLabel enterDetailsLabel;
 
-    public Checkout(List<Item> orderItems, User user) {
+    public Checkout(ArrayList<OrderLine> orderItems, User user) {
 
         Double total = 0.00;
-        for (int i = 0; i < orderItems.size(); i++) {
-            total += orderItems.get(i).getPrice();
+        for (OrderLine item : orderItems) {
+            String[] details = App.getItemDetails(item.getProductCode());
+            Double price = Double.parseDouble(details[2]);
+            total += price;
         }
 
         String formattedTotal = String.format("%.2f", total);

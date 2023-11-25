@@ -6,11 +6,13 @@ import ui.RegistrationPage;
 import ui.editUserDetails;
 import user.Address;
 import user.BankDetails;
+import user.Order;
 import user.User;
 
 
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 
 import static user.User.createUser;
 
@@ -224,6 +226,51 @@ public class App {
         return trainsetSet;
     }
 
+    public static String[] getItemDetails(String productCode) {
+        ResultSet resultItem = null;
+        String[] details = new String[3];
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "SELECT * FROM items WHERE productCode = ?"
+             )) {
+            preparedStatement.setString(1, productCode);
+            resultItem = preparedStatement.executeQuery();
+            if (resultItem.next()) {
+                details[0] = resultItem.getString("brand");
+                details[1] = resultItem.getString("productName");
+                details[2] = "" + resultItem.getDouble("price");
+            }
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        return details;
+    }
+
+    public static ResultSet loadOrders() {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(database.url, database.username, database.password);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // Create the sql to gather all user data from sql table.
+        String sql = "SELECT * FROM orders;";
+        ResultSet orderSet = null;
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = con.prepareStatement(sql);
+
+            orderSet = preparedStatement.executeQuery();;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return orderSet;
+    }
+
     public static void login() throws SQLException {
         JFrame frame = new JFrame("Login");
         frame.setContentPane(new LoginPage(frame).rootPanel);
@@ -272,4 +319,5 @@ public class App {
         frame.setVisible(true);
         
     }
+
 }

@@ -4,19 +4,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
+
+import items.Carriage;
 import items.Item;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import java.sql.*;
+import App.*;
+
+import items.OrderLine;
 import user.User;
 
 public class OrderEdit extends JDialog {
     private JTable orderItemsTable;
     private DefaultTableModel tableModel;
     private JButton removeButton;
-    public List<Item> orderItems;
+    public List<OrderLine> orderItems;
 
-    public OrderEdit(JFrame parent, List<Item> orderItems, User user) {
+    public OrderEdit(JFrame parent, ArrayList<OrderLine> orderItems, User user) {
         super(parent, "Edit Order", true);
 
         this.orderItems = orderItems;
@@ -31,8 +38,13 @@ public class OrderEdit extends JDialog {
         tableModel.addColumn("Remove");
 
         // Populate the table with order items
-        for (Item item : orderItems) {
-            Object[] row = new Object[]{item.getBrand(), item.getName(), item.getPrice(), "Remove"};
+
+        for (OrderLine item : orderItems) {
+            String[] details = App.getItemDetails(item.getProductCode());
+            String brand = details[0];
+            String name = details[1];
+            Double price = Double.parseDouble(details[2]);
+            Object[] row = new Object[]{brand, name, price, "Remove"};
             tableModel.addRow(row);
         }
 

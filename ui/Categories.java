@@ -6,10 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 
-import items.Item;
 import user.User;
 
 public class Categories extends JFrame {
@@ -21,6 +18,7 @@ public class Categories extends JFrame {
     private JButton trainsetsButton;
 
     public JPanel rootPanel;
+    private JButton backButton;
 
     public Categories(User user) {
         locomotivesButton.addActionListener(new ActionListener() {
@@ -81,6 +79,12 @@ public class Categories extends JFrame {
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
+            }
+        });
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                App.userDashboard(user);
             }
         });
     }

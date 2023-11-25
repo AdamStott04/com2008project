@@ -1,6 +1,7 @@
 package ui;
 
 import App.App;
+import user.Order;
 import user.User;
 
 import javax.swing.*;

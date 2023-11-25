@@ -4,6 +4,7 @@ import database.database;
 import items.Item;
 import user.User;
 import App.App;
+import user.Order;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -23,6 +24,7 @@ public class LoginPage extends JFrame {
     private JTextField emailTextField;
     private JPasswordField passwordPasswordField;
     private JButton registerButton;
+
 
     public LoginPage(JFrame frame) throws SQLException {
         loginButton.addActionListener(new ActionListener() {

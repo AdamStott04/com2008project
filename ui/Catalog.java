@@ -24,8 +24,6 @@ public class Catalog extends JFrame {
     private JButton viewCurrentOrderButton;
     private JButton backButton;
     private List<Item> allItemsInOrder;
-    private List<Item> currentOrderItems = new ArrayList<>();
-    private Order currentOrder = new Order(1, Status.Pending, null, null);
 
     public Catalog(ResultSet items, User user) throws SQLException {
         try {
@@ -99,7 +97,7 @@ public class Catalog extends JFrame {
             viewCurrentOrderButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    OrderEdit orderEdit = new OrderEdit(Catalog.this, currentOrderItems, user);
+                    OrderEdit orderEdit = new OrderEdit(Catalog.this, user.getCurrentOrder(), user);
                 }
             });
 
@@ -135,7 +133,7 @@ public class Catalog extends JFrame {
                     if (!e.getValueIsAdjusting()) {
                         int selectedRow = rows.getSelectedRow();
                         if (selectedRow != -1) {
-                            displayItemInformation(selectedRow, allItemsInOrder);
+                            displayItemInformation(selectedRow, allItemsInOrder, user);
                         }
                     }
                 }
@@ -147,7 +145,7 @@ public class Catalog extends JFrame {
         }
     }
 
-    private void displayItemInformation(int rowIndex, List<Item> allItems) {
+    private void displayItemInformation(int rowIndex, List<Item> allItems, User user) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         // Retrieve information about the selected item
         System.out.println(rowIndex);
@@ -216,12 +214,16 @@ public class Catalog extends JFrame {
         panel.add(addButton);
         panel.add(cancelButton);
 
-        // ActionListener for the Add to Bag button
+        // ActionListener for the Add to Order button
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentOrderItems.add(selectedItem);
-                System.out.println(currentOrderItems);
+                int lineID = 1;
+                if (user.getCurrentOrder() != null) {
+                    lineID = user.getCurrentOrder().size();
+                }
+                OrderLine newLine = new OrderLine(selectedItem.productCode, 1, lineID, 1);
+                user.addToCurrentOrder(newLine);
                 JOptionPane.showMessageDialog(null, "Item added to order!");
             }
         });
