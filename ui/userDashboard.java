@@ -1,6 +1,7 @@
 package ui;
 
 import App.App;
+import user.Order;
 import user.User;
 
 import javax.swing.*;
@@ -11,12 +12,12 @@ import java.sql.SQLException;
 public class userDashboard {
     public JPanel rootPanel;
     private JPanel buttons;
-    private JButton catalogButton;
     private JButton editAccountDetailsButton;
     private JButton logoutButton;
     private JButton pastOrdersButton;
     private JButton staffDashboardButton;
     private JLabel welcomeLabel;
+    private JButton catalogButton;
 
     public userDashboard(User user, JFrame frame) {
 
@@ -26,16 +27,7 @@ public class userDashboard {
 
         welcomeLabel.setText("Hi there, " + user.getForename());
 
-        catalogButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    App.showCatalog(App.loadItems(), user);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
+
         pastOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,7 +39,6 @@ public class userDashboard {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
                 App.userDetails(user);
-
             }
         });
         staffDashboardButton.addActionListener(new ActionListener() {
@@ -62,6 +53,17 @@ public class userDashboard {
                 frame.dispose();
                 try {
                     App.login();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+        catalogButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.dispose();
+                try {
+                    App.showCategories(user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
