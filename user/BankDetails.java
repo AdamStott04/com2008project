@@ -17,7 +17,7 @@ public class BankDetails {
     private String expiryDate;
     private int cvv;
 
-    public BankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv) {
+    public BankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
         this.bankID = bankID;
         this.cardNo = cardNo;
         this.cardName = cardName;
@@ -44,8 +44,8 @@ public class BankDetails {
 
     public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
 
-    public static void createBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv) {
-        BankDetails bank = new BankDetails(bankID, cardNo, cardName, expiryDate, cvv);
+    public static void createBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
+        BankDetails bank = new BankDetails(bankID, cardNo, cardName, expiryDate, cvv, cardType);
         bankDetails.add(bank);
     }
 
@@ -99,20 +99,21 @@ public class BankDetails {
         }
         return bankId;
     }
-    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv) throws SQLException {
+    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv, String cardType) throws SQLException {
         int ID = 0;
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
-                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv) VALUES (?, ?, ?, ?);")) {
+                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv, cardType) VALUES (?, ?, ?, ?, ?);")) {
             preparedStatement.setLong(1, cardNo);
             preparedStatement.setString(2, cardName);
             preparedStatement.setString(3, expiryDate);
             preparedStatement.setInt(4, cvv);
+            preparedStatement.setString(5, cardType);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv);
+        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv, cardType);
         bankDetails.add(bank);
     }
 

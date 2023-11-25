@@ -42,11 +42,21 @@ public class Order {
     }
 
     public static void addToDb (ArrayList<OrderLine> currentOrder, User user) {
-        int count = 1;
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO orders (orderID, status, orderDate, userID) VALUES (?, ?, ?, ?);")) {
+            preparedStatement.setLong(1, App.loadOrders()+1);
+            preparedStatement.setString(2, Status.Confirmed.name());
+            preparedStatement.setString(3, LocalDateTime.now().toString());
+            preparedStatement.setInt(4, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         for (OrderLine item : currentOrder) {
             String productCode = item.getProductCode();
             int quantity = item.getQuantity();
-            int lineID = count;
+            int lineID = App.loadOrderLines()+1;
             int orderID = App.loadOrders();
 
             try (Connection con = database.connect();
@@ -57,21 +67,9 @@ public class Order {
                 preparedStatement.setInt(3, lineID);
                 preparedStatement.setInt(4, orderID);
                 preparedStatement.executeUpdate();
-                count += 1;
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }
-        try (Connection con = database.connect();
-             PreparedStatement preparedStatement = con.prepareStatement(
-                     "INSERT INTO orders (orderID, status, orderDate, userID) VALUES (?, ?, ?, ?);")) {
-            preparedStatement.setLong(1, App.loadOrders());
-            preparedStatement.setString(2, Status.Confirmed.name());
-            preparedStatement.setString(3, LocalDateTime.now().toString());
-            preparedStatement.setInt(4, user.getId());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
     }

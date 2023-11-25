@@ -30,7 +30,6 @@ public class Item {
         return price;
     }
 
-
     public String getDescription() {
         return description;
     }

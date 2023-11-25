@@ -3,9 +3,9 @@ package ui;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import database.database;
 
 import App.App;
 import items.OrderLine;
@@ -22,6 +22,10 @@ public class Checkout {
     private JLabel displayPrice;
     private JButton checkoutButton;
     private JLabel enterDetailsLabel;
+    private JLabel cardTypeLabel;
+    private JTextField cardType;
+
+    public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
 
     public Checkout(ArrayList<OrderLine> orderItems, User user) {
 
@@ -42,6 +46,8 @@ public class Checkout {
                     JOptionPane.showMessageDialog(null, "Please fill in all bank details.");
                 } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText())) ) {
                     JOptionPane.showMessageDialog(null, "Processing Order");
+                    addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
+                    Order.addToDb(orderItems, user);
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user) ){
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     Order.addToDb(orderItems, user);
@@ -73,6 +79,24 @@ public class Checkout {
          } else {
                 return false;
             }
+    }
+
+    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
+        int ID = 0;
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv, cardType) VALUES (?, ?, ?, ?, ?);")) {
+            preparedStatement.setLong(1, cardNo);
+            preparedStatement.setString(2, cardName);
+            preparedStatement.setString(3, expiryDate);
+            preparedStatement.setInt(4, cvv);
+            preparedStatement.setString(5, cardType);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv, cardType);
+        bankDetails.add(bank);
     }
 
 

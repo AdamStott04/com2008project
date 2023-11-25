@@ -33,6 +33,8 @@ public class editUserDetails {
     private JButton saveButton;
     private JLabel CVVLabel;
     private JTextField cvvField;
+    private JLabel cardTypeLabel;
+    private JTextField cardTypeField;
 
 
     public editUserDetails(User user, JFrame frame) {
@@ -54,6 +56,7 @@ public class editUserDetails {
                 String new_cardName = cardNameField.getText();
                 String new_expiry = expiryDateField.getText();
                 int new_cvv = Integer.parseInt(cvvField.getText());
+                String new_cardType = cardTypeField.getText();
                 System.out.println(String.valueOf(new_cardNo).length());
                 if (!(BankDetails.validBank(new_cardNo, new_expiry, new_cvv))) {
                     JOptionPane.showMessageDialog(null, "The bank details you have entered are not valid" +
@@ -91,7 +94,7 @@ public class editUserDetails {
                     if (user.getBankDetails() == null) {
                         updateQuery.append("bankID = ?");
                         try {
-                            BankDetails.addNewBankDetails(new_cardNo, new_cardName, new_expiry, new_cvv);
+                            BankDetails.addNewBankDetails(new_cardNo, new_cardName, new_expiry, new_cvv, new_cardType);
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
                         }
