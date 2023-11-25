@@ -14,17 +14,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import user.Order;
 import user.Order.Status;
+import user.User;
+import App.*;
 
 public class Catalog extends JFrame {
     public JPanel rootPanel;
     private JScrollPane itemsList;
     private JTable rows;
     private JButton viewCurrentOrderButton;
+    private JButton backButton;
     private List<Item> allItemsInOrder;
-    private List<Item> currentOrderItems = new ArrayList<>();
-    private Order currentOrder = new Order(1, Status.Pending, null, null);
 
-    public Catalog(ResultSet items) throws SQLException {
+    public Catalog(ResultSet items, User user) throws SQLException {
         try {
             DefaultTableModel tableModel = new DefaultTableModel();
 
@@ -51,20 +52,20 @@ public class Catalog extends JFrame {
                             items.getString("description"));
                     allItemsInOrder.add(locomotive);
                 }
-                  else if (items.getString("productCode").charAt(0) == 'C') {
+                else if (items.getString("productCode").charAt(0) == 'C') {
                     Controller controller = new Controller(items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(controller);
                 }
-                  else if (items.getString("productCode").charAt(0) == 'R') {
+                else if (items.getString("productCode").charAt(0) == 'R') {
                     Track newTrack = new Track(Gauge.valueOf(items.getString("gauge")),
-                                    items.getString("brand"), items.getString("productName"),
-                                    items.getString("productCode"), items.getDouble("price"),
-                                    items.getInt("stockCount"), items.getString("description"));
+                            items.getString("brand"), items.getString("productName"),
+                            items.getString("productCode"), items.getDouble("price"),
+                            items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(newTrack);
                 }
-                  else if (items.getString("productCode").charAt(0) == 'S') {
+                else if (items.getString("productCode").charAt(0) == 'S') {
                     Carriage carriage = new Carriage(items.getString("era"),
                             Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
@@ -72,14 +73,14 @@ public class Catalog extends JFrame {
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(carriage);
                 }
-                  else if (items.getString("productCode").charAt(0) == 'P') {
+                else if (items.getString("productCode").charAt(0) == 'P') {
                     TrackPack trackpack = new TrackPack(Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(trackpack);
                 }
-                  else if (items.getString("productCode").charAt(0) == 'M'){
+                else if (items.getString("productCode").charAt(0) == 'M'){
                     TrainSet trainset = new TrainSet(Gauge.valueOf(items.getString("gauge")),
                             items.getString("era"), items.getString("brand"),
                             items.getString("productName"), items.getString("productCode"),
@@ -96,7 +97,19 @@ public class Catalog extends JFrame {
             viewCurrentOrderButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    OrderEdit orderEdit = new OrderEdit(Catalog.this, currentOrderItems);
+                    OrderEdit orderEdit = new OrderEdit(Catalog.this, user.getCurrentOrder(), user);
+                }
+            });
+
+            backButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    dispose(); // Close the current JFrame
+                    try {
+                        App.showCategories(user);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }
             });
 
@@ -120,7 +133,7 @@ public class Catalog extends JFrame {
                     if (!e.getValueIsAdjusting()) {
                         int selectedRow = rows.getSelectedRow();
                         if (selectedRow != -1) {
-                            displayItemInformation(selectedRow, allItemsInOrder);
+                            displayItemInformation(selectedRow, allItemsInOrder, user);
                         }
                     }
                 }
@@ -131,7 +144,8 @@ public class Catalog extends JFrame {
             throw e;// Re-throw the exception to signal an error.
         }
     }
-    private void displayItemInformation(int rowIndex, List<Item> allItems) {
+
+    private void displayItemInformation(int rowIndex, List<Item> allItems, User user) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         // Retrieve information about the selected item
         System.out.println(rowIndex);
@@ -200,12 +214,16 @@ public class Catalog extends JFrame {
         panel.add(addButton);
         panel.add(cancelButton);
 
-        // ActionListener for the Add to Bag button
+        // ActionListener for the Add to Order button
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currentOrderItems.add(selectedItem);
-                System.out.println(currentOrderItems);
+                int lineID = 1;
+                if (user.getCurrentOrder() != null) {
+                    lineID = user.getCurrentOrder().size();
+                }
+                OrderLine newLine = new OrderLine(selectedItem.productCode, 1, lineID, 1);
+                user.addToCurrentOrder(newLine);
                 JOptionPane.showMessageDialog(null, "Item added to order!");
             }
         });
@@ -232,5 +250,3 @@ public class Catalog extends JFrame {
 
     }
 }
-
-

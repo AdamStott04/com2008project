@@ -2,7 +2,7 @@ package user;
 
 import java.sql.*;
 import java.util.ArrayList;
-
+import items.OrderLine;
 import static helper.passwordHash.hashPassword;
 
 public class User {
@@ -17,6 +17,7 @@ public class User {
     private String postcode;
     private int isStaff;
     private int isManager;
+    private ArrayList<OrderLine> currentOrder = new ArrayList<>();
 
     private Address address;
 
@@ -145,6 +146,14 @@ public class User {
             }
         }
         return true; // No matching user found
+    }
+
+    public ArrayList<OrderLine> getCurrentOrder() {
+        return currentOrder;
+    }
+
+    public void addToCurrentOrder(OrderLine newLine) {
+        currentOrder.add(newLine);
     }
 
 }

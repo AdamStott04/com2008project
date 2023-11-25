@@ -1,8 +1,10 @@
 package ui;
 
 import database.database;
+import items.Item;
 import user.User;
 import App.App;
+import user.Order;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,7 +13,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class LoginPage extends JFrame {
     public JPanel rootPanel;
@@ -21,8 +25,8 @@ public class LoginPage extends JFrame {
     private JPasswordField passwordPasswordField;
     private JButton registerButton;
 
-    public LoginPage(JFrame frame) throws SQLException {
 
+    public LoginPage(JFrame frame) throws SQLException {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,7 +39,6 @@ public class LoginPage extends JFrame {
                     if (user != null) {
                         frame.dispose();
                         App.userDashboard(user);
-
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
