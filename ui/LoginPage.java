@@ -39,6 +39,9 @@ public class LoginPage extends JFrame {
                     if (user != null) {
                         frame.dispose();
                         App.userDashboard(user);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "The email or password you have entered is incorrect." +
+                                " Please try again!", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
