@@ -64,7 +64,7 @@ public class Checkout {
                 // Check if all bank details are filled in
                 if (!areBankDetailsFilledIn()) {
                     JOptionPane.showMessageDialog(null, "Please fill in all bank details.");
-                } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText())) ) {
+                } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText()) ) {
                     try {
                         BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
                     } catch (SQLException ex) {

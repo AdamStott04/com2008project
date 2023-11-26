@@ -60,7 +60,7 @@ public class editUserDetails {
                     String new_expiry = expiryDateField.getText();
                     int new_cvv = Integer.parseInt(cvvField.getText());
                     String new_cardType = cardTypeField.getText();
-                    if (!(BankDetails.validBank(new_cardNo, new_expiry, new_cvv))) {
+                    if (!(BankDetails.validBank(new_cardNo, new_expiry, new_cvv, new_cardType))) {
                         JOptionPane.showMessageDialog(null, "The bank details you have entered are not valid" +
                                 " Please re-enter valid bank details!", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
