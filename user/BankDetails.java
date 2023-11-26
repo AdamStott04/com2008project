@@ -2,15 +2,13 @@ package user;
 
 import database.database;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 public class BankDetails {
+    private String cardType;
     private int bankID;
     private long cardNo;
     private String cardName;
@@ -23,6 +21,7 @@ public class BankDetails {
         this.cardName = cardName;
         this.expiryDate = expiryDate;
         this.cvv = cvv;
+        this.cardType = cardType;
     }
 
     public long getCardNo() {
@@ -41,8 +40,34 @@ public class BankDetails {
         return expiryDate;
     }
 
+    public String getCardType() { return cardType; }
+
 
     public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
+
+    public static void reloadBankDetailsArray() throws SQLException {
+        bankDetails.clear();
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(database.url, database.username, database.password);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        String sql = "SELECT * FROM bankDetails";
+        ResultSet bankDetailsSet = null;
+        PreparedStatement preparedStatement = null;
+        preparedStatement = con.prepareStatement(sql);
+        bankDetailsSet = preparedStatement.executeQuery();
+        while (bankDetailsSet.next()) {
+            long cardNum = bankDetailsSet.getLong("cardNo");
+            String cardName = bankDetailsSet.getString("cardName");
+            String expiryDate = bankDetailsSet.getString("expiryDate");
+            int bankID = bankDetailsSet.getInt("bankID");
+            int cvv = bankDetailsSet.getInt("cvv");
+            String cardType = bankDetailsSet.getString("cardType");
+            BankDetails.bankDetails.add(new BankDetails(bankID, cardNum, cardName, expiryDate, cvv, cardType));
+        }
+    }
 
     public static void createBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
         BankDetails bank = new BankDetails(bankID, cardNo, cardName, expiryDate, cvv, cardType);
@@ -64,10 +89,7 @@ public class BankDetails {
     }
 
     public static boolean validBank(long cardNo, String expiryDate, int cvv) {
-        if (String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3) {
-            return true;
-        }
-        return false;
+        return String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3;
     }
 
     public static BankDetails bankExists(int bankID) throws SQLException {
@@ -117,22 +139,23 @@ public class BankDetails {
         bankDetails.add(bank);
     }
 
-    public static BankDetails updateBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv) throws SQLException {
+    public static void updateBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv, String cardType) throws SQLException {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
-                     "UPDATE bankDetails SET cardNo = ?, cardName = ?, expiryDate = ?, cvv = ? " +
+                     "UPDATE bankDetails SET cardNo = ?, cardName = ?, expiryDate = ?, cvv = ?, cardType = ? " +
                              "WHERE bankID = ?")) {
             preparedStatement.setLong(1, cardNo);
             preparedStatement.setString(2, cardName);
             preparedStatement.setString(3, expiryDate);
             preparedStatement.setInt(4, cvv);
-            preparedStatement.setInt(5, bankID);
+            preparedStatement.setString(5, cardType);
+            preparedStatement.setInt(6, bankID);
 
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return bankExists(bankID);
+        reloadBankDetailsArray();
     }
 }

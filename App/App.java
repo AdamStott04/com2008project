@@ -4,10 +4,10 @@ import database.database;
 import ui.LoginPage;
 import ui.RegistrationPage;
 import ui.editUserDetails;
+import ui.userDashboard;
 import user.Address;
 import user.BankDetails;
 import user.User;
-
 
 import javax.swing.*;
 import java.sql.*;
@@ -346,7 +346,13 @@ public class App {
         frame.setSize(500, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-        
     }
 
+    public static void staffDashboard(User user) {
+        JFrame frame = new JFrame("Staff Dashboard");
+        frame.setContentPane(new ui.staffDashboard(user, frame).rootPanel);
+        frame.setSize(1000, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
 }

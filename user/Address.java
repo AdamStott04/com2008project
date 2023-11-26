@@ -63,17 +63,15 @@ public class Address {
         return null; // No matching address found
     }
 
-    public static Address updateAddress(int oldHouseNo, String oldPostcode, int newHouseNo, String newStreet, String newPostcode, String newCountry) throws SQLException {
+    public static void updateAddress(int oldHouseNo, String oldPostcode, String newStreet, String newCountry) throws SQLException {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
-                     "UPDATE addresses SET houseNo = ?, postcode = ?, street = ?, country = ? " +
+                     "UPDATE addresses SET street = ?, country = ? " +
                      "WHERE houseNo = ? AND postcode = ?")) {
-            preparedStatement.setInt(1, newHouseNo);
-            preparedStatement.setString(2, newPostcode);
-            preparedStatement.setString(3, newStreet);
-            preparedStatement.setString(4, newCountry);
-            preparedStatement.setInt(5, oldHouseNo);
-            preparedStatement.setString(6, oldPostcode);
+            preparedStatement.setString(1, newStreet);
+            preparedStatement.setString(2, newCountry);
+            preparedStatement.setInt(3, oldHouseNo);
+            preparedStatement.setString(4, oldPostcode);
 
             preparedStatement.executeUpdate();
 
@@ -81,6 +79,6 @@ public class Address {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return validAddress(newHouseNo, newPostcode);
     }
+
 }
