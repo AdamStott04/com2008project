@@ -96,11 +96,13 @@ public class RegistrationPage extends JFrame {
                     }
                     JOptionPane.showMessageDialog(null, "You successfully created an account!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     try {
+                        User.reloadUserArray();
                         frame.dispose();
                         App.login();
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
+
                 }
             }
         });
