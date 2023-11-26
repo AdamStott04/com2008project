@@ -33,6 +33,7 @@ public class editUserDetails {
     private JButton saveButton;
     private JLabel CVVLabel;
     private JTextField cvvField;
+    private JLabel cardTypeLabel;
     private JTextField cardTypeField;
 
 
@@ -41,6 +42,24 @@ public class editUserDetails {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int userId = user.getId();
+                int bankID = user.getBankID();
+                String new_forename = forenameField.getText();
+                String new_surname = surnameField.getText();
+                String new_email = emailField.getText();
+                String new_password = passwordField.getText();
+                int new_houseNo = Integer.parseInt(houseNoField.getText());
+                String new_street = streetNameField.getText();
+                String new_postcode = postcodeField.getText();
+                String new_country = countryField.getText();
+                long new_cardNo = (long) Double.parseDouble(cardNoField.getText());
+                String new_cardName = cardNameField.getText();
+                String new_expiry = expiryDateField.getText();
+                int new_cvv = Integer.parseInt(cvvField.getText());
+                String new_cardType = cardTypeField.getText();
+                System.out.println(String.valueOf(new_cardNo).length());
+                if (!(BankDetails.validBank(new_cardNo, new_expiry, new_cvv))) {
+                    JOptionPane.showMessageDialog(null, "The bank details you have entered are not valid" +
                 if (cardNameField.getText().isEmpty() || cardTypeField.getText().isEmpty() || cardNoField.getText().isEmpty() || cvvField.getText().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "You haven't filled in all of the bank details" +
                             " Please re-enter valid bank details!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -114,6 +133,26 @@ public class editUserDetails {
                         updateQuery.append("bankID = ?");
                         updateQuery.append(" WHERE userID = ?;");
                         try {
+                            BankDetails.addNewBankDetails(new_cardNo, new_cardName, new_expiry, new_cvv, new_cardType);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    } else {
+                        updateQuery.setLength(updateQuery.length() - 2);
+                    }
+                    updateQuery.append(" WHERE userID = ?;");
+                    try {
+                        PreparedStatement preparedStatement = con.prepareStatement(updateQuery.toString());
+                        preparedStatement.setString(1, new_forename);
+                        preparedStatement.setString(2, new_surname);
+                        preparedStatement.setString(3, new_email);
+                        if (!(passwordField.getText().isEmpty())) {
+                            preparedStatement.setString(4, hashPassword(new_password));
+                            preparedStatement.setInt(5, new_houseNo);
+                            preparedStatement.setString(6, new_postcode);
+                            if (user.getBankDetails() == null) {
+                                int new_bankID = BankDetails.findBankID(new_cardNo, new_cardName, new_expiry, new_cvv);
+                                preparedStatement.setInt(7, new_bankID);
                             PreparedStatement preparedStatement = con.prepareStatement(updateQuery.toString());
                             preparedStatement.setString(1, new_forename);
                             preparedStatement.setString(2, new_surname);

@@ -7,14 +7,15 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.util.ArrayList;
+import java.sql.*;
+
 import java.util.List;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+import database.database;
 
 import App.App;
 import items.OrderLine;
+import user.Order;
 
 import user.User;
 import user.BankDetails;
@@ -33,8 +34,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-
 public class Checkout {
     public JPanel rootPanel;
     private JTextField cvv;
@@ -44,6 +43,8 @@ public class Checkout {
     private JLabel displayPrice;
     private JButton checkoutButton;
     private JLabel enterDetailsLabel;
+    private JLabel cardTypeLabel;
+    private JTextField cardType;
     public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
 
     public Checkout(ArrayList<OrderLine> orderItems, User user) {
@@ -66,9 +67,12 @@ public class Checkout {
                 } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText())) ) {
                     addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()));
                     JOptionPane.showMessageDialog(null, "Processing Order");
+                    addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
+                    Order.addToDb(orderItems, user);
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user) ){
                     // add order to the database
                     JOptionPane.showMessageDialog(null, "Processing Order");
+                    Order.addToDb(orderItems, user);
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid bank details.");
                 }
@@ -93,9 +97,6 @@ public class Checkout {
         }
     }
 
-
-
-
     private boolean sameDetailsEntered(User user) {
          if (user.getBankDetails().getCardName() == cardName.getText() && user.getBankDetails().getCvv() == Integer.parseInt(cvv.getText()) && user.getBankDetails().getExpiryDate() == expiryDate.getText() && user.getBankDetails().getCardNo() == Long.parseLong(cardNo.getText())      ) {
                 return true;
@@ -104,20 +105,21 @@ public class Checkout {
             }
     }
 
-    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv) {
+    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
         int ID = 0;
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
-                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv) VALUES (?, ?, ?, ?);")) {
+                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv, cardType) VALUES (?, ?, ?, ?, ?);")) {
             preparedStatement.setLong(1, cardNo);
             preparedStatement.setString(2, cardName);
             preparedStatement.setString(3, expiryDate);
             preparedStatement.setInt(4, cvv);
+            preparedStatement.setString(5, cardType);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv);
+        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv, cardType);
         bankDetails.add(bank);
     }
 
@@ -137,17 +139,6 @@ public class Checkout {
         BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv);
         bankDetails.add(bank);
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }
 

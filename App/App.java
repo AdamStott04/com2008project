@@ -7,12 +7,10 @@ import ui.editUserDetails;
 import ui.userDashboard;
 import user.Address;
 import user.BankDetails;
-import user.Order;
 import user.User;
 
 import javax.swing.*;
 import java.sql.*;
-import java.util.ArrayList;
 
 import static user.User.createUser;
 
@@ -249,8 +247,9 @@ public class App {
         return details;
     }
 
-    public static ResultSet loadOrders() {
+    public static int loadOrders() {
         Connection con = null;
+        int ordersCount = 0;
         try {
             con = DriverManager.getConnection(database.url, database.username, database.password);
         } catch (SQLException ex) {
@@ -258,20 +257,49 @@ public class App {
         }
 
         // Create the sql to gather all user data from sql table.
-        String sql = "SELECT * FROM orders;";
+        String sql = "SELECT COUNT(*) FROM orders;";
         ResultSet orderSet = null;
 
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = con.prepareStatement(sql);
+            orderSet = preparedStatement.executeQuery();
+            orderSet.next();
 
-            orderSet = preparedStatement.executeQuery();;
+            ordersCount = orderSet.getInt(1);
+
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
-        return orderSet;
+        return ordersCount;
     }
 
+    public static int loadOrderLines() {
+        Connection con = null;
+        int ordersCount = 0;
+        try {
+            con = DriverManager.getConnection(database.url, database.username, database.password);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // Create the sql to gather all user data from sql table.
+        String sql = "SELECT COUNT(*) FROM orderLines;";
+        ResultSet orderSet = null;
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = con.prepareStatement(sql);
+            orderSet = preparedStatement.executeQuery();
+            orderSet.next();
+
+            ordersCount = orderSet.getInt(1);
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return ordersCount;
+    }
     public static void login() throws SQLException {
         JFrame frame = new JFrame("Login");
         frame.setContentPane(new LoginPage(frame).rootPanel);
