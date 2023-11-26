@@ -78,8 +78,6 @@ public class Checkout {
                     }
                     Order.addToDb(orderItems, user);
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user)){
-                    // add order to the database
-                    System.out.print("bank details have been saved");
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     Order.addToDb(orderItems, user);
                 } else {
@@ -95,7 +93,8 @@ public class Checkout {
         return  !cvv.getText().isEmpty() &&
                 !cardName.getText().isEmpty() &&
                 !cardNo.getText().isEmpty() &&
-                !expiryDate.getText().isEmpty();
+                !expiryDate.getText().isEmpty() &&
+                !cardType.getText().isEmpty();
     }
 
     private boolean hasBankDetailsSaved(User user) {
