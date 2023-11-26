@@ -65,7 +65,7 @@ public class Checkout {
                 if (!areBankDetailsFilledIn()) {
                     JOptionPane.showMessageDialog(null, "Please fill in all bank details.");
                 } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText())) ) {
-                    addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()));
+                    addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
                     Order.addToDb(orderItems, user);
