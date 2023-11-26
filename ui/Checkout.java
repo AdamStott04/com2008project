@@ -77,8 +77,7 @@ public class Checkout {
                         throw new RuntimeException(ex);
                     }
                     Order.addToDb(orderItems, user);
-                } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user) ){
-                    // add order to the database
+                } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user)){
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     Order.addToDb(orderItems, user);
                 } else {
@@ -94,7 +93,8 @@ public class Checkout {
         return  !cvv.getText().isEmpty() &&
                 !cardName.getText().isEmpty() &&
                 !cardNo.getText().isEmpty() &&
-                !expiryDate.getText().isEmpty();
+                !expiryDate.getText().isEmpty() &&
+                !cardType.getText().isEmpty();
     }
 
     private boolean hasBankDetailsSaved(User user) {
@@ -106,7 +106,7 @@ public class Checkout {
     }
 
     private boolean sameDetailsEntered(User user) {
-         if (user.getBankDetails().getCardName() == cardName.getText() && user.getBankDetails().getCvv() == Integer.parseInt(cvv.getText()) && user.getBankDetails().getExpiryDate() == expiryDate.getText() && user.getBankDetails().getCardNo() == Long.parseLong(cardNo.getText())      ) {
+         if (user.getBankDetails().getCardName().equals(cardName.getText()) && user.getBankDetails().getCvv() == Integer.parseInt(cvv.getText()) && user.getBankDetails().getExpiryDate().equals(expiryDate.getText()) && user.getBankDetails().getCardNo() == Long.parseLong(cardNo.getText()) && user.getBankDetails().getCardType().equals(cardType.getText())) {
                 return true;
          } else {
                 return false;
