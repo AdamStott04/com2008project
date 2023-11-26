@@ -65,9 +65,17 @@ public class Checkout {
                 if (!areBankDetailsFilledIn()) {
                     JOptionPane.showMessageDialog(null, "Please fill in all bank details.");
                 } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText())) ) {
-                    addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
+                    try {
+                        BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     JOptionPane.showMessageDialog(null, "Processing Order");
-                    addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
+                    try {
+                        BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
                     Order.addToDb(orderItems, user);
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user) ){
                     // add order to the database
@@ -105,40 +113,6 @@ public class Checkout {
             }
     }
 
-    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
-        int ID = 0;
-        try (Connection con = database.connect();
-             PreparedStatement preparedStatement = con.prepareStatement(
-                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv, cardType) VALUES (?, ?, ?, ?, ?);")) {
-            preparedStatement.setLong(1, cardNo);
-            preparedStatement.setString(2, cardName);
-            preparedStatement.setString(3, expiryDate);
-            preparedStatement.setInt(4, cvv);
-            preparedStatement.setString(5, cardType);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv, cardType);
-        bankDetails.add(bank);
-    }
-
-    public static void addNewOrder(long cardNo, String cardName, String expiryDate, int cvv) {
-        int ID = 0;
-        try (Connection con = database.connect();
-             PreparedStatement preparedStatement = con.prepareStatement(
-                     "INSERT INTO bankDetails (cardNo, cardName, expiryDate, cvv) VALUES (?, ?, ?, ?);")) {
-            preparedStatement.setLong(1, cardNo);
-            preparedStatement.setString(2, cardName);
-            preparedStatement.setString(3, expiryDate);
-            preparedStatement.setInt(4, cvv);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        BankDetails bank = new BankDetails(ID, cardNo, cardName, expiryDate, cvv);
-        bankDetails.add(bank);
-    }
 
 }
 
