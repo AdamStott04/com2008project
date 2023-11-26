@@ -2,6 +2,8 @@ package user;
 
 import java.sql.*;
 import java.util.ArrayList;
+
+import database.database;
 import items.OrderLine;
 import static helper.passwordHash.hashPassword;
 
@@ -137,6 +139,34 @@ public class User {
             }
         }
         return null; // No matching user found
+    }
+
+    public static void reloadUserArray() throws SQLException {
+        users.clear();
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(database.url, database.username, database.password);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        String sql = "SELECT * FROM users";
+        ResultSet userSet = null;
+        PreparedStatement preparedStatement = null;
+        preparedStatement = con.prepareStatement(sql);
+        userSet = preparedStatement.executeQuery();
+        while (userSet.next()) {
+            int id = userSet.getInt("userID");
+            String forename = userSet.getString("forename");
+            String surname = userSet.getString("surname");
+            String email = userSet.getString("email");
+            String password = userSet.getString("password");
+            int houseNo = userSet.getInt("houseNo");
+            String postcode = userSet.getString("postcode");
+            int isStaff = userSet.getInt("isStaff");
+            int isManager = userSet.getInt("isManager");
+            int bankID = userSet.getInt("bankID");
+            User.createUser(id, forename, surname, email, password, houseNo, postcode, isStaff, isManager, bankID);
+        }
     }
 
     public static boolean uniqueEmail(String email) {
