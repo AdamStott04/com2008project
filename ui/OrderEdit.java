@@ -56,11 +56,15 @@ public class OrderEdit extends JDialog {
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame frame = new JFrame("Checkout");
-                frame.setContentPane(new ui.Checkout(orderItems, user).rootPanel);
-                frame.setSize(500, 300);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setVisible(true);;
+              if (orderItems.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please add at least one item to your basket");
+                } else{
+                    JFrame frame = new JFrame("Checkout");
+                    frame.setContentPane(new ui.Checkout(orderItems, user).rootPanel);
+                    frame.setSize(500, 300);
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.setVisible(true);
+                }
             }
         });
 
