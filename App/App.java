@@ -11,6 +11,8 @@ import user.User;
 
 import javax.swing.*;
 import java.sql.*;
+import user.Order;
+import java.util.ArrayList;
 
 import static user.User.createUser;
 
@@ -76,8 +78,8 @@ public class App {
                 int isManager = userSet.getInt("isManager");
                 int bankID = userSet.getInt("bankID");
                 createUser(id, forename, surname, email, password, houseNo, postcode, isStaff, isManager, bankID);
-
             }
+
             preparedStatement.close();
             preparedStatement2.close();
             preparedStatement3.close();
@@ -225,6 +227,21 @@ public class App {
         return trainsetSet;
     }
 
+    public static ResultSet loadPastOrders(User user) {
+        ResultSet resultSet = null;
+        int userID = user.getId();
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "SELECT * FROM orders WHERE userID = ?"
+             )) {
+            preparedStatement.setInt(1, userID);
+            resultSet = preparedStatement.executeQuery();
+            return resultSet;
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
     public static String[] getItemDetails(String productCode) {
         ResultSet resultItem = null;
         String[] details = new String[3];
@@ -351,6 +368,14 @@ public class App {
     public static void staffDashboard(User user) {
         JFrame frame = new JFrame("Staff Dashboard");
         frame.setContentPane(new ui.staffDashboard(user, frame).rootPanel);
+        frame.setSize(1000, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    public static void showPastOrders(User user) throws SQLException {
+        JFrame frame = new JFrame("Past Orders");
+        frame.setContentPane(new ui.PastOrders(user).rootPanel);
         frame.setSize(1000, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

@@ -19,8 +19,15 @@ public class Categories extends JFrame {
 
     public JPanel rootPanel;
     private JButton backButton;
+    private JButton viewCurrentOrderButton;
 
     public Categories(User user) {
+        viewCurrentOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                OrderEdit orderEdit = new OrderEdit(Categories.this, user.getCurrentOrder(), user);
+            }
+        });
         locomotivesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

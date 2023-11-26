@@ -41,7 +41,11 @@ public class userDashboard {
         pastOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    App.showPastOrders(user);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         editAccountDetailsButton.addActionListener(new ActionListener() {

@@ -66,9 +66,10 @@ public class OrderEdit extends JDialog {
 
         // Set up the layout
         setLayout(new GridLayout(2, 1));  // 2 rows, 1 column
-        add(checkoutButton);
+        checkoutButton.setPreferredSize(new Dimension(100, 30));
+        add(checkoutButton, BorderLayout.SOUTH);
         JScrollPane scrollPane = new JScrollPane(orderItemsTable);
-        add(scrollPane, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.NORTH);
 
         pack();
         setLocationRelativeTo(parent);
