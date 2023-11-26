@@ -20,7 +20,7 @@ public class RegistrationPage extends JFrame {
     private JTextField houseNumberField;
     private JTextField streetNameField;
     private JTextField postcodeField;
-    private JTextField countryField;
+    private JTextField cityField;
     private JButton registerButton;
     private JButton backToLoginButton;
 
@@ -42,9 +42,9 @@ public class RegistrationPage extends JFrame {
                 String houseNumber = houseNumberField.getText();
                 String streetName = streetNameField.getText();
                 String postcode = postcodeField.getText();
-                String country = countryField.getText();
+                String city = cityField.getText();
                 if (forename.isEmpty() | surname.isEmpty() | email.isEmpty() | password.isEmpty() | streetName.isEmpty()
-                        | postcode.isEmpty() | country.isEmpty() | houseNumber.isEmpty()) {
+                        | postcode.isEmpty() | city.isEmpty() | houseNumber.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "You have left 1 or more text fields empty." +
                             " Please fill them in before pressing register!", "Error", JOptionPane.ERROR_MESSAGE);
                 } else if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
@@ -66,7 +66,7 @@ public class RegistrationPage extends JFrame {
                         preparedStatement.setInt(1, Integer.parseInt(houseNumber));
                         preparedStatement.setString(2, postcode);
                         preparedStatement.setString(3, streetName);
-                        preparedStatement.setString(4, country);
+                        preparedStatement.setString(4, city);
 
                         preparedStatement.executeUpdate();
                         preparedStatement.close();

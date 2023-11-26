@@ -25,7 +25,7 @@ public class editUserDetails {
     private JTextField houseNoField;
     private JTextField streetNameField;
     private JTextField postcodeField;
-    private JTextField countryField;
+    private JTextField cityField;
     private JTextField cardNoField;
     private JTextField cardNameField;
     private JTextField expiryDateField;
@@ -54,7 +54,7 @@ public class editUserDetails {
                     int new_houseNo = Integer.parseInt(houseNoField.getText());
                     String new_street = streetNameField.getText();
                     String new_postcode = postcodeField.getText();
-                    String new_country = countryField.getText();
+                    String new_country = cityField.getText();
                     long new_cardNo = (long) Double.parseDouble(cardNoField.getText());
                     String new_cardName = cardNameField.getText();
                     String new_expiry = expiryDateField.getText();
@@ -71,7 +71,7 @@ public class editUserDetails {
                             } catch (SQLException ex) {
                                 throw new RuntimeException(ex);
                             }
-                        } else if (Address.validAddress(user.getHouseNo(), user.getPostcode()).getCountry() != new_country || Address.validAddress(user.getHouseNo(), user.getPostcode()).getStreetName() != new_street) {
+                        } else if (Address.validAddress(user.getHouseNo(), user.getPostcode()).getCity() != new_country || Address.validAddress(user.getHouseNo(), user.getPostcode()).getStreetName() != new_street) {
                             try {
                                 Address.updateAddress(user.getHouseNo(), user.getPostcode(), new_street, new_country);
                                 user.setAddress(Address.validAddress(new_houseNo, new_postcode));
@@ -156,7 +156,6 @@ public class editUserDetails {
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
                 App.userDashboard(user);
-
             }
         });
 
@@ -168,7 +167,7 @@ public class editUserDetails {
             houseNoField.setText(String.valueOf(address.getHouseNo()));
             streetNameField.setText(address.getStreetName());
             postcodeField.setText(address.getPostcode());
-            countryField.setText(address.getCountry());
+            cityField.setText(address.getCity());
         }
         BankDetails bankDetails = user.getBankDetails();
         if (!(bankDetails == null)) {

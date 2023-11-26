@@ -52,8 +52,8 @@ public class App {
                 int houseNo = addressSet.getInt("houseNo");
                 String postcode = addressSet.getString("postcode");
                 String street = addressSet.getString("street");
-                String country = addressSet.getString("country");
-                Address.addresses.add(new Address(houseNo, street, postcode, country));
+                String city = addressSet.getString("city");
+                Address.addresses.add(new Address(houseNo, street, postcode, city));
             }
             while (bankDetailsSet.next()) {
                 long cardNum = bankDetailsSet.getLong("cardNo");
