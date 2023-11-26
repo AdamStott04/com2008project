@@ -88,8 +88,8 @@ public class BankDetails {
         return matcher.matches();
     }
 
-    public static boolean validBank(long cardNo, String expiryDate, int cvv) {
-        return String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3;
+    public static boolean validBank(long cardNo, String expiryDate, int cvv, String cardType) {
+        return String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3 && (cardType.equals("Visa") || cardType.equals("Mastercard"));
     }
 
     public static BankDetails bankExists(int bankID) throws SQLException {
