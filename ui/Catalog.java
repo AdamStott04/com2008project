@@ -104,7 +104,8 @@ public class Catalog extends JFrame {
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    dispose(); // Close the current JFrame
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
                     try {
                         App.showCategories(user);
                     } catch (SQLException ex) {
@@ -234,6 +235,8 @@ public class Catalog extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // User chose not to add the item
                 JOptionPane.showMessageDialog(null, "Cancelled.");
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
             }
         });
 

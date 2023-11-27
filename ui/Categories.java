@@ -32,6 +32,8 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
                     App.showCatalog(App.loadLocomotives(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -42,6 +44,8 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
                     App.showCatalog(App.loadTrackPacks(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -52,6 +56,8 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
                     App.showCatalog(App.loadControllers(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -62,6 +68,8 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
                     App.showCatalog(App.loadTrainsets(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -72,6 +80,8 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
                     App.showCatalog(App.loadCarriages(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -82,6 +92,8 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
                     App.showCatalog(App.loadTrack(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -91,6 +103,8 @@ public class Categories extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
                 App.userDashboard(user);
             }
         });

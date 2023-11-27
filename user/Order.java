@@ -6,38 +6,40 @@ import items.OrderLine;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import App.*;
+import java.sql.*;
 
 import items.Item;
 
 public class Order {
 
+
     public enum Status {Pending, Confirmed, Fulfilled}
 
     private int orderID;
     private Status status;
-    private LocalDateTime orderDate;
+    private Date orderDate;
     private int userID;
 
-    public Order(int orderID, Status status, LocalDateTime orderDate, int userID) {
+    public Order(int orderID, Status status, Date orderDate, int userID) {
         this.orderID = orderID;
         this.status = status;
-        this.orderDate = LocalDateTime.now();
+        this.orderDate = orderDate;
         this.userID = userID;
     }
 
-    private int getOrderID () {
+    public int getOrderID () {
         return orderID;
     }
-    private int getUserID () {
+    public int getUserID () {
         return userID;
     }
-    private LocalDateTime getOrderDate () {
+    public Date getOrderDate () {
         return orderDate;
     }
-    private Status getStatus () {
+    public Status getStatus () {
         return status;
     }
 
@@ -47,7 +49,7 @@ public class Order {
                      "INSERT INTO orders (orderID, status, orderDate, userID) VALUES (?, ?, ?, ?);")) {
             preparedStatement.setLong(1, App.loadOrders()+1);
             preparedStatement.setString(2, Status.Confirmed.name());
-            preparedStatement.setString(3, LocalDateTime.now().toString());
+            preparedStatement.setDate(3, Date.valueOf(LocalDate.now()));
             preparedStatement.setInt(4, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

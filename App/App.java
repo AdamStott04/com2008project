@@ -227,19 +227,26 @@ public class App {
         return trainsetSet;
     }
 
-    public static ResultSet loadPastOrders(User user) {
-        ResultSet resultSet = null;
+    public static ArrayList<Order> loadPastOrders(User user) {
+        ArrayList<Order> orders = new ArrayList<>();
         int userID = user.getId();
+
         try (Connection con = database.connect();
-             PreparedStatement preparedStatement = con.prepareStatement(
-                     "SELECT * FROM orders WHERE userID = ?"
-             )) {
+             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM orders WHERE userID = ?")) {
             preparedStatement.setInt(1, userID);
-            resultSet = preparedStatement.executeQuery();
-            return resultSet;
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Order order = new Order(resultSet.getInt("orderID"), Order.Status.valueOf(resultSet.getString("status")), resultSet.getDate("orderDate"), user.getId());
+
+                    orders.add(order);
+                }
+            }
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
+
+        return orders;
     }
 
     public static String[] getItemDetails(String productCode) {
