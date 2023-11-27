@@ -78,9 +78,11 @@ public class Checkout {
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
+                    Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user)){
                     JOptionPane.showMessageDialog(null, "Processing Order");
+                    Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid bank details.");

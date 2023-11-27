@@ -84,5 +84,18 @@ public class Order {
                 ", status=" + status +
                 '}';
     }
+    public static void updateStock (ArrayList<OrderLine> orderItems) {
+        for (OrderLine item : orderItems) {
+            try (Connection con = database.connect();
+                 PreparedStatement preparedStatement = con.prepareStatement(
+                         "UPDATE items SET stockCount = stockCount - ? WHERE productCode = ?;")) {
+                preparedStatement.setLong(1, item.getQuantity());
+                preparedStatement.setString(2, item.getProductCode());
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
