@@ -129,7 +129,7 @@ public class managerDashboard {
         for (User u: User.users) {
             if (u.getIsStaff() == 1 && u.getIsManager() == 0) {
                 allStaffUsers.add(u);
-                staffDetails.add(u.getForename()+ " " + u.getSurname() + " " + u.getEmail());
+                staffDetails.add(u.getForename()+ " | " + u.getSurname() + " | " + u.getEmail());
             }
         }
     }
