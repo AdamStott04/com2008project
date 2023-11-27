@@ -75,7 +75,7 @@ public class OrderEdit extends JDialog {
             }
         });
 
-        checkoutButton.setPreferredSize(new Dimension(160, 60));
+        checkoutButton.setPreferredSize(new Dimension(161, 60));
 
         topPanel.add(checkoutButton);
 
