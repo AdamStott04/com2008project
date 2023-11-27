@@ -25,7 +25,7 @@ public class PastOrders extends JFrame {
     private JButton backToDashboardButton;
 
     public PastOrders (User user) throws SQLException {
-        ArrayList<Order> orders = App.loadUserPastOrders(user);
+        ArrayList<Order> orders = Order.loadUserPastOrders(user);
         DefaultTableModel tableModel = new DefaultTableModel();
 
         // Create columns based on ResultSet metadata
@@ -68,12 +68,12 @@ public class PastOrders extends JFrame {
         System.out.println(rowIndex);
         System.out.println(orders.get(rowIndex).toString());
         Order selectedOrder = orders.get(rowIndex);
-        ArrayList<OrderLine> orderLines = App.loadOrderLines(selectedOrder.getOrderID());
+        ArrayList<OrderLine> orderLines = Order.loadOrderLines(selectedOrder.getOrderID());
         System.out.println(orderLines);
         int count = 1;
         for (OrderLine line : orderLines) {
             String productCode = line.getProductCode();
-            String[] itemDetails = App.getItemDetails(productCode);
+            String[] itemDetails = Item.getItemDetails(productCode);
             String brand = itemDetails[0];
             String productName = itemDetails[1];
             String price = itemDetails[2];

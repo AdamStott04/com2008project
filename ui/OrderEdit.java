@@ -41,7 +41,7 @@ public class OrderEdit extends JDialog {
         // Populate the table with order items
 
         for (OrderLine item : orderItems) {
-            String[] details = App.getItemDetails(item.getProductCode());
+            String[] details = Item.getItemDetails(item.getProductCode());
             String brand = details[0];
             String name = details[1];
             Double price = Double.parseDouble(details[2]);

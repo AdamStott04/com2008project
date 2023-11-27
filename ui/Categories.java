@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.awt.event.ActionListener;
 
+import items.Item;
 import user.User;
 
 public class Categories extends JFrame {
@@ -34,7 +35,7 @@ public class Categories extends JFrame {
                 try {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
-                    App.showCatalog(App.loadLocomotives(), user);
+                    App.showCatalog(Item.loadLocomotives(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -46,7 +47,7 @@ public class Categories extends JFrame {
                 try {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
-                    App.showCatalog(App.loadTrackPacks(), user);
+                    App.showCatalog(Item.loadTrackPacks(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -58,7 +59,7 @@ public class Categories extends JFrame {
                 try {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
-                    App.showCatalog(App.loadControllers(), user);
+                    App.showCatalog(Item.loadControllers(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -70,7 +71,7 @@ public class Categories extends JFrame {
                 try {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
-                    App.showCatalog(App.loadTrainsets(), user);
+                    App.showCatalog(Item.loadTrainsets(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -82,7 +83,7 @@ public class Categories extends JFrame {
                 try {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
-                    App.showCatalog(App.loadCarriages(), user);
+                    App.showCatalog(Item.loadCarriages(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -94,7 +95,7 @@ public class Categories extends JFrame {
                 try {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
-                    App.showCatalog(App.loadTrack(), user);
+                    App.showCatalog(Item.loadTrack(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
