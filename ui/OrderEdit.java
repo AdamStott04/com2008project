@@ -66,6 +66,7 @@ public class OrderEdit extends JDialog {
                 if (orderItems.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please add at least one item to your basket");
                 } else {
+                    dispose();
                     JFrame frame = new JFrame("Checkout");
                     frame.setContentPane(new ui.Checkout(orderItems, user).rootPanel);
                     frame.setSize(500, 300);
