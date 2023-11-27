@@ -23,6 +23,7 @@ public class OrderEdit extends JDialog {
     private JButton removeButton;
     public List<OrderLine> orderItems;
 
+
     public OrderEdit(JFrame parent, ArrayList<OrderLine> orderItems, User user) {
         super(parent, "Edit Order", true);
 
@@ -52,11 +53,17 @@ public class OrderEdit extends JDialog {
         orderItemsTable.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
         orderItemsTable.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox()));
 
+
+
+
+        setLayout(new BorderLayout());
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        add(topPanel, BorderLayout.NORTH);
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              if (orderItems.isEmpty()) {
+                if (orderItems.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please add at least one item to your basket");
                 } else{
                     JFrame frame = new JFrame("Checkout");
@@ -68,9 +75,11 @@ public class OrderEdit extends JDialog {
             }
         });
 
+        checkoutButton.setPreferredSize(new Dimension(160, 60));
+
+        topPanel.add(checkoutButton);
+
         // Set up the layout
-        setLayout(new GridLayout(2, 1));  // 2 rows, 1 column
-        add(checkoutButton);
         JScrollPane scrollPane = new JScrollPane(orderItemsTable);
         add(scrollPane, BorderLayout.CENTER);
 
@@ -124,5 +133,11 @@ public class OrderEdit extends JDialog {
             button.setText("Remove");
             return button;
         }
+
+
+
+
+
+
     }
 }
