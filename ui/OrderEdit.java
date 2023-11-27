@@ -23,6 +23,7 @@ public class OrderEdit extends JDialog {
     private JButton removeButton;
     public List<OrderLine> orderItems;
 
+
     public OrderEdit(JFrame parent, ArrayList<OrderLine> orderItems, User user) {
         super(parent, "Edit Order", true);
 
@@ -54,13 +55,20 @@ public class OrderEdit extends JDialog {
         orderItemsTable.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
         orderItemsTable.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
 
+        setLayout(new BorderLayout());
+
+        // Create a top panel for buttons
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        add(topPanel, BorderLayout.NORTH);
+
+        // Checkout button
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-              if (orderItems.isEmpty()) {
+                if (orderItems.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Please add at least one item to your basket");
-                } else{
+                } else {
                     JFrame frame = new JFrame("Checkout");
                     frame.setContentPane(new ui.Checkout(orderItems, user).rootPanel);
                     frame.setSize(500, 300);
@@ -69,18 +77,36 @@ public class OrderEdit extends JDialog {
                 }
             }
         });
+        checkoutButton.setPreferredSize(new Dimension(161, 60));
+        topPanel.add(checkoutButton);
 
-        // Set up the layout
-        setLayout(new GridLayout(2, 1));  // 2 rows, 1 column
-        checkoutButton.setPreferredSize(new Dimension(100, 30));
-        add(checkoutButton, BorderLayout.SOUTH);
+// Set up the layout
         JScrollPane scrollPane = new JScrollPane(orderItemsTable);
         add(scrollPane, BorderLayout.NORTH);
+
+// Create a bottom panel for buttons
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Adjust as needed
+        add(bottomPanel, BorderLayout.SOUTH);
+
+// Back to Catalog button
+        JButton backToCatalogButton = new JButton("Back to Catalog");
+        backToCatalogButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Close the current window
+                dispose();
+            }
+        });
+        backToCatalogButton.setPreferredSize(new Dimension(180, 90)); // Adjust as needed
+        bottomPanel.add(backToCatalogButton);
 
         pack();
         setLocationRelativeTo(parent);
         setVisible(true);
+
     }
+
+
 
     private class ButtonRenderer extends JButton implements TableCellRenderer {
         public ButtonRenderer() {
@@ -127,5 +153,11 @@ public class OrderEdit extends JDialog {
             button.setText("Remove");
             return button;
         }
+
+
+
+
+
+
     }
 }

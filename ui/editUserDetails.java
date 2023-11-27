@@ -65,28 +65,16 @@ public class editUserDetails {
                                 " Please re-enter valid bank details!", "Error", JOptionPane.ERROR_MESSAGE);
                     } else {
                         if (Address.validAddress(new_houseNo, new_postcode) == null) {
-                            try {
-                                Address.createAddress(new_houseNo, new_postcode, new_street, new_country);
-                                user.setAddress(Address.validAddress(new_houseNo, new_postcode));
-                            } catch (SQLException ex) {
-                                throw new RuntimeException(ex);
-                            }
+                            Address.createAddress(new_houseNo, new_postcode, new_street, new_country);
+                            user.setAddress(Address.validAddress(new_houseNo, new_postcode));
                         } else if (Address.validAddress(user.getHouseNo(), user.getPostcode()).getCity() != new_country || Address.validAddress(user.getHouseNo(), user.getPostcode()).getStreetName() != new_street) {
-                            try {
-                                Address.updateAddress(user.getHouseNo(), user.getPostcode(), new_street, new_country);
-                                user.setAddress(Address.validAddress(new_houseNo, new_postcode));
-                            } catch (SQLException ex) {
-                                throw new RuntimeException(ex);
-                            }
+                            Address.updateAddress(user.getHouseNo(), user.getPostcode(), new_street, new_country);
+                            user.setAddress(Address.validAddress(new_houseNo, new_postcode));
                         }
                         if (bankID == 0) {
-                            try {
-                                BankDetails.addNewBankDetails(new_cardNo, new_cardName, new_expiry, new_cvv, new_cardType);
-                                bankID = BankDetails.findBankID(new_cardNo, new_cardName, new_expiry, new_cvv);
-                                user.setBankDetails(BankDetails.bankExists(bankID));
-                            } catch (SQLException ex) {
-                                throw new RuntimeException(ex);
-                            }
+                            BankDetails.addNewBankDetails(new_cardNo, new_cardName, new_expiry, new_cvv, new_cardType);
+                            bankID = BankDetails.findBankID(new_cardNo, new_cardName, new_expiry, new_cvv);
+                            user.setBankDetails(BankDetails.bankExists(bankID));
                         } else {
                             try {
                                 BankDetails.updateBankDetails(bankID, new_cardNo, new_cardName, new_expiry, new_cvv, new_cardType);

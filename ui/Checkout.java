@@ -67,11 +67,7 @@ public class Checkout {
                 if (!areBankDetailsFilledIn()) {
                     JOptionPane.showMessageDialog(null, "Please fill in all bank details.");
                 } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText()) ) {
-                    try {
-                        BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     try {
                         BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());

@@ -132,7 +132,7 @@ public class User {
         users.add(newUser);
     }
 
-    public static User validUser(String email, String password) throws SQLException {
+    public static User validUser(String email, String password) {
         for (User user : User.users) {
             if (user.email.equals(email) && user.password.equals(hashPassword(password))) {
                 return user; // Found a matching user
