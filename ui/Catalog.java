@@ -106,11 +106,7 @@ public class Catalog extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
-                    try {
-                        App.showCategories(user);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    App.showCategories(user);
                 }
             });
 
