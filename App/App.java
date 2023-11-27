@@ -355,4 +355,12 @@ public class App {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+
+    public static void managerDashboard(User user) {
+        JFrame frame = new JFrame("Manager Dashboard");
+        frame.setContentPane(new ui.managerDashboard(user, frame).rootPanel);
+        frame.setSize(500, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
 }
