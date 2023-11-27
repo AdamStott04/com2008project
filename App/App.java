@@ -8,9 +8,12 @@ import ui.userDashboard;
 import user.Address;
 import user.BankDetails;
 import user.User;
+import items.OrderLine;
 
 import javax.swing.*;
 import java.sql.*;
+import user.Order;
+import java.util.ArrayList;
 
 import static user.User.createUser;
 
@@ -76,8 +79,8 @@ public class App {
                 int isManager = userSet.getInt("isManager");
                 int bankID = userSet.getInt("bankID");
                 createUser(id, forename, surname, email, password, houseNo, postcode, isStaff, isManager, bankID);
-
             }
+
             preparedStatement.close();
             preparedStatement2.close();
             preparedStatement3.close();
@@ -87,219 +90,6 @@ public class App {
         }
     }
 
-    public static ResultSet loadLocomotives() {
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(database.url, database.username, database.password);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Create the sql to gather all user data from sql table.
-        String sql = "SELECT * FROM items WHERE productCode LIKE 'L%';";
-        ResultSet locomotiveSet = null;
-
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = con.prepareStatement(sql);
-
-            locomotiveSet = preparedStatement.executeQuery();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return locomotiveSet;
-    }
-
-    public static ResultSet loadControllers() {
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(database.url, database.username, database.password);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Create the sql to gather all user data from sql table.
-        String sql = "SELECT * FROM items WHERE productCode LIKE 'C%';";
-        ResultSet controllerSet = null;
-
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = con.prepareStatement(sql);
-
-            controllerSet = preparedStatement.executeQuery();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return controllerSet;
-    }
-
-    public static ResultSet loadTrack() {
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(database.url, database.username, database.password);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Create the sql to gather all user data from sql table.
-        String sql = "SELECT * FROM items WHERE productCode LIKE 'R%';";
-        ResultSet trackSet = null;
-
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = con.prepareStatement(sql);
-
-            trackSet = preparedStatement.executeQuery();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return trackSet;
-    }
-
-    public static ResultSet loadCarriages() {
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(database.url, database.username, database.password);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Create the sql to gather all user data from sql table.
-        String sql = "SELECT * FROM items WHERE productCode LIKE 'S%';";
-        ResultSet carriageSet = null;
-
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = con.prepareStatement(sql);
-
-            carriageSet = preparedStatement.executeQuery();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return carriageSet;
-    }
-
-    public static ResultSet loadTrackPacks() {
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(database.url, database.username, database.password);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Create the sql to gather all user data from sql table.
-        String sql = "SELECT * FROM items WHERE productCode LIKE 'P%';";
-        ResultSet trackPackSet = null;
-
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = con.prepareStatement(sql);
-
-            trackPackSet = preparedStatement.executeQuery();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return trackPackSet;
-    }
-
-    public static ResultSet loadTrainsets() {
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(database.url, database.username, database.password);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Create the sql to gather all user data from sql table.
-        String sql = "SELECT * FROM items WHERE productCode LIKE 'M%';";
-        ResultSet trainsetSet = null;
-
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = con.prepareStatement(sql);
-
-            trainsetSet = preparedStatement.executeQuery();
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return trainsetSet;
-    }
-
-    public static String[] getItemDetails(String productCode) {
-        ResultSet resultItem = null;
-        String[] details = new String[3];
-        try (Connection con = database.connect();
-             PreparedStatement preparedStatement = con.prepareStatement(
-                     "SELECT * FROM items WHERE productCode = ?"
-             )) {
-            preparedStatement.setString(1, productCode);
-            resultItem = preparedStatement.executeQuery();
-            if (resultItem.next()) {
-                details[0] = resultItem.getString("brand");
-                details[1] = resultItem.getString("productName");
-                details[2] = "" + resultItem.getDouble("price");
-            }
-
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        return details;
-    }
-
-    public static int loadOrders() {
-        Connection con = null;
-        int ordersCount = 0;
-        try {
-            con = DriverManager.getConnection(database.url, database.username, database.password);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Create the sql to gather all user data from sql table.
-        String sql = "SELECT COUNT(*) FROM orders;";
-        ResultSet orderSet = null;
-
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = con.prepareStatement(sql);
-            orderSet = preparedStatement.executeQuery();
-            orderSet.next();
-
-            ordersCount = orderSet.getInt(1);
-
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return ordersCount;
-    }
-
-    public static int loadOrderLines() {
-        Connection con = null;
-        int ordersCount = 0;
-        try {
-            con = DriverManager.getConnection(database.url, database.username, database.password);
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-
-        // Create the sql to gather all user data from sql table.
-        String sql = "SELECT COUNT(*) FROM orderLines;";
-        ResultSet orderSet = null;
-
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = con.prepareStatement(sql);
-            orderSet = preparedStatement.executeQuery();
-            orderSet.next();
-
-            ordersCount = orderSet.getInt(1);
-
-        } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return ordersCount;
-    }
     public static void login() throws SQLException {
         JFrame frame = new JFrame("Login");
         frame.setContentPane(new LoginPage(frame).rootPanel);
@@ -355,6 +145,11 @@ public class App {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
+
+    public static void showPastOrders(User user) throws SQLException {
+        JFrame frame = new JFrame("Past Orders");
+        frame.setContentPane(new ui.PastOrders(user).rootPanel);
+        frame.setSize(1000, 300);
 
     public static void managerDashboard(User user) {
         JFrame frame = new JFrame("Manager Dashboard");

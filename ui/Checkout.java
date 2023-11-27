@@ -51,9 +51,11 @@ public class Checkout {
 
         Double total = 0.00;
         for (OrderLine item : orderItems) {
-            String[] details = App.getItemDetails(item.getProductCode());
+            int quantity = item.getQuantity();
+            String[] details = Item.getItemDetails(item.getProductCode());
             Double price = Double.parseDouble(details[2]);
-            total += price;
+            Double pricePerQuantity = price*quantity;
+            total += pricePerQuantity;
         }
 
         String formattedTotal = String.format("%.2f", total);
@@ -67,10 +69,16 @@ public class Checkout {
                 } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText()) ) {
                     BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
                     JOptionPane.showMessageDialog(null, "Processing Order");
-                    BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
+                    try {
+                        BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                    Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user)){
                     JOptionPane.showMessageDialog(null, "Processing Order");
+                    Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid bank details.");

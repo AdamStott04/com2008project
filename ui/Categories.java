@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.awt.event.ActionListener;
 
+import items.Item;
 import user.User;
 
 public class Categories extends JFrame {
@@ -19,13 +20,22 @@ public class Categories extends JFrame {
 
     public JPanel rootPanel;
     private JButton backButton;
+    private JButton viewCurrentOrderButton;
 
     public Categories(User user) {
+        viewCurrentOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                OrderEdit orderEdit = new OrderEdit(Categories.this, user.getCurrentOrder(), user);
+            }
+        });
         locomotivesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    App.showCatalog(App.loadLocomotives(), user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.showCatalog(Item.loadLocomotives(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -35,7 +45,9 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    App.showCatalog(App.loadTrackPacks(), user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.showCatalog(Item.loadTrackPacks(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -45,7 +57,9 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    App.showCatalog(App.loadControllers(), user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.showCatalog(Item.loadControllers(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -55,7 +69,9 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    App.showCatalog(App.loadTrainsets(), user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.showCatalog(Item.loadTrainsets(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -65,7 +81,9 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    App.showCatalog(App.loadCarriages(), user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.showCatalog(Item.loadCarriages(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -75,7 +93,9 @@ public class Categories extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    App.showCatalog(App.loadTrack(), user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.showCatalog(Item.loadTrack(), user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -84,6 +104,8 @@ public class Categories extends JFrame {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
                 App.userDashboard(user);
             }
         });

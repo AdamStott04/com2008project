@@ -29,4 +29,7 @@ public class OrderLine {
                 ", orderID=" + orderID +
                 '}';
     }
+
+    public int getLineID() { return lineID; }
+    public int getOrderID() { return orderID; }
 }

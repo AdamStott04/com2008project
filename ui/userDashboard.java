@@ -31,13 +31,25 @@ public class userDashboard {
         catalogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                App.showCategories(user);
+                try {
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.showCategories(user);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         pastOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.showPastOrders(user);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         editAccountDetailsButton.addActionListener(new ActionListener() {
@@ -55,6 +67,7 @@ public class userDashboard {
         staffDashboardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                 frame.dispose();
                 App.staffDashboard(user);
             }
@@ -62,6 +75,7 @@ public class userDashboard {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                 frame.dispose();
                 try {
                     App.login();
