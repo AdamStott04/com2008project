@@ -26,7 +26,7 @@ public class LoginPage extends JFrame {
     private JButton registerButton;
 
 
-    public LoginPage(JFrame frame) throws SQLException {
+    public LoginPage(JFrame frame) {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -34,17 +34,13 @@ public class LoginPage extends JFrame {
                 String email_entered = emailTextField.getText();
                 char[] password = passwordPasswordField.getPassword();
                 String password_entered = new String(password);
-                try {
-                    User user = User.validUser(email_entered, password_entered);
-                    if (user != null) {
-                        frame.dispose();
-                        App.userDashboard(user);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "The email or password you have entered is incorrect." +
-                                " Please try again!", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+                User user = User.validUser(email_entered, password_entered);
+                if (user != null) {
+                    frame.dispose();
+                    App.userDashboard(user);
+                } else {
+                    JOptionPane.showMessageDialog(null, "The email or password you have entered is incorrect." +
+                            " Please try again!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

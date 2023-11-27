@@ -105,11 +105,7 @@ public class Catalog extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     dispose(); // Close the current JFrame
-                    try {
-                        App.showCategories(user);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
-                    }
+                    App.showCategories(user);
                 }
             });
 

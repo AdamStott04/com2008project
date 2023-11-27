@@ -92,7 +92,7 @@ public class BankDetails {
         return String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3 && (cardType.equals("Visa") || cardType.equals("Mastercard"));
     }
 
-    public static BankDetails bankExists(int bankID) throws SQLException {
+    public static BankDetails bankExists(int bankID) {
         for (BankDetails BankDetails : BankDetails.bankDetails) {
             if (BankDetails.bankID == bankID) {
                 return BankDetails; // Found a matching bank account
@@ -101,7 +101,7 @@ public class BankDetails {
         return null; // No matching bank account found
     }
 
-    public static int findBankID(long cardNo, String cardName, String expiryDate, int cvv) throws SQLException {
+    public static int findBankID(long cardNo, String cardName, String expiryDate, int cvv) {
         ResultSet result = null;
         int bankId = 0;
         try (Connection con = database.connect();
@@ -121,7 +121,7 @@ public class BankDetails {
         }
         return bankId;
     }
-    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv, String cardType) throws SQLException {
+    public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
         int ID = 0;
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(

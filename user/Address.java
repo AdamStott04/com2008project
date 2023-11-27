@@ -36,7 +36,7 @@ public class Address {
 
     public static ArrayList<Address> addresses = new ArrayList<>();
 
-    public static void createAddress(int houseNumber, String postcode, String streetName, String city) throws SQLException {
+    public static void createAddress(int houseNumber, String postcode, String streetName, String city) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO addresses VALUES (?, ?, ?, ?);")) {
@@ -63,7 +63,7 @@ public class Address {
         return null; // No matching address found
     }
 
-    public static void updateAddress(int oldHouseNo, String oldPostcode, String newStreet, String newCity) throws SQLException {
+    public static void updateAddress(int oldHouseNo, String oldPostcode, String newStreet, String newCity) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "UPDATE addresses SET street = ?, city = ? " +

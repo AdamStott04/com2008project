@@ -31,11 +31,7 @@ public class userDashboard {
         catalogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    App.showCategories(user);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                App.showCategories(user);
             }
         });
         pastOrdersButton.addActionListener(new ActionListener() {

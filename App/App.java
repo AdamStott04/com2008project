@@ -103,7 +103,7 @@ public class App {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            locomotiveSet = preparedStatement.executeQuery();;
+            locomotiveSet = preparedStatement.executeQuery();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -126,7 +126,7 @@ public class App {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            controllerSet = preparedStatement.executeQuery();;
+            controllerSet = preparedStatement.executeQuery();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -149,7 +149,7 @@ public class App {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            trackSet = preparedStatement.executeQuery();;
+            trackSet = preparedStatement.executeQuery();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -172,7 +172,7 @@ public class App {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            carriageSet = preparedStatement.executeQuery();;
+            carriageSet = preparedStatement.executeQuery();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -195,7 +195,7 @@ public class App {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            trackPackSet = preparedStatement.executeQuery();;
+            trackPackSet = preparedStatement.executeQuery();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -218,7 +218,7 @@ public class App {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            trainsetSet = preparedStatement.executeQuery();;
+            trainsetSet = preparedStatement.executeQuery();
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
@@ -332,7 +332,7 @@ public class App {
         frame.setVisible(true);
     }
 
-    public static void showCategories(User user) throws SQLException {
+    public static void showCategories(User user) {
         JFrame frame = new JFrame("Categories");
         frame.setContentPane(new ui.Categories(user).rootPanel);
         frame.setSize(500, 300);
