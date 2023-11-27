@@ -57,11 +57,8 @@ public class OrderEdit extends JDialog {
 
         setLayout(new BorderLayout());
 
-        // Create a top panel for buttons
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        add(topPanel, BorderLayout.NORTH);
 
-        // Checkout button
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(new ActionListener() {
             @Override
@@ -79,26 +76,24 @@ public class OrderEdit extends JDialog {
         });
         checkoutButton.setPreferredSize(new Dimension(161, 60));
         topPanel.add(checkoutButton);
+        add(topPanel, BorderLayout.NORTH);
 
-// Set up the layout
+
         JScrollPane scrollPane = new JScrollPane(orderItemsTable);
-        add(scrollPane, BorderLayout.NORTH);
+        add(scrollPane, BorderLayout.CENTER);
 
-// Create a bottom panel for buttons
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // Adjust as needed
-        add(bottomPanel, BorderLayout.SOUTH);
 
-// Back to Catalog button
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JButton backToCatalogButton = new JButton("Back to Catalog");
         backToCatalogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Close the current window
                 dispose();
             }
         });
-        backToCatalogButton.setPreferredSize(new Dimension(180, 90)); // Adjust as needed
+        backToCatalogButton.setPreferredSize(new Dimension(180, 90));
         bottomPanel.add(backToCatalogButton);
+        add(bottomPanel, BorderLayout.SOUTH);
 
         pack();
         setLocationRelativeTo(parent);
