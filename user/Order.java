@@ -76,4 +76,13 @@ public class Order {
 
     }
 
+    public String toString() {
+        return "Order{" +
+                "orderID='" + orderID + '\'' +
+                ", userID=" + userID + '\'' +
+                ", orderDate=" + orderDate + '\'' +
+                ", status=" + status +
+                '}';
+    }
+
 }

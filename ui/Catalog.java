@@ -240,16 +240,5 @@ public class Catalog extends JFrame {
             }
         });
 
-        // Show the option pane with the custom panel
-        int result = JOptionPane.showOptionDialog(
-                this,
-                panel,
-                "Item Information",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.INFORMATION_MESSAGE,
-                null,
-                new Object[]{},
-                null);
-
     }
 }

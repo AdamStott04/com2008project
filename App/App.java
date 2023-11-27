@@ -8,6 +8,7 @@ import ui.userDashboard;
 import user.Address;
 import user.BankDetails;
 import user.User;
+import items.OrderLine;
 
 import javax.swing.*;
 import java.sql.*;
@@ -227,7 +228,7 @@ public class App {
         return trainsetSet;
     }
 
-    public static ArrayList<Order> loadPastOrders(User user) {
+    public static ArrayList<Order> loadUserPastOrders(User user) {
         ArrayList<Order> orders = new ArrayList<>();
         int userID = user.getId();
 
@@ -248,6 +249,29 @@ public class App {
 
         return orders;
     }
+
+    public static ArrayList<OrderLine> loadOrderLines(int orderID) {
+        ArrayList<OrderLine> orderLines = new ArrayList<>();
+
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement("SELECT * FROM orderLines WHERE orderID = ?")) {
+            preparedStatement.setInt(1, orderID);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    OrderLine orderLine = new OrderLine(resultSet.getString("productCode"), resultSet.getInt("quantity"), resultSet.getInt("lineID"), orderID);
+
+                    orderLines.add(orderLine);
+                }
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        return orderLines;
+    }
+
+
 
     public static String[] getItemDetails(String productCode) {
         ResultSet resultItem = null;

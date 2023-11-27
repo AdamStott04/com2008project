@@ -1,16 +1,21 @@
 package ui;
 
 import App.App;
+import items.*;
 import user.User;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 import user.Order;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class PastOrders extends JFrame {
 
@@ -20,7 +25,7 @@ public class PastOrders extends JFrame {
     private JButton backToDashboardButton;
 
     public PastOrders (User user) throws SQLException {
-        ArrayList<Order> orders = App.loadPastOrders(user);
+        ArrayList<Order> orders = App.loadUserPastOrders(user);
         DefaultTableModel tableModel = new DefaultTableModel();
 
         // Create columns based on ResultSet metadata
@@ -44,6 +49,41 @@ public class PastOrders extends JFrame {
                 App.userDashboard(user);
             }
         });
+        ordersTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = ordersTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        displayOrderInformation(selectedRow, orders);
+                    }
+                }
+            }
+        });
+
+    }
+    private void displayOrderInformation(int rowIndex, List<Order> orders) {
+        JPanel panel = new JPanel(new GridLayout(0, 1));
+        // Retrieve information about the selected item
+        System.out.println(rowIndex);
+        System.out.println(orders.get(rowIndex).toString());
+        Order selectedOrder = orders.get(rowIndex);
+        ArrayList<OrderLine> orderLines = App.loadOrderLines(selectedOrder.getOrderID());
+        System.out.println(orderLines);
+        int count = 1;
+        for (OrderLine line : orderLines) {
+            String productCode = line.getProductCode();
+            String[] itemDetails = App.getItemDetails(productCode);
+            String brand = itemDetails[0];
+            String productName = itemDetails[1];
+            String price = itemDetails[2];
+            panel.add(new JLabel("<html><b>Item " + count + ":</b></html>"));
+            panel.add(new JLabel("Brand: " + brand));
+            panel.add(new JLabel("Name : " + productName));
+            panel.add(new JLabel("Price: " + price));
+            count += 1;
+        }
+        JOptionPane.showMessageDialog(this, panel, "Order Information", JOptionPane.INFORMATION_MESSAGE);
     }
 
 }
