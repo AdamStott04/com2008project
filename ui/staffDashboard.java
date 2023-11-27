@@ -1,10 +1,13 @@
 package ui;
 
 import javax.swing.*;
+
+import items.Item;
 import user.User;
 import App.App;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class staffDashboard {
     public JPanel rootPanel;
@@ -27,42 +30,78 @@ public class staffDashboard {
         trainSetsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
+                try {
+                    App.showStaffCatalog(Item.loadTrainsets(), user);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
         trackPacksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
+                try {
+                    App.showStaffCatalog(Item.loadTrackPacks(), user);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
         locomotivesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
+                try {
+                    App.showStaffCatalog(Item.loadLocomotives(), user);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
         rollingStockButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
+                try {
+                    App.showStaffCatalog(Item.loadCarriages(), user);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
         trackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
+                try {
+                    App.showStaffCatalog(Item.loadTrack(), user);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
         controllersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
+                try {
+                    App.showStaffCatalog(Item.loadControllers(), user);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 

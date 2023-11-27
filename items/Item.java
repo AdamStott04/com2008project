@@ -3,6 +3,7 @@ package items;
 import database.database;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class Item {
     public enum Gauge {OO, TT, N}
@@ -40,6 +41,9 @@ public class Item {
     }
 
     public int getStockCount() { return stockCount; }
+
+    public String getProductCode() { return productCode; }
+
     public static String[] getItemDetails(String productCode) {
         ResultSet resultItem = null;
         String[] details = new String[3];
@@ -192,6 +196,17 @@ public class Item {
             throw new RuntimeException(ex);
         }
         return locomotiveSet;
+    }
+    public static void setStock (String productCode, int newStock) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "UPDATE items SET stockCount = ? WHERE productCode = ?;")) {
+            preparedStatement.setInt(1, newStock);
+            preparedStatement.setString(2, productCode);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

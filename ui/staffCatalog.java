@@ -1,31 +1,28 @@
 package ui;
 
+import App.App;
 import items.*;
-import items.Item.Gauge;
-import java.util.ArrayList;
-import java.util.List;
+import user.User;
+
 import javax.swing.*;
-import java.sql.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import user.Order;
-import user.Order.Status;
-import user.User;
-import App.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Catalog extends JFrame {
+public class staffCatalog extends JFrame {
     public JPanel rootPanel;
-    private JScrollPane itemsList;
-    private JTable rows;
-    private JButton viewCurrentOrderButton;
+    private JScrollPane scrollPane;
+    private JTable itemsTable;
     private JButton backButton;
     private List<Item> allItemsInOrder;
-
-    public Catalog(ResultSet items, User user) throws SQLException {
+    public staffCatalog(ResultSet items, User user) throws SQLException {
         try {
             DefaultTableModel tableModel = new DefaultTableModel();
 
@@ -45,7 +42,7 @@ public class Catalog extends JFrame {
 
                 tableModel.addRow(row);
                 if (items.getString("productCode").charAt(0) == 'L'){
-                    Locomotive locomotive = new Locomotive(Gauge.valueOf(items.getString("gauge")),
+                    Locomotive locomotive = new Locomotive(Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("era"), items.getString("brand"),
                             items.getString("productName"), items.getString("productCode"),
                             items.getDouble("price"), items.getInt("stockCount"),
@@ -59,7 +56,7 @@ public class Catalog extends JFrame {
                     allItemsInOrder.add(controller);
                 }
                 else if (items.getString("productCode").charAt(0) == 'R') {
-                    Track newTrack = new Track(Gauge.valueOf(items.getString("gauge")),
+                    Track newTrack = new Track(Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
@@ -67,21 +64,21 @@ public class Catalog extends JFrame {
                 }
                 else if (items.getString("productCode").charAt(0) == 'S') {
                     Carriage carriage = new Carriage(items.getString("era"),
-                            Gauge.valueOf(items.getString("gauge")),
+                            Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(carriage);
                 }
                 else if (items.getString("productCode").charAt(0) == 'P') {
-                    TrackPack trackpack = new TrackPack(Gauge.valueOf(items.getString("gauge")),
+                    TrackPack trackpack = new TrackPack(Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(trackpack);
                 }
                 else if (items.getString("productCode").charAt(0) == 'M'){
-                    TrainSet trainset = new TrainSet(Gauge.valueOf(items.getString("gauge")),
+                    TrainSet trainset = new TrainSet(Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("era"), items.getString("brand"),
                             items.getString("productName"), items.getString("productCode"),
                             items.getDouble("price"), items.getInt("stockCount"),
@@ -90,31 +87,23 @@ public class Catalog extends JFrame {
                 }
             }
 
-            rows.setModel(tableModel);
-            rows.setDefaultEditor(Object.class, null);
-            itemsList.setViewportView(rows);
-
-            viewCurrentOrderButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    OrderEdit orderEdit = new OrderEdit(Catalog.this, user.getCurrentOrder(), user);
-                }
-            });
-
+            itemsTable.setModel(tableModel);
+            itemsTable.setDefaultEditor(Object.class, null);
+            scrollPane.setViewportView(itemsTable);
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
-                    App.showCategories(user);
+                    App.staffDashboard(user);
                 }
             });
 
-            rows.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            itemsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
                     if (!e.getValueIsAdjusting()) {
-                        int selectedRow = rows.getSelectedRow();
+                        int selectedRow = itemsTable.getSelectedRow();
                         if (selectedRow != -1) {
                             displayItemInformation(selectedRow, allItemsInOrder, user);
                         }
@@ -131,8 +120,6 @@ public class Catalog extends JFrame {
     private void displayItemInformation(int rowIndex, List<Item> allItems, User user) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         // Retrieve information about the selected item
-        System.out.println(rowIndex);
-        System.out.println(allItems.get(rowIndex));
         Item selectedItem = allItems.get(rowIndex);
         String productName = selectedItem.getName();
         String brand = selectedItem.getBrand();
@@ -142,60 +129,67 @@ public class Catalog extends JFrame {
         panel.add(new JLabel("Item: " + productName));
         panel.add(new JLabel("Brand: " + brand));
         panel.add(new JLabel("Price: £" + price));
-        panel.add(new JLabel("Stock: " + stockCount));
-
 
         // Check the type of the selected item and cast it accordingly
         if (selectedItem instanceof Locomotive) {
             Locomotive locomotive = (Locomotive) selectedItem;
-            Gauge gauge = locomotive.getGauge();
+            Item.Gauge gauge = locomotive.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
             String era = locomotive.getEra();
             panel.add(new JLabel("Era: " + era));
         }
         else if (selectedItem instanceof Track) {
             Track track = (Track) selectedItem;
-            Gauge gauge = track.getGauge();
+            Item.Gauge gauge = track.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
         }
         else if (selectedItem instanceof Carriage) {
             Carriage carriage = (Carriage) selectedItem;
-            Gauge gauge = carriage.getGauge();
+            Item.Gauge gauge = carriage.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
             String era = carriage.getEra();
             panel.add(new JLabel("Era: " + era));
         }
         else if (selectedItem instanceof TrackPack) {
             TrackPack trackPack = (TrackPack) selectedItem;
-            Gauge gauge = trackPack.getGauge();
+            Item.Gauge gauge = trackPack.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
             String description = trackPack.getDescription();
             panel.add(new JLabel("Description: " + description));
         }
         else if (selectedItem instanceof TrainSet) {
             TrainSet trainSet = (TrainSet) selectedItem;
-            Gauge gauge = trainSet.getGauge();
+            Item.Gauge gauge = trainSet.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
             String description = trainSet.getDescription();
             panel.add(new JLabel("Description: " + description));
         }
-        // Add buttons for user interaction
-        Integer[] quantityOptions = new Integer[stockCount]; //make sure you cant select more than there is stock
 
-        for (int i = 0; i < stockCount; i++) {
-            quantityOptions[i] = i + 1;
-        }
-        System.out.println("stockCount: ");
-        System.out.println(stockCount);
-        System.out.println("quantity options: ");
-        System.out.println(quantityOptions);
+        panel.add(new JLabel("Current stock level: " + stockCount));
 
-        JComboBox<Integer> quantityComboBox = new JComboBox<>(quantityOptions);
-        quantityComboBox.setSelectedItem(1); //default is 1
-        panel.add(new JLabel("Quantity:"));
-        panel.add(quantityComboBox);
 
-        JButton addButton = new JButton("Add to Order");
+        JLabel newStockLabel = new JLabel("New stock level:");
+        panel.add(newStockLabel);
+
+        // Create a JTextField for user entry
+        JTextField newStockField = new JTextField();
+        panel.add(newStockField);
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(e -> {
+            String newStockString = newStockField.getText();
+            String productCode = selectedItem.getProductCode();
+            try {
+                int newStock = Integer.parseInt(newStockString);
+                if (newStock > 0) { // stock cant be negative
+                    Item.setStock(productCode, newStock);
+                }
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid integer for new stock count.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        panel.add(submitButton);
+
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -211,25 +205,7 @@ public class Catalog extends JFrame {
             }
         });
 
-        panel.add(addButton);
         panel.add(cancelButton);
-
-        // ActionListener for the Add to Order button
-        addButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int lineID = 1;
-                int selectedQuantity = (Integer) quantityComboBox.getSelectedItem();
-                if (user.getCurrentOrder() != null) {
-                    lineID = user.getCurrentOrder().size();
-                }
-                OrderLine newLine = new OrderLine(selectedItem.productCode, selectedQuantity, lineID, 1);
-                user.addToCurrentOrder(newLine);
-                JOptionPane.showMessageDialog(null, "Item added to order!");
-                dispose();
-
-            }
-        });
 
         // ActionListener for the Cancel button
 
@@ -244,3 +220,4 @@ public class Catalog extends JFrame {
                 null);
     }
 }
+

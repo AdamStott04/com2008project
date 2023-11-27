@@ -17,7 +17,13 @@
         <children>
           <component id="7aeb9" class="javax.swing.JTable" binding="ordersTable">
             <constraints/>
-            <properties/>
+            <properties>
+              <background color="-2104859"/>
+              <gridColor color="-16777216"/>
+              <rowHeight value="30"/>
+              <selectionBackground color="-2104859"/>
+              <showVerticalLines value="false"/>
+            </properties>
           </component>
         </children>
       </scrollpane>

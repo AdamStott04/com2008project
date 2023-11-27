@@ -122,6 +122,14 @@ public class App {
         frame.setVisible(true);
     }
 
+    public static void showStaffCatalog(ResultSet items, User user) throws SQLException {
+        JFrame frame = new JFrame("Catalog");
+        frame.setContentPane(new ui.staffCatalog(items, user).rootPanel);
+        frame.setSize(500, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
     public static void showCategories(User user) {
         JFrame frame = new JFrame("Categories");
         frame.setContentPane(new ui.Categories(user).rootPanel);
@@ -150,5 +158,7 @@ public class App {
         JFrame frame = new JFrame("Past Orders");
         frame.setContentPane(new ui.PastOrders(user).rootPanel);
         frame.setSize(1000, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 }
