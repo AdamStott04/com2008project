@@ -240,17 +240,13 @@ public class Catalog extends JFrame {
                 OrderLine newLine = new OrderLine(selectedItem.productCode, selectedQuantity, lineID, 1);
                 user.addToCurrentOrder(newLine);
                 JOptionPane.showMessageDialog(null, "Item added to order!");
+                dispose();
+
             }
         });
 
         // ActionListener for the Cancel button
-        cancelButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // User chose not to add the item
-                JOptionPane.showMessageDialog(null, "Cancelled.");
-            }
-        });
+
         int result = JOptionPane.showOptionDialog(
                 this,
                 panel,
