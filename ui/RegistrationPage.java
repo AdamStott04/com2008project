@@ -58,7 +58,7 @@ public class RegistrationPage extends JFrame {
                             " Please re-enter a unique email!", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
                     // Create address instance in db first, so it can be used in user table
-                    String address_sql = "INSERT INTO addresses (houseNo, postcode, street, country) VALUES (?, ?, ?, ?)";
+                    String address_sql = "INSERT INTO addresses (houseNo, postcode, street, city) VALUES (?, ?, ?, ?)";
 
                     PreparedStatement preparedStatement = null;
                     try {
