@@ -73,6 +73,8 @@ public class managerDashboard {
                     } catch (SQLException ex) {
                         throw new RuntimeException(ex);
                     }
+                } else {
+                    JOptionPane.showMessageDialog(null, "User does not exist or is already staff.");
                 }
             }
         });
