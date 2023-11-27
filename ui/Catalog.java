@@ -155,10 +155,12 @@ public class Catalog extends JFrame {
         String productName = selectedItem.getName();
         String brand = selectedItem.getBrand();
         Double price = selectedItem.getPrice();
+        int stockCount = selectedItem.getStockCount();
 
         panel.add(new JLabel("Item: " + productName));
         panel.add(new JLabel("Brand: " + brand));
         panel.add(new JLabel("Price: £" + price));
+        panel.add(new JLabel("Stock: " + stockCount));
 
 
         // Check the type of the selected item and cast it accordingly
@@ -196,6 +198,21 @@ public class Catalog extends JFrame {
             panel.add(new JLabel("Description: " + description));
         }
         // Add buttons for user interaction
+        Integer[] quantityOptions = new Integer[stockCount]; //make sure you cant select more than there is stock
+
+        for (int i = 0; i < stockCount; i++) {
+            quantityOptions[i] = i + 1;
+        }
+        System.out.println("stockCount: ");
+        System.out.println(stockCount);
+        System.out.println("quantity options: ");
+        System.out.println(quantityOptions);
+
+        JComboBox<Integer> quantityComboBox = new JComboBox<>(quantityOptions);
+        quantityComboBox.setSelectedItem(1); //default is 1
+        panel.add(new JLabel("Quantity:"));
+        panel.add(quantityComboBox);
+
         JButton addButton = new JButton("Add to Order");
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new ActionListener() {
@@ -220,10 +237,11 @@ public class Catalog extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int lineID = 1;
+                int selectedQuantity = (Integer) quantityComboBox.getSelectedItem();
                 if (user.getCurrentOrder() != null) {
                     lineID = user.getCurrentOrder().size();
                 }
-                OrderLine newLine = new OrderLine(selectedItem.productCode, 1, lineID, 1);
+                OrderLine newLine = new OrderLine(selectedItem.productCode, selectedQuantity, lineID, 1);
                 user.addToCurrentOrder(newLine);
                 JOptionPane.showMessageDialog(null, "Item added to order!");
             }
@@ -235,10 +253,16 @@ public class Catalog extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // User chose not to add the item
                 JOptionPane.showMessageDialog(null, "Cancelled.");
-                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
-                frame.dispose();
             }
         });
-
+        int result = JOptionPane.showOptionDialog(
+                this,
+                panel,
+                "Item Information",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                new Object[]{},
+                null);
     }
 }

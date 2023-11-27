@@ -35,6 +35,7 @@ public class OrderEdit extends JDialog {
         tableModel.addColumn("Brand");
         tableModel.addColumn("Name");
         tableModel.addColumn("Price");
+        tableModel.addColumn("Quantity");
         tableModel.addColumn("Remove");
 
         // Populate the table with order items
@@ -44,13 +45,14 @@ public class OrderEdit extends JDialog {
             String brand = details[0];
             String name = details[1];
             Double price = Double.parseDouble(details[2]);
-            Object[] row = new Object[]{brand, name, price, "Remove"};
+            int quantity = item.getQuantity();
+            Object[] row = new Object[]{brand, name, price, quantity, "Remove"};
             tableModel.addRow(row);
         }
 
         // Add a button column with a custom cell renderer
-        orderItemsTable.getColumnModel().getColumn(3).setCellRenderer(new ButtonRenderer());
-        orderItemsTable.getColumnModel().getColumn(3).setCellEditor(new ButtonEditor(new JCheckBox()));
+        orderItemsTable.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
+        orderItemsTable.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
 
         JButton checkoutButton = new JButton("Checkout");
         checkoutButton.addActionListener(new ActionListener() {

@@ -51,9 +51,11 @@ public class Checkout {
 
         Double total = 0.00;
         for (OrderLine item : orderItems) {
+            int quantity = item.getQuantity();
             String[] details = App.getItemDetails(item.getProductCode());
             Double price = Double.parseDouble(details[2]);
-            total += price;
+            Double pricePerQuantity = price*quantity;
+            total += pricePerQuantity;
         }
 
         String formattedTotal = String.format("%.2f", total);

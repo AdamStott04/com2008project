@@ -77,10 +77,12 @@ public class PastOrders extends JFrame {
             String brand = itemDetails[0];
             String productName = itemDetails[1];
             String price = itemDetails[2];
+            int quantity = line.getQuantity();
             panel.add(new JLabel("<html><b>Item " + count + ":</b></html>"));
             panel.add(new JLabel("Brand: " + brand));
             panel.add(new JLabel("Name : " + productName));
             panel.add(new JLabel("Price: " + price));
+            panel.add(new JLabel("Quantity: " + quantity));
             count += 1;
         }
         JOptionPane.showMessageDialog(this, panel, "Order Information", JOptionPane.INFORMATION_MESSAGE);

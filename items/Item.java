@@ -9,12 +9,12 @@ public class Item {
     public int stockCount;
     public String description;
 
-    public Item(String brand, String productName, String productCode, double price, int stockNumber, String description) {
+    public Item(String brand, String productName, String productCode, double price, int stockCount, String description) {
         this.brand = brand;
         this.productName = productName;
         this.productCode = productCode;
         this.price = price;
-        this.stockCount = stockNumber;
+        this.stockCount = stockCount;
         this.description = description;
     }
 
@@ -33,4 +33,6 @@ public class Item {
     public String getDescription() {
         return description;
     }
+
+    public int getStockCount() { return stockCount; }
 }
