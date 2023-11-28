@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,22 +23,48 @@ public class StaffPastOrders extends JFrame {
     private JScrollPane scrollPane;
     private JTable ordersTable;
     private JButton backToDashboardButton;
+    private User user;
+    private String status;
+    private DefaultTableModel tableModel = new DefaultTableModel();
+    private ArrayList<Order> orders;
+
     public StaffPastOrders(User user, String status) throws SQLException {
-        ArrayList<Order> orders = Order.loadAllPastOrders(status);
-        DefaultTableModel tableModel = new DefaultTableModel();
+        this.user = user;
+        this.status = status;
+        orders = Order.loadAllPastOrders(status);
 
         // Create columns based on ResultSet metadata
+        tableModel.addColumn("Order ID");
         tableModel.addColumn("Order Date");
         tableModel.addColumn("Status");
-        for (Order order : orders) {
-            Object[] row = new Object[2]; // Three columns: brand, productName, price
-            row[0] = order.getOrderDate();
-            row[1] = order.getStatus();
-            tableModel.addRow(row);
+        if (status.equals("Confirmed")) {
+            tableModel.addColumn("Fulfill?");
+            for (Order order : orders) {
+                Object[] row = new Object[4];
+                row[0] = order.getOrderID();
+                row[1] = order.getOrderDate();
+                row[2] = order.getStatus();
+                row[3] = "fulfill";
+                tableModel.addRow(row);
+            }
+        } else {
+            for (Order order : orders) {
+                Object[] row = new Object[3];
+                row[0] = order.getOrderID();
+                row[1] = order.getOrderDate();
+                row[2] = order.getStatus();
+                tableModel.addRow(row);
+            }
         }
+
         ordersTable.setModel(tableModel);
         ordersTable.setDefaultEditor(Object.class, null);
         scrollPane.setViewportView(ordersTable);
+
+        if (status.equals("Confirmed")){
+            ordersTable.getColumnModel().getColumn(3).setCellRenderer(new StaffPastOrders.ButtonRenderer());
+            ordersTable.getColumnModel().getColumn(3).setCellEditor(new StaffPastOrders.ButtonEditor(new JCheckBox()));
+        }
 
         backToDashboardButton.addActionListener(new ActionListener() {
             @Override
@@ -60,6 +87,13 @@ public class StaffPastOrders extends JFrame {
         });
 
     }
+
+    private void reloadOrders(User user, String status) throws SQLException {
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+        frame.dispose();
+        App.showAllPastOrders(user, status);
+    }
+
     private void displayOrderInformation(int rowIndex, List<Order> orders) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         // Retrieve information about the selected item
@@ -86,5 +120,48 @@ public class StaffPastOrders extends JFrame {
         JOptionPane.showMessageDialog(this, panel, "Order Information", JOptionPane.INFORMATION_MESSAGE);
     }
 
-}
+    private class ButtonRenderer extends JButton implements TableCellRenderer {
+        public ButtonRenderer() {
+            setOpaque(true);
+        }
 
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            setText("Fulfill");
+            return this;
+        }
+    }
+
+    private class ButtonEditor extends DefaultCellEditor {
+        private JButton button;
+
+        public ButtonEditor(JCheckBox checkBox) {
+            super(checkBox);
+            button = new JButton();
+            button.setOpaque(true);
+            button.addActionListener(e -> {
+                int clickedRow = ordersTable.convertRowIndexToModel(ordersTable.getEditingRow());
+                if (clickedRow != -1) {
+                    ordersTable.getCellEditor().stopCellEditing();
+                    // Remove the row from the table model
+                    tableModel.removeRow(clickedRow);
+                    Order order = orders.get(clickedRow);
+                    orders.remove(clickedRow);
+
+                    System.out.println(order);
+                    // Notify the table that the data has changed
+                    tableModel.fireTableRowsDeleted(clickedRow, clickedRow);
+                    Order.fulfill(order);
+                }
+            });
+        }
+
+        @Override
+        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+            button.setText("Fulfilling");
+            return button;
+        }
+
+
+    }
+}

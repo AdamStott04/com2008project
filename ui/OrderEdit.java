@@ -111,7 +111,7 @@ public class OrderEdit extends JDialog {
 
 
 
-    private class ButtonRenderer extends JButton implements TableCellRenderer {
+    class ButtonRenderer extends JButton implements TableCellRenderer {
         public ButtonRenderer() {
             setOpaque(true);
         }
@@ -148,13 +148,6 @@ public class OrderEdit extends JDialog {
                 }
             });
         }
-/*
-        private void fireTableDataChanged() {
-            // Notify the table that the data has changed
-            orderItemsTable.tableChanged(new javax.swing.event.TableModelEvent(tableModel));
-        }
-
- */
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             button.setText("Remove");

@@ -158,7 +158,7 @@ public class App {
     }
 
     public static void showUserPastOrders(User user) throws SQLException {
-        JFrame frame = new JFrame("Past Orders");
+        JFrame frame = new JFrame("My Past Orders");
         frame.setContentPane(new UserPastOrders(user).rootPanel);
         frame.setSize(1000, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
