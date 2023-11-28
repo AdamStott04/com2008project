@@ -89,6 +89,7 @@ public class App {
         JFrame frame = new JFrame("Login");
         frame.setContentPane(new LoginPage(frame).rootPanel);
         frame.setSize(500, 300);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -97,6 +98,7 @@ public class App {
         JFrame frame = new JFrame("Registration");
         frame.setContentPane(new RegistrationPage(frame).rootPanel);
         frame.setSize(500, 450);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -105,6 +107,7 @@ public class App {
         JFrame frame = new JFrame("Edit User Details");
         frame.setContentPane(new editUserDetails(user, frame).rootPanel);
         frame.setSize(500, 450);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -113,6 +116,7 @@ public class App {
         JFrame frame = new JFrame("Catalog");
         frame.setContentPane(new ui.Catalog(items, user).rootPanel);
         frame.setSize(500, 300);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -121,6 +125,7 @@ public class App {
         JFrame frame = new JFrame("Catalog Editor");
         frame.setContentPane(new ui.staffCatalog(items, user, category).rootPanel);
         frame.setSize(500, 300);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -129,6 +134,7 @@ public class App {
         JFrame frame = new JFrame("Categories");
         frame.setContentPane(new ui.Categories(user).rootPanel);
         frame.setSize(500, 300);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -137,6 +143,7 @@ public class App {
         JFrame frame = new JFrame("Dashboard");
         frame.setContentPane(new ui.userDashboard(user, frame).rootPanel);
         frame.setSize(500, 500);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -145,6 +152,7 @@ public class App {
         JFrame frame = new JFrame("Staff Dashboard");
         frame.setContentPane(new ui.staffDashboard(user, frame).rootPanel);
         frame.setSize(1000, 300);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -153,6 +161,7 @@ public class App {
         JFrame frame = new JFrame("Manager Dashboard");
         frame.setContentPane(new ui.managerDashboard(user, frame).rootPanel);
         frame.setSize(500, 300);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -161,6 +170,7 @@ public class App {
         JFrame frame = new JFrame("My Past Orders");
         frame.setContentPane(new UserPastOrders(user).rootPanel);
         frame.setSize(1000, 300);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
@@ -169,6 +179,7 @@ public class App {
         JFrame frame = new JFrame("Past Orders");
         frame.setContentPane(new StaffPastOrders(user, status).rootPanel);
         frame.setSize(1000, 300);
+        frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
