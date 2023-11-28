@@ -124,18 +124,25 @@ public class OrderEdit extends JDialog {
             button = new JButton();
             button.setOpaque(true);
             button.addActionListener(e -> {
-                int selectedRow = orderItemsTable.getSelectedRow();
-                if (selectedRow != -1) {
-                    int modelIndex = orderItemsTable.convertRowIndexToModel(selectedRow);
+                int clickedRow = orderItemsTable.convertRowIndexToModel(orderItemsTable.getEditingRow());
+                //int selectedRow = orderItemsTable.getSelectedRow();
+                if (clickedRow != -1) {
+                    //int modelIndex = orderItemsTable.convertRowIndexToModel(selectedRow);
 
                     // Remove the item from the orderItems list
-                    orderItems.remove(modelIndex);
+                    orderItems.remove(clickedRow);
 
                     // Remove the row from the table model
-                    tableModel.removeRow(modelIndex);
+                    tableModel.removeRow(clickedRow);
 
                     // Notify the table that the data has changed
                     fireTableDataChanged();
+
+                    System.out.println("----- ORDER ITEMS -----");
+                    System.out.println(orderItems);
+                    System.out.println("----- TABLE MODEL -----");
+                    System.out.println(tableModel.getDataVector());
+
                 }
             });
         }
