@@ -110,20 +110,6 @@ public class Catalog extends JFrame {
                 }
             });
 
-            System.out.println("Order in table model:");
-            for (int i = 0; i < tableModel.getRowCount(); i++) {
-                System.out.println(tableModel.getValueAt(i, 0) + ", " +
-                        tableModel.getValueAt(i, 1) + ", " +
-                        tableModel.getValueAt(i, 2));
-            }
-
-            System.out.println("Order in allItemsInOrder:");
-            for (Item item : allItemsInOrder) {
-                System.out.println(item.getBrand() + ", " +
-                        item.getName() + ", " +
-                        item.getPrice());
-            }
-
             rows.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {

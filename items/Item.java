@@ -1,8 +1,12 @@
 package items;
 
 import database.database;
+import user.Order;
+import user.User;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Item {
     public enum Gauge {OO, TT, N}
@@ -40,6 +44,9 @@ public class Item {
     }
 
     public int getStockCount() { return stockCount; }
+
+    public String getProductCode() { return productCode; }
+
     public static String[] getItemDetails(String productCode) {
         ResultSet resultItem = null;
         String[] details = new String[3];
@@ -193,5 +200,150 @@ public class Item {
         }
         return locomotiveSet;
     }
+    public static void setStock (String productCode, int newStock) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "UPDATE items SET stockCount = ? WHERE productCode = ?;")) {
+            preparedStatement.setInt(1, newStock);
+            preparedStatement.setString(2, productCode);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteItem (String productCode) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "DELETE FROM items WHERE productCode = ?;")) {
+            preparedStatement.setString(1, productCode);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addNewLocomotive (String productCode, String brand,
+                                         String productName, Double price,
+                                         int stockCount, String era, String gauge) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
+            preparedStatement.setString(1, productCode); //code
+            preparedStatement.setString(2, brand); //brand
+            preparedStatement.setString(3, productName); //name
+            preparedStatement.setDouble(4, price); //price
+            preparedStatement.setInt(5, stockCount); //stock
+            preparedStatement.setString(6, null); //description
+            preparedStatement.setString(7, era); //era
+            preparedStatement.setString(8, gauge); //gauge
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    public static void addNewTrack (String productCode, String brand,
+                                         String productName, Double price,
+                                         int stockCount, String gauge) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
+            preparedStatement.setString(1, productCode); //code
+            preparedStatement.setString(2, brand); //brand
+            preparedStatement.setString(3, productName); //name
+            preparedStatement.setDouble(4, price); //price
+            preparedStatement.setInt(5, stockCount); //stock
+            preparedStatement.setString(6, null); //description
+            preparedStatement.setString(7, null); //era
+            preparedStatement.setString(8, gauge); //gauge
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void addNewCarriage (String productCode, String brand,
+                                         String productName, Double price,
+                                         int stockCount, String era, String gauge) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
+            preparedStatement.setString(1, productCode); //code
+            preparedStatement.setString(2, brand); //brand
+            preparedStatement.setString(3, productName); //name
+            preparedStatement.setDouble(4, price); //price
+            preparedStatement.setInt(5, stockCount); //stock
+            preparedStatement.setString(6, null); //description
+            preparedStatement.setString(7, era); //era
+            preparedStatement.setString(8, gauge); //gauge
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public static void addNewTrackPack (String productCode, String brand,
+                                       String productName, Double price,
+                                       int stockCount, String description,
+                                        String era, String gauge) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
+            preparedStatement.setString(1, productCode); //code
+            preparedStatement.setString(2, brand); //brand
+            preparedStatement.setString(3, productName); //name
+            preparedStatement.setDouble(4, price); //price
+            preparedStatement.setInt(5, stockCount); //stock
+            preparedStatement.setString(6, description); //description
+            preparedStatement.setString(7, era); //era
+            preparedStatement.setString(8, gauge); //gauge
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addNewTrainset (String productCode, String brand,
+                                        String productName, Double price,
+                                        int stockCount, String description,
+                                        String era, String gauge) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
+            preparedStatement.setString(1, productCode); //code
+            preparedStatement.setString(2, brand); //brand
+            preparedStatement.setString(3, productName); //name
+            preparedStatement.setDouble(4, price); //price
+            preparedStatement.setInt(5, stockCount); //stock
+            preparedStatement.setString(6, description); //description
+            preparedStatement.setString(7, era); //era
+            preparedStatement.setString(8, gauge); //gauge
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addNewController (String productCode, String brand,
+                                       String productName, Double price,
+                                       int stockCount, String description) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
+            preparedStatement.setString(1, productCode); //code
+            preparedStatement.setString(2, brand); //brand
+            preparedStatement.setString(3, productName); //name
+            preparedStatement.setDouble(4, price); //price
+            preparedStatement.setInt(5, stockCount); //stock
+            preparedStatement.setString(6, description); //description
+            preparedStatement.setString(7, null); //era
+            preparedStatement.setString(8,null); //gauge
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
