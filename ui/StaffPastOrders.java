@@ -44,7 +44,7 @@ public class StaffPastOrders extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                 frame.dispose();
-                App.userDashboard(user);
+                App.staffDashboard(user);
             }
         });
         ordersTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {

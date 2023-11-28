@@ -117,6 +117,7 @@ public class staffDashboard {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    frame.dispose();
                     App.showAllPastOrders(user, "Confirmed");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -128,6 +129,7 @@ public class staffDashboard {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    frame.dispose();
                     App.showAllPastOrders(user, "Fulfilled");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
