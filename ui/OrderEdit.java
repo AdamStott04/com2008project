@@ -29,7 +29,15 @@ public class OrderEdit extends JDialog {
 
         this.orderItems = orderItems;
 
-        tableModel = new DefaultTableModel();
+        tableModel = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                //Only last column is editable
+                return column == 4;
+            }
+        };
+
         orderItemsTable = new JTable(tableModel);
 
         // Add columns to the table
@@ -131,6 +139,7 @@ public class OrderEdit extends JDialog {
                     // Remove the item from the orderItems list
                     orderItems.remove(clickedRow);
 
+                    orderItemsTable.getCellEditor().stopCellEditing();
                     // Remove the row from the table model
                     tableModel.removeRow(clickedRow);
 
