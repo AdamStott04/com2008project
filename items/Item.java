@@ -1,9 +1,11 @@
 package items;
 
+import App.App;
 import database.database;
 import user.Order;
 import user.User;
 
+import javax.swing.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -218,8 +220,9 @@ public class Item {
                      "DELETE FROM items WHERE productCode = ?;")) {
             preparedStatement.setString(1, productCode);
             preparedStatement.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Item deleted.");
         } catch (SQLException e) {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Cannot delete item which is part of a past order.");
         }
     }
 
