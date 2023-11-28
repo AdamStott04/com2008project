@@ -49,6 +49,15 @@ public class Checkout {
 
     public Checkout(ArrayList<OrderLine> orderItems, User user) {
 
+        BankDetails bankDetails = user.getBankDetails();
+        if (!(bankDetails == null)) {
+            cardNo.setText(String.valueOf(bankDetails.getCardNo()));
+            cardName.setText(bankDetails.getCardName());
+            expiryDate.setText(bankDetails.getExpiryDate());
+            cvv.setText(String.valueOf(bankDetails.getCvv()));
+            cardType.setText(bankDetails.getCardType());
+        }
+
         Double total = 0.00;
         for (OrderLine item : orderItems) {
             int quantity = item.getQuantity();
