@@ -35,6 +35,7 @@ public class RegistrationPage extends JFrame {
                     throw new RuntimeException(ex);
                 }
 
+                // Get all the text from the text fields
                 String forename = forenameTextField.getText();
                 String surname = surnameTextField.getText();
                 String email = emailTextField.getText();
@@ -43,6 +44,7 @@ public class RegistrationPage extends JFrame {
                 String streetName = streetNameField.getText();
                 String postcode = postcodeField.getText();
                 String city = cityField.getText();
+                // Validate the text fields
                 if (forename.isEmpty() | surname.isEmpty() | email.isEmpty() | password.isEmpty() | streetName.isEmpty()
                         | postcode.isEmpty() | city.isEmpty() | houseNumber.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "You have left 1 or more text fields empty." +
@@ -74,7 +76,7 @@ public class RegistrationPage extends JFrame {
                         throw new RuntimeException(ex);
                     }
 
-
+                    // Create user instance in db
                     String sql = "INSERT INTO users (forename, surname, email, password, houseNo, postcode, isStaff, isManager, bankID) VALUES (?, ?, ?, ?, ?, ?, 0, 0, NULL)";
                     String hashed_password = hashPassword(password);
 
@@ -96,6 +98,7 @@ public class RegistrationPage extends JFrame {
                     }
                     JOptionPane.showMessageDialog(null, "You successfully created an account!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     try {
+                        // Reload the user array and send user back to the login page
                         User.reloadUserArray();
                         frame.dispose();
                         App.login();
@@ -106,6 +109,7 @@ public class RegistrationPage extends JFrame {
                 }
             }
         });
+        // Send user back to login page
         backToLoginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,6 +124,7 @@ public class RegistrationPage extends JFrame {
         });
     }
 
+    // Check if a string is all digits
     private static boolean areAllDigits(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isDigit(c)) {

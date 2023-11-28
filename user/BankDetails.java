@@ -15,6 +15,7 @@ public class BankDetails {
     private String expiryDate;
     private int cvv;
 
+    // Constructor for BankDetails
     public BankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
         this.bankID = bankID;
         this.cardNo = cardNo;
@@ -24,6 +25,7 @@ public class BankDetails {
         this.cardType = cardType;
     }
 
+    // Getters for BankDetails
     public long getCardNo() {
         return cardNo;
     }
@@ -42,9 +44,10 @@ public class BankDetails {
 
     public String getCardType() { return cardType; }
 
-
+    // Array of all BankDetails
     public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
 
+    // Method to reload the BankDetails array from the database
     public static void reloadBankDetailsArray() throws SQLException {
         bankDetails.clear();
         Connection con = null;
@@ -74,6 +77,7 @@ public class BankDetails {
         bankDetails.add(bank);
     }
 
+    // Method to check if a string is a valid expiry date
     public static boolean isValidExpiry(String input) {
         // Define a regular expression pattern for "xx/xx" where 'x' is a digit, and the first two digits represent a valid month (1-12)
         String pattern = "(0[1-9]|1[0-2])/\\d{2}";
@@ -88,10 +92,12 @@ public class BankDetails {
         return matcher.matches();
     }
 
+    // Method to check if a card number, expiry date, cvv and card type are valid
     public static boolean validBank(long cardNo, String expiryDate, int cvv, String cardType) {
         return String.valueOf(cardNo).length() == 16 && isValidExpiry(expiryDate) && String.valueOf(cvv).length() == 3 && (cardType.equals("Visa") || cardType.equals("Mastercard"));
     }
 
+    // Method to check if bank details exist for a given bankID and if so returns the bank details
     public static BankDetails bankExists(int bankID) {
         for (BankDetails BankDetails : BankDetails.bankDetails) {
             if (BankDetails.bankID == bankID) {
@@ -101,6 +107,7 @@ public class BankDetails {
         return null; // No matching bank account found
     }
 
+    // Method to check a card number, card name, expiry date and cvv and if they exist in the database together, returns the bankID
     public static int findBankID(long cardNo, String cardName, String expiryDate, int cvv) {
         ResultSet result = null;
         int bankId = 0;
@@ -121,6 +128,7 @@ public class BankDetails {
         }
         return bankId;
     }
+    // Method to add a new bank account to the database
     public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
         int ID = 0;
         try (Connection con = database.connect();
@@ -139,6 +147,7 @@ public class BankDetails {
         bankDetails.add(bank);
     }
 
+    // Method to update bank details in the database
     public static void updateBankDetails(int bankID, long cardNo, String cardName, String expiryDate, int cvv, String cardType) throws SQLException {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(

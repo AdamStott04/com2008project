@@ -29,6 +29,7 @@ public class database {
             ex.printStackTrace();
         }
 
+        // Commands to create the full database structure.
         String addresses = "CREATE TABLE `addresses` ("
                 + "`houseNo` int NOT NULL,"
                 + "`postcode` varchar(10) NOT NULL,"

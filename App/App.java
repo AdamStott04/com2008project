@@ -18,6 +18,7 @@ public class App {
         login();
     }
 
+    // Load all user, address, and bank details from the database and adds into the arraylists.
     public static void loadFromDb() {
         Connection con = null;
         try {

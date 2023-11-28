@@ -22,12 +22,15 @@ public class userDashboard {
 
     public userDashboard(User user, JFrame frame) {
 
+        // Hide staff dashboard button if user is not staff
         if (user.getIsStaff() == 0) {
             staffDashboardButton.setVisible(false);
         }
 
+        // Creates a welcome message using user's forename
         welcomeLabel.setText("Hi there, " + user.getForename());
 
+        // If catalog button is pressed, show catalog
         catalogButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -36,6 +39,7 @@ public class userDashboard {
                 App.showCategories(user);
             }
         });
+        // If past orders button is pressed, show past orders
         pastOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,6 +52,7 @@ public class userDashboard {
                 }
             }
         });
+        // If edit account details button is pressed, show edit account details page
         editAccountDetailsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -60,6 +65,7 @@ public class userDashboard {
 
             }
         });
+        // If staff dashboard button is pressed, show staff dashboard
         staffDashboardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,6 +74,7 @@ public class userDashboard {
                 App.staffDashboard(user);
             }
         });
+        // If logout button is pressed, logout
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

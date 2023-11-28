@@ -11,6 +11,7 @@ public class Address {
     private String postcode;
     private String city;
 
+    // Constructor
     public Address(int houseNumber, String streetName, String postcode, String city) {
         this.houseNumber = houseNumber;
         this.streetName = streetName;
@@ -18,6 +19,7 @@ public class Address {
         this.city = city;
     }
 
+    // Getters
     public int getHouseNo() {
         return houseNumber;
     }
@@ -34,8 +36,10 @@ public class Address {
         return city;
     }
 
+    // Array for the addresses
     public static ArrayList<Address> addresses = new ArrayList<>();
 
+    // Create address instance in db
     public static void createAddress(int houseNumber, String postcode, String streetName, String city) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
@@ -54,6 +58,7 @@ public class Address {
         addresses.add(address);
     }
 
+    // Check if address is valid given a house number and postcode and returns the address object if a match is found.
     public static Address validAddress(int houseNumber, String postcode) {
         for (Address address : Address.addresses) {
             if (address.houseNumber == houseNumber && address.postcode.equals(postcode)) {
@@ -63,6 +68,7 @@ public class Address {
         return null; // No matching address found
     }
 
+    // Update address in db
     public static void updateAddress(int oldHouseNo, String oldPostcode, String newStreet, String newCity) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(

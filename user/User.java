@@ -25,6 +25,7 @@ public class User {
 
     private BankDetails bankDetails;
 
+    //Constructor for creating a new user
     public User(int id, String forename, String surname, String email, String password, int houseNo, String postcode, int isStaff, int isManager, Integer bankID) throws SQLException {
         this.id = id;
         this.forename = forename;
@@ -40,6 +41,7 @@ public class User {
         this.bankDetails = BankDetails.bankExists(bankID);
     }
 
+    // Getters and setters for user attributes
     public int getId() {
         return id;
     }
@@ -125,13 +127,16 @@ public class User {
     }
 
 
+    // Array of all users
     public static ArrayList<User> users = new ArrayList<>();
 
+    // Method for creating a new user
     public static void createUser(int id, String forename, String surname, String email, String password, int houseNo, String postcode, int isStaff, int isManager, int bankID) throws SQLException {
         User newUser = new User(id, forename, surname, email, password, houseNo, postcode, isStaff, isManager, bankID);
         users.add(newUser);
     }
 
+    // Checks if a user exists with the given email and password and returns the user if found
     public static User validUser(String email, String password) {
         for (User user : User.users) {
             if (user.email.equals(email) && user.password.equals(hashPassword(password))) {
@@ -141,6 +146,7 @@ public class User {
         return null; // No matching user found
     }
 
+    // Clears the user array and reloads it from the database. Used after registering a user to ensure the user array is up-to-date.
     public static void reloadUserArray() throws SQLException {
         users.clear();
         Connection con = null;
@@ -169,6 +175,7 @@ public class User {
         }
     }
 
+    // Checks if a user exists with the given email and returns true if not found
     public static boolean uniqueEmail(String email) {
         for (User user : User.users) {
             if (user.email.equals(email)) {
