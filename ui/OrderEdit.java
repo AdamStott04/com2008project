@@ -99,7 +99,6 @@ public class OrderEdit extends JDialog {
         pack();
         setLocationRelativeTo(parent);
         setVisible(true);
-
     }
 
 
@@ -136,21 +135,17 @@ public class OrderEdit extends JDialog {
                     tableModel.removeRow(clickedRow);
 
                     // Notify the table that the data has changed
-                    fireTableDataChanged();
-
-                    System.out.println("----- ORDER ITEMS -----");
-                    System.out.println(orderItems);
-                    System.out.println("----- TABLE MODEL -----");
-                    System.out.println(tableModel.getDataVector());
-
+                    tableModel.fireTableRowsDeleted(clickedRow, clickedRow);
                 }
             });
         }
-
+/*
         private void fireTableDataChanged() {
             // Notify the table that the data has changed
             orderItemsTable.tableChanged(new javax.swing.event.TableModelEvent(tableModel));
         }
+
+ */
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             button.setText("Remove");
