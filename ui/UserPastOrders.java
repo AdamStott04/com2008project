@@ -13,18 +13,17 @@ import java.awt.event.ActionEvent;
 import java.sql.*;
 import user.Order;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class PastOrders extends JFrame {
+public class UserPastOrders extends JFrame {
 
     public JPanel rootPanel;
     private JTable ordersTable;
     private JScrollPane scrollPane;
     private JButton backToDashboardButton;
 
-    public PastOrders (User user) throws SQLException {
+    public UserPastOrders(User user) throws SQLException {
         ArrayList<Order> orders = Order.loadUserPastOrders(user);
         DefaultTableModel tableModel = new DefaultTableModel();
 

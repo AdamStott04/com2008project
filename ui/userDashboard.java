@@ -42,7 +42,7 @@ public class userDashboard {
                 try {
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
-                    App.showPastOrders(user);
+                    App.showUserPastOrders(user);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }

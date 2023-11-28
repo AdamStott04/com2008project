@@ -1,19 +1,13 @@
 package App;
 
 import database.database;
-import ui.LoginPage;
-import ui.RegistrationPage;
-import ui.editUserDetails;
-import ui.userDashboard;
+import ui.*;
 import user.Address;
 import user.BankDetails;
 import user.User;
-import items.OrderLine;
 
 import javax.swing.*;
 import java.sql.*;
-import user.Order;
-import java.util.ArrayList;
 
 import static user.User.createUser;
 
@@ -122,9 +116,9 @@ public class App {
         frame.setVisible(true);
     }
 
-    public static void showStaffCatalog(ResultSet items, User user) throws SQLException {
-        JFrame frame = new JFrame("Catalog");
-        frame.setContentPane(new ui.staffCatalog(items, user).rootPanel);
+    public static void showStaffCatalog(ResultSet items, User user, String category) throws SQLException {
+        JFrame frame = new JFrame("Catalog Editor");
+        frame.setContentPane(new ui.staffCatalog(items, user, category).rootPanel);
         frame.setSize(500, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
@@ -154,9 +148,17 @@ public class App {
         frame.setVisible(true);
     }
 
-    public static void showPastOrders(User user) throws SQLException {
+    public static void showUserPastOrders(User user) throws SQLException {
         JFrame frame = new JFrame("Past Orders");
-        frame.setContentPane(new ui.PastOrders(user).rootPanel);
+        frame.setContentPane(new UserPastOrders(user).rootPanel);
+        frame.setSize(1000, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+
+    public static void showAllPastOrders(User user, String status) throws SQLException {
+        JFrame frame = new JFrame("Past Orders");
+        frame.setContentPane(new StaffPastOrders(user, status).rootPanel);
         frame.setSize(1000, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

@@ -21,8 +21,9 @@ public class staffCatalog extends JFrame {
     private JScrollPane scrollPane;
     private JTable itemsTable;
     private JButton backButton;
+    private JButton addNewButton;
     private List<Item> allItemsInOrder;
-    public staffCatalog(ResultSet items, User user) throws SQLException {
+    public staffCatalog(ResultSet items, User user, String category) throws SQLException {
         try {
             DefaultTableModel tableModel = new DefaultTableModel();
 
@@ -98,7 +99,13 @@ public class staffCatalog extends JFrame {
                     App.staffDashboard(user);
                 }
             });
-
+            addNewButton.setText("Add " + category);
+            addNewButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    addItem(category);
+                }
+            });
             itemsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
                 @Override
                 public void valueChanged(ListSelectionEvent e) {
@@ -115,6 +122,138 @@ public class staffCatalog extends JFrame {
             e.printStackTrace();
             throw e;// Re-throw the exception to signal an error.
         }
+    }
+
+    private void addItem(String category) {
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+
+        JLabel newProductCode = new JLabel("Product Code:");
+        panel.add(newProductCode);
+        JTextField newProductCodeField = new JTextField();
+        panel.add(newProductCodeField);
+
+        JLabel newBrand = new JLabel("Brand:");
+        panel.add(newBrand);
+        JTextField newBrandField = new JTextField();
+        panel.add(newBrandField);
+
+        JLabel newProductName = new JLabel("Product Name:");
+        panel.add(newProductName);
+        JTextField newProductNameField = new JTextField();
+        panel.add(newProductNameField);
+
+        JLabel newPrice = new JLabel("Price:");
+        panel.add(newPrice);
+        JTextField newPriceField = new JTextField();
+        panel.add(newPriceField);
+
+        JLabel newStockCount = new JLabel("Stock count:");
+        panel.add(newStockCount);
+        JTextField newStockCountField = new JTextField();
+        panel.add(newStockCountField);
+
+        JTextField newEraField = new JTextField();
+        JTextField newGaugeField = new JTextField();
+        JTextField newDescriptionField = new JTextField();
+
+        if (category.equals("locomotive")) {
+            JLabel newGauge = new JLabel("Gauge:");
+            panel.add(newGauge);
+            panel.add(newGaugeField);
+
+            JLabel newEra = new JLabel("Era:");
+            panel.add(newEra);
+            panel.add(newEraField);
+            System.out.println("in if statement");
+            // add data validation
+        }
+        else if (category.equals("track")) {
+            JLabel newGauge = new JLabel("Gauge:");
+            panel.add(newGauge);
+            panel.add(newGaugeField);
+            // add data validation
+        }
+        else if (category.equals("rolling stock")) {
+            JLabel newGauge = new JLabel("Gauge:");
+            panel.add(newGauge);
+            panel.add(newGaugeField);
+
+            JLabel newEra = new JLabel("Era:");
+            panel.add(newEra);
+            panel.add(newEraField);
+            // add data validation
+        }
+        else if (category.equals("track pack")) {
+            JLabel newGauge = new JLabel("Gauge:");
+            panel.add(newGauge);
+            panel.add(newGaugeField);
+
+            JLabel newDescription = new JLabel("Description:");
+            panel.add(newDescription);
+            panel.add(newDescriptionField);
+            // add data validation
+        }
+        else if (category.equals("train set")) {
+            JLabel newGauge = new JLabel("Gauge:");
+            panel.add(newGauge);
+            panel.add(newGaugeField);
+
+            JLabel newDescription = new JLabel("Description:");
+            panel.add(newDescription);
+            panel.add(newDescriptionField);
+            // add data validation
+        }
+        else if (category.equals("controller")) {
+            JLabel newDescription = new JLabel("Description:");
+            panel.add(newDescription);
+            panel.add(newDescriptionField);
+            // add data validation
+        }
+        JButton submitButton = new JButton("Submit");
+        panel.add(submitButton);
+
+        submitButton.addActionListener(e -> {
+            if (category.equals("locomotive")) {
+                Item.addNewLocomotive(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
+                        Integer.parseInt(newStockCountField.getText()), newEraField.getText(), newGaugeField.getText());
+                System.out.println("locomotive added");
+            }
+            else if (category.equals("rolling stock")) {
+                Item.addNewCarriage(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
+                        Integer.parseInt(newStockCountField.getText()), newEraField.getText(), newGaugeField.getText());
+                System.out.println("rolling stock added");
+            }
+            else if (category.equals("track")) {
+                Item.addNewTrack(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
+                        Integer.parseInt(newStockCountField.getText()), newGaugeField.getText());
+                System.out.println("track added");
+            }
+            else if (category.equals("track pack")) {
+                Item.addNewTrackPack(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
+                        Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText(), newEraField.getText(), newGaugeField.getText());
+                System.out.println("track pack added");
+            }
+            else if (category.equals("train set")) {
+                Item.addNewTrainset(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
+                        Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText(), newEraField.getText(), newGaugeField.getText());
+                System.out.println("track set added");
+            }
+            else if (category.equals("controller")) {
+                Item.addNewController(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
+                        Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText());
+                System.out.println("controller added");
+            }
+        });
+
+        int result = JOptionPane.showOptionDialog(
+                this,
+                panel,
+                "New Item",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                new Object[]{},
+                null);
     }
 
     private void displayItemInformation(int rowIndex, List<Item> allItems, User user) {
@@ -189,6 +328,17 @@ public class staffCatalog extends JFrame {
             }
         });
         panel.add(submitButton);
+
+        JButton deleteButton = new JButton("DELETE ITEM");
+        deleteButton.addActionListener(e -> {
+            String productCode = selectedItem.getProductCode();
+            try {
+                Item.deleteItem(productCode);
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid integer for new stock count.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        panel.add(deleteButton);
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(new ActionListener() {

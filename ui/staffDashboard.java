@@ -18,7 +18,7 @@ public class staffDashboard {
     private JButton trackButton;
     private JButton controllersButton;
     private JButton managerViewButton;
-    private JButton pendingOrdersButton;
+    private JButton confirmedOrdersButton;
     private JButton fulfilledOrdersButton;
     private JButton backButton;
 
@@ -33,7 +33,7 @@ public class staffDashboard {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                 frame.dispose();
                 try {
-                    App.showStaffCatalog(Item.loadTrainsets(), user);
+                    App.showStaffCatalog(Item.loadTrainsets(), user, "train set");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -46,7 +46,7 @@ public class staffDashboard {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                 frame.dispose();
                 try {
-                    App.showStaffCatalog(Item.loadTrackPacks(), user);
+                    App.showStaffCatalog(Item.loadTrackPacks(), user, "track pack");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -59,7 +59,7 @@ public class staffDashboard {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                 frame.dispose();
                 try {
-                    App.showStaffCatalog(Item.loadLocomotives(), user);
+                    App.showStaffCatalog(Item.loadLocomotives(), user, "locomotive");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -72,7 +72,7 @@ public class staffDashboard {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                 frame.dispose();
                 try {
-                    App.showStaffCatalog(Item.loadCarriages(), user);
+                    App.showStaffCatalog(Item.loadCarriages(), user, "rolling stock");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -85,7 +85,7 @@ public class staffDashboard {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                 frame.dispose();
                 try {
-                    App.showStaffCatalog(Item.loadTrack(), user);
+                    App.showStaffCatalog(Item.loadTrack(), user, "track");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -98,7 +98,7 @@ public class staffDashboard {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                 frame.dispose();
                 try {
-                    App.showStaffCatalog(Item.loadControllers(), user);
+                    App.showStaffCatalog(Item.loadControllers(), user, "controller");
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -112,17 +112,25 @@ public class staffDashboard {
             }
         });
 
-        pendingOrdersButton.addActionListener(new ActionListener() {
+        confirmedOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    App.showAllPastOrders(user, "Confirmed");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
         fulfilledOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                try {
+                    App.showAllPastOrders(user, "Fulfilled");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
