@@ -1,17 +1,13 @@
 package ui;
 
 
-import database.database;
 import items.Item;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.sql.*;
 
-import java.util.List;
 import java.util.ArrayList;
-import database.database;
 
 import App.App;
 import items.OrderLine;
@@ -19,22 +15,8 @@ import user.Order;
 
 import user.User;
 import user.BankDetails;
-import java.sql.*;
-import database.database;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class Checkout {
+public class Checkout extends JFrame {
     public JPanel rootPanel;
     private JTextField cvv;
     private JTextField cardName;
@@ -42,12 +24,18 @@ public class Checkout {
     private JTextField expiryDate;
     private JLabel displayPrice;
     private JButton checkoutButton;
+
+    private JButton backButton;
+
     private JLabel enterDetailsLabel;
     private JLabel cardTypeLabel;
     private JTextField cardType;
+    private JButton viewCurrentOrderButton;
     public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
 
     public Checkout(ArrayList<OrderLine> orderItems, User user) {
+
+
 
         BankDetails bankDetails = user.getBankDetails();
         if (!(bankDetails == null)) {
@@ -56,6 +44,7 @@ public class Checkout {
             expiryDate.setText(bankDetails.getExpiryDate());
             cardType.setText(bankDetails.getCardType());
         }
+
 
         Double total = 0.00;
         for (OrderLine item : orderItems) {
@@ -79,16 +68,36 @@ public class Checkout {
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.userDashboard(user);
+
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user)){
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.userDashboard(user);
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid bank details.");
                 }
             }
         });
+        viewCurrentOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
+                OrderEdit orderEdit = new OrderEdit(Checkout.this, user.getCurrentOrder(), user);
+            }
+        });
     }
+
+
+
+
 
 
 
