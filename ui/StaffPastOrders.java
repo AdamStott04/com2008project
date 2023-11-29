@@ -85,13 +85,6 @@ public class StaffPastOrders extends JFrame {
                 }
             }
         });
-
-    }
-
-    private void reloadOrders(User user, String status) throws SQLException {
-        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
-        frame.dispose();
-        App.showAllPastOrders(user, status);
     }
 
     private void displayOrderInformation(int rowIndex, List<Order> orders) {
@@ -124,7 +117,6 @@ public class StaffPastOrders extends JFrame {
         public ButtonRenderer() {
             setOpaque(true);
         }
-
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setText("Fulfill");

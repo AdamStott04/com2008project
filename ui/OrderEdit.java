@@ -151,13 +151,9 @@ public class OrderEdit extends JDialog {
         }
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-            button.setText("Remove");
+            button.setText("Removing");
             return button;
         }
-
-
-
-
 
 
     }
