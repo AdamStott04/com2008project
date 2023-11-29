@@ -212,4 +212,15 @@ public class Order {
         return orders;
     }
 
+    public static void fulfill (Order order) {
+        try (Connection con = database.connect();
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "UPDATE orders SET status = ? WHERE orderID = ?;")) {
+            preparedStatement.setString(1, "Fulfilled");
+            preparedStatement.setInt(2, order.getOrderID());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

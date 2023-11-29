@@ -15,15 +15,13 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="b5d4b" class="javax.swing.JTable" binding="itemsTable">
+          <component id="5337f" class="javax.swing.JTable" binding="itemsTable">
             <constraints/>
             <properties>
+              <autoCreateRowSorter value="true"/>
               <background color="-2104859"/>
               <gridColor color="-16777216"/>
-              <minimumSize width="30" height="60"/>
-              <preferredSize width="150" height="60"/>
               <rowHeight value="30"/>
-              <rowSelectionAllowed value="false"/>
               <selectionBackground color="-2104859"/>
               <showVerticalLines value="false"/>
             </properties>

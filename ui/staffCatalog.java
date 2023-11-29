@@ -25,7 +25,10 @@ public class staffCatalog extends JFrame {
     private List<Item> allItemsInOrder;
     public staffCatalog(ResultSet items, User user, String category) throws SQLException {
         try {
+            //DefaultTableModel tableModel = (DefaultTableModel) itemsTable.getModel();
             DefaultTableModel tableModel = new DefaultTableModel();
+            //itemsTable = new JTable(tableModel);
+            itemsTable.setModel(tableModel);
 
             // Create columns based on ResultSet metadata
             tableModel.addColumn("Brand");
@@ -88,9 +91,9 @@ public class staffCatalog extends JFrame {
                 }
             }
 
-            itemsTable.setModel(tableModel);
             itemsTable.setDefaultEditor(Object.class, null);
             scrollPane.setViewportView(itemsTable);
+
             backButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -103,7 +106,7 @@ public class staffCatalog extends JFrame {
             addNewButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    addItem(category);
+                    addItem(category, user);
                 }
             });
             itemsTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -124,7 +127,7 @@ public class staffCatalog extends JFrame {
         }
     }
 
-    private void addItem(String category) {
+    private void addItem(String category, User user) {
         JPanel panel = new JPanel(new GridLayout(0, 2));
 
         JLabel newProductCode = new JLabel("Product Code:");
@@ -164,7 +167,6 @@ public class staffCatalog extends JFrame {
             JLabel newEra = new JLabel("Era:");
             panel.add(newEra);
             panel.add(newEraField);
-            System.out.println("in if statement");
             // add data validation
         }
         else if (category.equals("track")) {
@@ -243,6 +245,12 @@ public class staffCatalog extends JFrame {
                         Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText());
                 System.out.println("controller added");
             }
+            JOptionPane.showMessageDialog(null, "Item added.");
+            Window window = SwingUtilities.getWindowAncestor(panel);
+            if (window != null) {
+                window.dispose();
+            }
+            App.staffDashboard(user);
         });
 
         int result = JOptionPane.showOptionDialog(
@@ -332,11 +340,12 @@ public class staffCatalog extends JFrame {
         JButton deleteButton = new JButton("DELETE ITEM");
         deleteButton.addActionListener(e -> {
             String productCode = selectedItem.getProductCode();
-            try {
-                Item.deleteItem(productCode);
-            } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter a valid integer for new stock count.", "Error", JOptionPane.ERROR_MESSAGE);
+            Item.deleteItem(productCode);
+            Window window = SwingUtilities.getWindowAncestor(panel);
+            if (window != null) {
+                window.dispose();
             }
+            App.staffDashboard(user);
         });
         panel.add(deleteButton);
 
