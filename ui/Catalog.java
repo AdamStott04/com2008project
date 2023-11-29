@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 import java.sql.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -16,6 +17,8 @@ import user.Order;
 import user.Order.Status;
 import user.User;
 import App.*;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 public class Catalog extends JFrame {
     public JPanel rootPanel;
@@ -41,7 +44,9 @@ public class Catalog extends JFrame {
                 Object[] row = new Object[3]; // Three columns: brand, productName, price
                 row[0] = items.getString("brand");
                 row[1] = items.getString("productName");
-                row[2] = items.getDouble("price");
+                row[2] = "£" + items.getDouble("price");
+
+
 
                 tableModel.addRow(row);
                 if (items.getString("productCode").charAt(0) == 'L'){
@@ -90,6 +95,7 @@ public class Catalog extends JFrame {
                 }
             }
 
+
             rows.setModel(tableModel);
             rows.setDefaultEditor(Object.class, null);
             itemsList.setViewportView(rows);
@@ -129,6 +135,8 @@ public class Catalog extends JFrame {
             throw e;// Re-throw the exception to signal an error.
         }
     }
+
+
 
     private void displayItemInformation(int rowIndex, List<Item> allItems, User user) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
