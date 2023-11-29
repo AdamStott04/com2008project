@@ -1,17 +1,13 @@
 package ui;
 
 
-import database.database;
 import items.Item;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.sql.*;
 
-import java.util.List;
+
 import java.util.ArrayList;
-import database.database;
 
 import App.App;
 import items.OrderLine;
@@ -19,22 +15,8 @@ import user.Order;
 
 import user.User;
 import user.BankDetails;
-import java.sql.*;
-import database.database;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
-public class Checkout {
+public class Checkout extends JFrame {
     public JPanel rootPanel;
     private JTextField cvv;
     private JTextField cardName;
@@ -43,9 +25,12 @@ public class Checkout {
     private JLabel displayPrice;
     private JButton checkoutButton;
 
+    private JButton backButton;
+
     private JLabel enterDetailsLabel;
     private JLabel cardTypeLabel;
     private JTextField cardType;
+    private JButton viewCurrentOrderButton;
     public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
 
     public Checkout(ArrayList<OrderLine> orderItems, User user) {
@@ -90,7 +75,15 @@ public class Checkout {
                 }
             }
         });
+        viewCurrentOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                OrderEdit orderEdit = new OrderEdit(Checkout.this, user.getCurrentOrder(), user);
+            }
+        });
     }
+
+
 
 
 
