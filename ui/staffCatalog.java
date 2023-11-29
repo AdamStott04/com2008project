@@ -215,7 +215,12 @@ public class staffCatalog extends JFrame {
         panel.add(submitButton);
 
         submitButton.addActionListener(e -> {
-            if (category.equals("locomotive")) {
+            if (isAnyFieldEmpty(newProductCodeField, newBrandField, newProductNameField, newPriceField, newStockCountField,
+                    newEraField, newGaugeField, newDescriptionField)) {
+                JOptionPane.showMessageDialog(null, "Please fill in all required fields.");
+                return;
+            }
+            else if (category.equals("locomotive")) {
                 Item.addNewLocomotive(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
                         Integer.parseInt(newStockCountField.getText()), newEraField.getText(), newGaugeField.getText());
                 System.out.println("locomotive added");
@@ -378,5 +383,16 @@ public class staffCatalog extends JFrame {
                 new Object[]{},
                 null);
     }
+
+
+    private boolean isAnyFieldEmpty(JTextField... fields) {
+        for (JTextField field : fields) {
+            if (field.getText().trim().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
 
