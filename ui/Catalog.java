@@ -97,6 +97,8 @@ public class Catalog extends JFrame {
             viewCurrentOrderButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
                     OrderEdit orderEdit = new OrderEdit(Catalog.this, user.getCurrentOrder(), user);
                 }
             });

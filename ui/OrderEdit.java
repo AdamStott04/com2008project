@@ -93,15 +93,16 @@ public class OrderEdit extends JDialog {
 
 
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton backToCatalogButton = new JButton("Back to Catalog");
-        backToCatalogButton.addActionListener(new ActionListener() {
+        JButton backToCategoriesButton = new JButton("Back to Categories");
+        backToCategoriesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                App.showCategories(user);
             }
         });
-        backToCatalogButton.setPreferredSize(new Dimension(180, 90));
-        bottomPanel.add(backToCatalogButton);
+        backToCategoriesButton.setPreferredSize(new Dimension(180, 90));
+        bottomPanel.add(backToCategoriesButton);
         add(bottomPanel, BorderLayout.SOUTH);
 
         pack();

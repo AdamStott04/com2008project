@@ -78,6 +78,8 @@ public class Checkout extends JFrame {
         viewCurrentOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                frame.dispose();
                 OrderEdit orderEdit = new OrderEdit(Checkout.this, user.getCurrentOrder(), user);
             }
         });
