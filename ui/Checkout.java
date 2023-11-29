@@ -6,7 +6,7 @@ import items.Item;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.WindowEvent;
 import java.sql.*;
 
 import java.util.List;
@@ -42,12 +42,14 @@ public class Checkout {
     private JTextField expiryDate;
     private JLabel displayPrice;
     private JButton checkoutButton;
+
     private JLabel enterDetailsLabel;
     private JLabel cardTypeLabel;
     private JTextField cardType;
     public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
 
     public Checkout(ArrayList<OrderLine> orderItems, User user) {
+
 
         Double total = 0.00;
         for (OrderLine item : orderItems) {
@@ -71,16 +73,26 @@ public class Checkout {
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.userDashboard(user);
+
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user)){
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
+                    JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
+                    frame.dispose();
+                    App.userDashboard(user);
+
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid bank details.");
                 }
             }
         });
     }
+
+
 
 
 
