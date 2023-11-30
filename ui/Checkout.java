@@ -66,7 +66,6 @@ public class Checkout extends JFrame {
                 } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText()) ) {
                     BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
                     JOptionPane.showMessageDialog(null, "Processing Order");
-                    Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();
@@ -74,7 +73,6 @@ public class Checkout extends JFrame {
 
                 } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user)){
                     JOptionPane.showMessageDialog(null, "Processing Order");
-                    Order.updateStock(orderItems);
                     Order.addToDb(orderItems, user);
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
                     frame.dispose();

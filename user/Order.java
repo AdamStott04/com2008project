@@ -10,8 +10,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import App.*;
 import java.sql.*;
+import java.util.List;
 
 import items.Item;
+
+import javax.swing.*;
 
 public class Order {
 
@@ -84,7 +87,8 @@ public class Order {
                 ", status=" + status +
                 '}';
     }
-    public static void updateStock (ArrayList<OrderLine> orderItems) {
+    public static void updateStock (Order order) {
+        ArrayList<OrderLine> orderItems = Order.loadOrderLines(order.getOrderID());
         for (OrderLine item : orderItems) {
             try (Connection con = database.connect();
                  PreparedStatement preparedStatement = con.prepareStatement(
@@ -212,15 +216,37 @@ public class Order {
         return orders;
     }
 
-    public static void fulfill (Order order) {
-        try (Connection con = database.connect();
-             PreparedStatement preparedStatement = con.prepareStatement(
-                     "UPDATE orders SET status = ? WHERE orderID = ?;")) {
-            preparedStatement.setString(1, "Fulfilled");
-            preparedStatement.setInt(2, order.getOrderID());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
+    //Tries to fulfill and order - returns true if successful.
+    public static boolean fulfill (Order order) {
+        boolean allInStock = true;
+        //Check if order items are in stock
+        ArrayList<OrderLine> orderLines = Order.loadOrderLines(order.getOrderID());
+        for (OrderLine line : orderLines) {
+            int stockCount = OrderLine.loadOrderLineStock(line.getLineID());
+            if (!(stockCount >= line.getQuantity())) {
+                //An item is not in stock
+                allInStock = false;
+            }
+        }
+
+        //If all items are found to be in stock - fulfill order
+        if (allInStock) {
+            try (Connection con = database.connect();
+                 PreparedStatement preparedStatement = con.prepareStatement(
+                         "UPDATE orders SET status = ? WHERE orderID = ?;")) {
+                preparedStatement.setString(1, "Fulfilled");
+                preparedStatement.setInt(2, order.getOrderID());
+                preparedStatement.executeUpdate();
+                Order.updateStock(order);
+                return true;
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(null, "An item in this order is out of stock.");
+            return false;
         }
     }
 

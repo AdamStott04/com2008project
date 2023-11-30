@@ -99,31 +99,51 @@ public class StaffPastOrders extends JFrame {
         fulfillOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Remove the top order
-                topOrderModel.removeRow(0);
+                //Check if there are orders available.
+                if (orders.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No orders to fulfill.");
+                    return;
+                }
+
+                //Get first and second orders
                 Order topOrder = orders.get(0);
-                Order sndOrder = orders.get(1);
-                orders.remove(0);
+                Order sndOrder = null;
+                //Check if there is more than one order confirmed.
+                if (orders.size() >= 2) {
+                    sndOrder = orders.get(1);
+                }
 
-                // Notify the top order table that the data has changed
-                topOrderModel.fireTableRowsDeleted(0, 0);
-                Order.fulfill(topOrder);
+                //Attempt to fulfill the top order
+                if(Order.fulfill(topOrder)) {
+                    // Remove the top order
+                    topOrderModel.removeRow(0);
+                    orders.remove(0);
+                    // Notify the top order table that the data has changed
+                    topOrderModel.fireTableRowsDeleted(0, 0);
 
-                //Get new top order
-                tableModel.removeRow(0);
-                Object[] row = new Object[3];
-                row[0] = sndOrder.getOrderID();
-                row[1] = sndOrder.getOrderDate();
-                row[2] = sndOrder.getStatus();
-                topOrderModel.addRow(row);
-                topOrderModel.fireTableRowsInserted(0, 0);
-                tableModel.fireTableRowsDeleted(0, 0);
+                    //Get new top order - if needed
+                    if (sndOrder != null) {
+                        tableModel.removeRow(0);
+                        Object[] row = new Object[3];
+                        row[0] = sndOrder.getOrderID();
+                        row[1] = sndOrder.getOrderDate();
+                        row[2] = sndOrder.getStatus();
+                        topOrderModel.addRow(row);
+                        topOrderModel.fireTableRowsInserted(0, 0);
+                        tableModel.fireTableRowsDeleted(0, 0);
+                    }
+                }
             }
         });
 
         deleteOrderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (orders.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "No orders to delete.");
+                    return;
+                }
+
                 // Remove the top order
                 topOrderModel.removeRow(0);
                 Order topOrder = orders.get(0);
