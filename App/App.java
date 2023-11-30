@@ -178,7 +178,7 @@ public class App {
     public static void showAllPastOrders(User user, String status) throws SQLException {
         JFrame frame = new JFrame("Past Orders");
         frame.setContentPane(new StaffPastOrders(user, status).rootPanel);
-        frame.setSize(1000, 300);
+        frame.setSize(1000, 500);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);

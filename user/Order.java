@@ -223,4 +223,22 @@ public class Order {
             e.printStackTrace();
         }
     }
+
+    public static void delete (Order order) {
+        try {
+            Connection con = database.connect();
+            //Delete order lines
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "DELETE FROM orderLines WHERE orderID = " + order.getOrderID() + ";");
+            preparedStatement.executeUpdate();
+            //Delete order
+            preparedStatement = con.prepareStatement(
+                    "DELETE FROM orders WHERE orderID = " + order.getOrderID() + ";");
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

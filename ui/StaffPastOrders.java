@@ -23,9 +23,15 @@ public class StaffPastOrders extends JFrame {
     private JScrollPane scrollPane;
     private JTable ordersTable;
     private JButton backToDashboardButton;
+    private JTable topOrderTable;
+    private JScrollPane topOrderScroll;
+    private JButton fulfillOrderButton;
+    private JButton deleteOrderButton;
+    private JLabel othersLabel;
     private User user;
     private String status;
     private DefaultTableModel tableModel = new DefaultTableModel();
+    private DefaultTableModel topOrderModel = new DefaultTableModel();
     private ArrayList<Order> orders;
 
     public StaffPastOrders(User user, String status) throws SQLException {
@@ -37,17 +43,33 @@ public class StaffPastOrders extends JFrame {
         tableModel.addColumn("Order ID");
         tableModel.addColumn("Order Date");
         tableModel.addColumn("Status");
+        topOrderModel.addColumn("Order ID");
+        topOrderModel.addColumn("Order Date");
+        topOrderModel.addColumn("Status");
+
         if (status.equals("Confirmed")) {
-            tableModel.addColumn("Fulfill?");
+            int counter = 0;
             for (Order order : orders) {
                 Object[] row = new Object[4];
                 row[0] = order.getOrderID();
                 row[1] = order.getOrderDate();
                 row[2] = order.getStatus();
-                row[3] = "fulfill";
-                tableModel.addRow(row);
+                if (counter == 0) {
+                    topOrderModel.addRow(row);
+                }
+                else {
+                    tableModel.addRow(row);
+                }
+                counter++;
             }
         } else {
+            //Hide top order elements
+            topOrderTable.setVisible(false);
+            topOrderScroll.setVisible(false);
+            fulfillOrderButton.setVisible(false);
+            deleteOrderButton.setVisible(false);
+            othersLabel.setVisible(false);
+
             for (Order order : orders) {
                 Object[] row = new Object[3];
                 row[0] = order.getOrderID();
@@ -57,14 +79,13 @@ public class StaffPastOrders extends JFrame {
             }
         }
 
+        topOrderTable.setModel(topOrderModel);
+        topOrderTable.setDefaultEditor(Object.class, null);
+        topOrderScroll.setViewportView(topOrderTable);
+
         ordersTable.setModel(tableModel);
         ordersTable.setDefaultEditor(Object.class, null);
         scrollPane.setViewportView(ordersTable);
-
-        if (status.equals("Confirmed")){
-            ordersTable.getColumnModel().getColumn(3).setCellRenderer(new StaffPastOrders.ButtonRenderer());
-            ordersTable.getColumnModel().getColumn(3).setCellEditor(new StaffPastOrders.ButtonEditor(new JCheckBox()));
-        }
 
         backToDashboardButton.addActionListener(new ActionListener() {
             @Override
@@ -74,11 +95,73 @@ public class StaffPastOrders extends JFrame {
                 App.staffDashboard(user);
             }
         });
+
+        fulfillOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Remove the top order
+                topOrderModel.removeRow(0);
+                Order topOrder = orders.get(0);
+                Order sndOrder = orders.get(1);
+                orders.remove(0);
+
+                // Notify the top order table that the data has changed
+                topOrderModel.fireTableRowsDeleted(0, 0);
+                Order.fulfill(topOrder);
+
+                //Get new top order
+                tableModel.removeRow(0);
+                Object[] row = new Object[3];
+                row[0] = sndOrder.getOrderID();
+                row[1] = sndOrder.getOrderDate();
+                row[2] = sndOrder.getStatus();
+                topOrderModel.addRow(row);
+                topOrderModel.fireTableRowsInserted(0, 0);
+                tableModel.fireTableRowsDeleted(0, 0);
+            }
+        });
+
+        deleteOrderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Remove the top order
+                topOrderModel.removeRow(0);
+                Order topOrder = orders.get(0);
+                Order sndOrder = orders.get(1);
+                orders.remove(0);
+
+                // Notify the top order table that the data has changed
+                topOrderModel.fireTableRowsDeleted(0, 0);
+                Order.delete(topOrder);
+
+                //Get new top order
+                tableModel.removeRow(0);
+                Object[] row = new Object[3];
+                row[0] = sndOrder.getOrderID();
+                row[1] = sndOrder.getOrderDate();
+                row[2] = sndOrder.getStatus();
+                topOrderModel.addRow(row);
+                topOrderModel.fireTableRowsInserted(0, 0);
+                tableModel.fireTableRowsDeleted(0, 0);
+            }
+        });
         ordersTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
                     int selectedRow = ordersTable.getSelectedRow();
+                    if (selectedRow != -1) {
+                        displayOrderInformation(selectedRow, orders);
+                    }
+                }
+            }
+        });
+
+        topOrderTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = topOrderTable.getSelectedRow();
                     if (selectedRow != -1) {
                         displayOrderInformation(selectedRow, orders);
                     }
@@ -153,7 +236,5 @@ public class StaffPastOrders extends JFrame {
             button.setText("Fulfilling");
             return button;
         }
-
-
     }
 }
