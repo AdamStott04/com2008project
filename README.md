@@ -2,6 +2,8 @@
 This repository contains the code for the COM2008 Group Project which tasked us to create a Java Swing application
 that allows users to sign up, login, view different products, and order them. The application also allows the staff to fulfill these
 orders and view the stock of the products. Managers are also responsible for staff promotion and demotion.
+When the application is first run there will be 1 staff member and 1 manager in the system. To log in as staff the email is staff@staffmail.com and the password is password
+To log in as a manager the email is manager@managermail.com and the password is password. 
 
 ### Instructions for installation:
 1. Clone the repository
