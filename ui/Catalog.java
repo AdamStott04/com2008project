@@ -141,8 +141,6 @@ public class Catalog extends JFrame {
     private void displayItemInformation(int rowIndex, List<Item> allItems, User user) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         // Retrieve information about the selected item
-        System.out.println(rowIndex);
-        System.out.println(allItems.get(rowIndex));
         Item selectedItem = allItems.get(rowIndex);
         String productName = selectedItem.getName();
         String brand = selectedItem.getBrand();
@@ -225,14 +223,19 @@ public class Catalog extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int lineID = 1;
-                int selectedQuantity = (Integer) quantityComboBox.getSelectedItem();
-                if (user.getCurrentOrder() != null) {
-                    lineID = user.getCurrentOrder().size();
+                if (stockCount == 0) {
+                    JOptionPane.showMessageDialog(null, "Item out of stock!");
+                    dispose();
+                } else {
+                    int selectedQuantity = (Integer) quantityComboBox.getSelectedItem();
+                    if (user.getCurrentOrder() != null) {
+                        lineID = user.getCurrentOrder().size();
+                    }
+                    OrderLine newLine = new OrderLine(selectedItem.productCode, selectedQuantity, lineID, 1);
+                    user.addToCurrentOrder(newLine);
+                    JOptionPane.showMessageDialog(null, "Item added to order!");
+                    dispose();
                 }
-                OrderLine newLine = new OrderLine(selectedItem.productCode, selectedQuantity, lineID, 1);
-                user.addToCurrentOrder(newLine);
-                JOptionPane.showMessageDialog(null, "Item added to order!");
-                dispose();
 
             }
         });
