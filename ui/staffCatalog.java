@@ -167,13 +167,11 @@ public class staffCatalog extends JFrame {
             JLabel newEra = new JLabel("Era:");
             panel.add(newEra);
             panel.add(newEraField);
-            // add data validation
         }
         else if (category.equals("track")) {
             JLabel newGauge = new JLabel("Gauge:");
             panel.add(newGauge);
             panel.add(newGaugeField);
-            // add data validation
         }
         else if (category.equals("rolling stock")) {
             JLabel newGauge = new JLabel("Gauge:");
@@ -183,7 +181,6 @@ public class staffCatalog extends JFrame {
             JLabel newEra = new JLabel("Era:");
             panel.add(newEra);
             panel.add(newEraField);
-            // add data validation
         }
         else if (category.equals("track pack")) {
             JLabel newGauge = new JLabel("Gauge:");
@@ -193,7 +190,6 @@ public class staffCatalog extends JFrame {
             JLabel newDescription = new JLabel("Description:");
             panel.add(newDescription);
             panel.add(newDescriptionField);
-            // add data validation
         }
         else if (category.equals("train set")) {
             JLabel newGauge = new JLabel("Gauge:");
@@ -203,13 +199,11 @@ public class staffCatalog extends JFrame {
             JLabel newDescription = new JLabel("Description:");
             panel.add(newDescription);
             panel.add(newDescriptionField);
-            // add data validation
         }
         else if (category.equals("controller")) {
             JLabel newDescription = new JLabel("Description:");
             panel.add(newDescription);
             panel.add(newDescriptionField);
-            // add data validation
         }
         JButton submitButton = new JButton("Submit");
         panel.add(submitButton);
