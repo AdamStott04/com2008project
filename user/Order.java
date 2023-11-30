@@ -49,11 +49,10 @@ public class Order {
     public static void addToDb (ArrayList<OrderLine> currentOrder, User user) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
-                     "INSERT INTO orders (orderID, status, orderDate, userID) VALUES (?, ?, ?, ?);")) {
-            preparedStatement.setLong(1, Order.loadOrdersCount()+1);
-            preparedStatement.setString(2, Status.Confirmed.name());
-            preparedStatement.setDate(3, Date.valueOf(LocalDate.now()));
-            preparedStatement.setInt(4, user.getId());
+                     "INSERT INTO orders (status, orderDate, userID) VALUES (?, ?, ?);")) {
+            preparedStatement.setString(1, Status.Confirmed.name());
+            preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
+            preparedStatement.setInt(3, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
