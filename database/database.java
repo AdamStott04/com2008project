@@ -1,5 +1,7 @@
 package database;
 
+import helper.passwordHash;
+
 import java.sql.*;
 import java.util.Enumeration;
 
@@ -102,12 +104,44 @@ public class database {
                 + "CONSTRAINT `users_ibfk_2` FOREIGN KEY (`bankID`) REFERENCES `bankDetails` (`bankID`)"
                 + ")";
 
+        String basicAddress = "INSERT INTO addresses VALUES (1, '11111', 'Basic Street', 'UK')";
+        String addStaff = "INSERT INTO users (userID, forename, surname, email, password, houseNo, postcode, isStaff, isManager) VALUES (1, 'Staff', 'Staff' 'staff@staffmail.com', " + passwordHash.hashPassword("password") + "1, '11111', 1, 0)";
+        String addManager = "INSERT INTO users (forename, surname, email, password, houseNo, postcode, isStaff, isManager) VALUES ('Manager', 'Manager' 'manager@managermail.com', " + passwordHash.hashPassword("password") + "1, '11111', 1, 1)";
+        String firstController = "INSERT INTO items VALUES ('C001', 'Hornby', 'Standard Controller', 9.99, 10, 'standard controller', NULL, NULL)";
+        String secondController = "INSERT INTO items VALUES ('C002', 'Dapol', 'Super Controller', 19.99, 10, 'super controller', NULL, NULL)";
+        String firstLocomotive = "INSERT INTO items VALUES ('L001', 'Hornby', 'Class A4 Mallard', 39.99, 5, 'description', 4, 'N')";
+        String secondLocomotive = "INSERT INTO items VALUES ('L002', 'Bachmann', 'Class 5MT Black Five', 49.99, 5, 'description', 11, 'TT')";
+        String firstTrainSet = "INSERT INTO items VALUES ('M001', 'Hornby', 'EuroStar Trainset', 139.99, 25, 'description', 10, 'OO')";
+        String secondTrainSet = "INSERT INTO items VALUES ('M002', 'Hornby', 'Flying Scotsman Trainset', 125.99, 5, 'description', 8, 'OO')";
+        String firstTrackPack = "INSERT INTO items VALUES ('P001', 'Dapol', '2nd Radius Starter Oval', 25.99, 5, 'description', NULL, 'TT')";
+        String secondTrackPack = "INSERT INTO items VALUES ('P002', 'Bachmann', '3rd Radius Starter Oval', 26.99, 5, 'description', NULL, 'O')";
+        String firstTrack = "INSERT INTO items VALUES ('R001', 'Dapol', 'Single Straight', 10.99, 5, 'description', NULL, 'OO')";
+        String secondTrack = "INSERT INTO items VALUES ('R002', 'Dapol', 'Double Straight', 12.99, 53, 'description', NULL, 'N')";
+        String firstWagon = "INSERT INTO items VALUES ('S001', 'Dapol', 'Cattle Wagon', 15, 73, 'description', 8, 'OO')";
+        String secondWagon = "INSERT INTO items VALUES ('S002', 'Dapol', 'LNER Open First', 19.99, 5, 'description', 9, 'OO')";
+
+
         PreparedStatement address = con.prepareStatement(addresses);
         PreparedStatement bank = con.prepareStatement(bankDetails);
         PreparedStatement item = con.prepareStatement(items);
         PreparedStatement orderLine = con.prepareStatement(orderLines);
         PreparedStatement order = con.prepareStatement(orders);
         PreparedStatement user = con.prepareStatement(users);
+        PreparedStatement addAddress = con.prepareStatement(basicAddress);
+        PreparedStatement addStaffMember = con.prepareStatement(addStaff);
+        PreparedStatement addManagerMember = con.prepareStatement(addManager);
+        PreparedStatement controller1 = con.prepareStatement(firstController);
+        PreparedStatement controller2 = con.prepareStatement(secondController);
+        PreparedStatement locomotive1 = con.prepareStatement(firstLocomotive);
+        PreparedStatement locomotive2 = con.prepareStatement(secondLocomotive);
+        PreparedStatement trainset1 = con.prepareStatement(firstTrainSet);
+        PreparedStatement trainset2 = con.prepareStatement(secondTrainSet);
+        PreparedStatement trackpack1 = con.prepareStatement(firstTrackPack);
+        PreparedStatement trackpack2 = con.prepareStatement(secondTrackPack);
+        PreparedStatement track1 = con.prepareStatement(firstTrack);
+        PreparedStatement track2 = con.prepareStatement(secondTrack);
+        PreparedStatement wagon1 = con.prepareStatement(firstWagon);
+        PreparedStatement wagon2 = con.prepareStatement(secondWagon);
 
         address.executeUpdate();
         bank.executeUpdate();
@@ -115,7 +149,21 @@ public class database {
         order.executeUpdate();
         orderLine.executeUpdate();
         user.executeUpdate();
-
+        addAddress.executeUpdate();
+        addStaffMember.executeUpdate();
+        addManagerMember.executeUpdate();
+        controller1.executeUpdate();
+        controller2.executeUpdate();
+        locomotive1.executeUpdate();
+        locomotive2.executeUpdate();
+        trainset2.executeUpdate();
+        trainset1.executeUpdate();
+        trackpack1.executeUpdate();
+        trackpack2.executeUpdate();
+        track1.executeUpdate();
+        track2.executeUpdate();
+        wagon1.executeUpdate();
+        wagon2.executeUpdate();
 
 
         con.close();
