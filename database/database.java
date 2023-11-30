@@ -146,9 +146,9 @@ public class database {
         address.executeUpdate();
         bank.executeUpdate();
         item.executeUpdate();
+        user.executeUpdate();
         order.executeUpdate();
         orderLine.executeUpdate();
-        user.executeUpdate();
         addAddress.executeUpdate();
         addStaffMember.executeUpdate();
         addManagerMember.executeUpdate();
