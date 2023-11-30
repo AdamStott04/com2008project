@@ -29,7 +29,7 @@ public class Track extends Item {
 
 
     public static boolean validTrack(String gaugeString, String brand, String productName,
-                                        String productCode, String price, Integer stockCount) {
+                                     String productCode, String price, Integer stockCount) {
 
         try {
             Double parsedPrice = Double.parseDouble(price);
@@ -58,7 +58,6 @@ public class Track extends Item {
         }
 
 
-
         if (productName != null && productName.length() > 25) {
             return false;
         }
@@ -70,11 +69,6 @@ public class Track extends Item {
         return true;
 
     }
-
-
-
-
-
 
 
 }

@@ -9,9 +9,11 @@ import java.util.List;
 
 import items.Carriage;
 import items.Item;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.sql.*;
+
 import App.*;
 
 import items.OrderLine;
@@ -31,8 +33,7 @@ public class OrderEdit extends JDialog {
 
         tableModel = new DefaultTableModel() {
             @Override
-            public boolean isCellEditable(int row, int column)
-            {
+            public boolean isCellEditable(int row, int column) {
                 //Only last column is editable
                 return column == 4;
             }
@@ -111,7 +112,6 @@ public class OrderEdit extends JDialog {
     }
 
 
-
     class ButtonRenderer extends JButton implements TableCellRenderer {
         public ButtonRenderer() {
             setOpaque(true);
@@ -149,6 +149,7 @@ public class OrderEdit extends JDialog {
                 }
             });
         }
+
         @Override
         public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
             button.setText("Removing");

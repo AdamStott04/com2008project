@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import database.database;
 import items.OrderLine;
+
 import static helper.passwordHash.hashPassword;
 
 public class User {
@@ -78,13 +79,21 @@ public class User {
         this.password = hashPassword(value);
     }
 
-    public int getHouseNo() { return houseNo;}
+    public int getHouseNo() {
+        return houseNo;
+    }
 
-    public void setHouseNo(int value) { this.houseNo = value;}
+    public void setHouseNo(int value) {
+        this.houseNo = value;
+    }
 
-    public String getPostcode() { return postcode;}
+    public String getPostcode() {
+        return postcode;
+    }
 
-    public void setPostcode(String value) { this.postcode = value;}
+    public void setPostcode(String value) {
+        this.postcode = value;
+    }
 
     public int getIsManager() {
         return isManager;
@@ -106,9 +115,13 @@ public class User {
         }
     }
 
-    public Integer getBankID() { return bankID; }
+    public Integer getBankID() {
+        return bankID;
+    }
 
-    public void setBankID(Integer value) { this.bankID = value;}
+    public void setBankID(Integer value) {
+        this.bankID = value;
+    }
 
     public Address getAddress() {
         return address;
@@ -193,7 +206,7 @@ public class User {
         currentOrder.add(newLine);
     }
 
-    public static String getEmail (int userID) {
+    public static String getEmail(int userID) {
         Connection con = null;
         try {
             con = DriverManager.getConnection(database.url, database.username, database.password);
@@ -202,7 +215,7 @@ public class User {
         }
 
         // Create the sql to gather all user data from sql table.
-        String sql = "SELECT * FROM users WHERE userID = " + userID+ ";";
+        String sql = "SELECT * FROM users WHERE userID = " + userID + ";";
         ResultSet user = null;
         String userEmail = null;
 
@@ -210,7 +223,8 @@ public class User {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            user = preparedStatement.executeQuery();;
+            user = preparedStatement.executeQuery();
+            ;
             while (user.next()) {
                 userEmail = user.getString("email");
             }

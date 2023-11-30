@@ -3,16 +3,18 @@ package items;
 
 import java.util.Arrays;
 import java.util.regex.Pattern;
+
 public class TrainSet extends Item {
     private Gauge gauge;
     private String era;
 
     public TrainSet(Gauge gauge, String era, String brand, String productName,
-                      String productCode, Double price, Integer stockCount, String description) {
+                    String productCode, Double price, Integer stockCount, String description) {
         super(brand, productName, productCode, price, stockCount, description);
         this.gauge = gauge;
         this.era = era;
     }
+
     public String toString() {
         return "TrainSet{" +
                 "gauge=" + gauge +
@@ -31,10 +33,8 @@ public class TrainSet extends Item {
     }
 
 
-
     public static boolean validTrainSet(String gaugeString, String era, String brand, String productName,
                                         String productCode, String price, Integer stockCount, String description) {
-
 
 
         try {
@@ -42,8 +42,6 @@ public class TrainSet extends Item {
         } catch (NumberFormatException e) {
             return false;
         }
-
-
 
 
         try {

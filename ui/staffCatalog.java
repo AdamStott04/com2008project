@@ -23,6 +23,7 @@ public class staffCatalog extends JFrame {
     private JButton backButton;
     private JButton addNewButton;
     private List<Item> allItemsInOrder;
+
     public staffCatalog(ResultSet items, User user, String category) throws SQLException {
         try {
             DefaultTableModel tableModel = new DefaultTableModel();
@@ -43,43 +44,38 @@ public class staffCatalog extends JFrame {
                 row[2] = items.getDouble("price");
 
                 tableModel.addRow(row);
-                if (items.getString("productCode").charAt(0) == 'L'){
+                if (items.getString("productCode").charAt(0) == 'L') {
                     Locomotive locomotive = new Locomotive(Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("era"), items.getString("brand"),
                             items.getString("productName"), items.getString("productCode"),
                             items.getDouble("price"), items.getInt("stockCount"),
                             items.getString("description"));
                     allItemsInOrder.add(locomotive);
-                }
-                else if (items.getString("productCode").charAt(0) == 'C') {
+                } else if (items.getString("productCode").charAt(0) == 'C') {
                     Controller controller = new Controller(items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(controller);
-                }
-                else if (items.getString("productCode").charAt(0) == 'R') {
+                } else if (items.getString("productCode").charAt(0) == 'R') {
                     Track newTrack = new Track(Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(newTrack);
-                }
-                else if (items.getString("productCode").charAt(0) == 'S') {
+                } else if (items.getString("productCode").charAt(0) == 'S') {
                     Carriage carriage = new Carriage(items.getString("era"),
                             Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(carriage);
-                }
-                else if (items.getString("productCode").charAt(0) == 'P') {
+                } else if (items.getString("productCode").charAt(0) == 'P') {
                     TrackPack trackpack = new TrackPack(Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("brand"), items.getString("productName"),
                             items.getString("productCode"), items.getDouble("price"),
                             items.getInt("stockCount"), items.getString("description"));
                     allItemsInOrder.add(trackpack);
-                }
-                else if (items.getString("productCode").charAt(0) == 'M'){
+                } else if (items.getString("productCode").charAt(0) == 'M') {
                     TrainSet trainset = new TrainSet(Item.Gauge.valueOf(items.getString("gauge")),
                             items.getString("era"), items.getString("brand"),
                             items.getString("productName"), items.getString("productCode"),
@@ -165,13 +161,11 @@ public class staffCatalog extends JFrame {
             JLabel newEra = new JLabel("Era:");
             panel.add(newEra);
             panel.add(newEraField);
-        }
-        else if (category.equals("track")) {
+        } else if (category.equals("track")) {
             JLabel newGauge = new JLabel("Gauge:");
             panel.add(newGauge);
             panel.add(newGaugeField);
-        }
-        else if (category.equals("rolling stock")) {
+        } else if (category.equals("rolling stock")) {
             JLabel newGauge = new JLabel("Gauge:");
             panel.add(newGauge);
             panel.add(newGaugeField);
@@ -179,8 +173,7 @@ public class staffCatalog extends JFrame {
             JLabel newEra = new JLabel("Era:");
             panel.add(newEra);
             panel.add(newEraField);
-        }
-        else if (category.equals("track pack")) {
+        } else if (category.equals("track pack")) {
             JLabel newGauge = new JLabel("Gauge:");
             panel.add(newGauge);
             panel.add(newGaugeField);
@@ -188,8 +181,7 @@ public class staffCatalog extends JFrame {
             JLabel newDescription = new JLabel("Description:");
             panel.add(newDescription);
             panel.add(newDescriptionField);
-        }
-        else if (category.equals("train set")) {
+        } else if (category.equals("train set")) {
             JLabel newGauge = new JLabel("Gauge:");
             panel.add(newGauge);
             panel.add(newGaugeField);
@@ -197,8 +189,7 @@ public class staffCatalog extends JFrame {
             JLabel newDescription = new JLabel("Description:");
             panel.add(newDescription);
             panel.add(newDescriptionField);
-        }
-        else if (category.equals("controller")) {
+        } else if (category.equals("controller")) {
             JLabel newDescription = new JLabel("Description:");
             panel.add(newDescription);
             panel.add(newDescriptionField);
@@ -211,33 +202,27 @@ public class staffCatalog extends JFrame {
                 Item.addNewLocomotive(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
                         Integer.parseInt(newStockCountField.getText()), newEraField.getText(), newGaugeField.getText());
                 System.out.println("locomotive added");
-            }
-            else if (category.equals("rolling stock") && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newEraField.getText().isEmpty() && !newGaugeField.getText().isEmpty() && Carriage.validCarriage(newGaugeField.getText(), newEraField.getText(), newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText()))) {
+            } else if (category.equals("rolling stock") && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newEraField.getText().isEmpty() && !newGaugeField.getText().isEmpty() && Carriage.validCarriage(newGaugeField.getText(), newEraField.getText(), newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText()))) {
                 Item.addNewCarriage(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
                         Integer.parseInt(newStockCountField.getText()), newEraField.getText(), newGaugeField.getText());
                 System.out.println("rolling stock added");
-            }
-            else if (category.equals("track") && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newGaugeField.getText().isEmpty() && (Track.validTrack(newGaugeField.getText(), newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText())))) {
+            } else if (category.equals("track") && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newGaugeField.getText().isEmpty() && (Track.validTrack(newGaugeField.getText(), newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText())))) {
                 Item.addNewTrack(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
                         Integer.parseInt(newStockCountField.getText()), newGaugeField.getText());
                 System.out.println("track added");
-            }
-            else if (category.equals("track pack") && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newDescriptionField.getText().isEmpty() && !newEraField.getText().isEmpty() &&!newGaugeField.getText().isEmpty() && TrackPack.validTrackPack(newGaugeField.getText(), newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText()),newDescriptionField.getText()) ) {
+            } else if (category.equals("track pack") && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newDescriptionField.getText().isEmpty() && !newEraField.getText().isEmpty() && !newGaugeField.getText().isEmpty() && TrackPack.validTrackPack(newGaugeField.getText(), newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText())) {
                 Item.addNewTrackPack(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
                         Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText(), newGaugeField.getText());
                 System.out.println("track pack added");
-            }
-            else if (category.equals("train set")  && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newDescriptionField.getText().isEmpty() && !newEraField.getText().isEmpty() && !newGaugeField.getText().isEmpty() && TrainSet.validTrainSet(newGaugeField.getText(), newEraField.getText(), newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText()),newDescriptionField.getText())) {
+            } else if (category.equals("train set") && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newDescriptionField.getText().isEmpty() && !newEraField.getText().isEmpty() && !newGaugeField.getText().isEmpty() && TrainSet.validTrainSet(newGaugeField.getText(), newEraField.getText(), newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText())) {
                 Item.addNewTrainset(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
                         Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText(), newEraField.getText(), newGaugeField.getText());
                 System.out.println("train set added");
-            }
-            else if (category.equals("controller") && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newDescriptionField.getText().isEmpty()  && Controller.validController(newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText()),newDescriptionField.getText())) {
+            } else if (category.equals("controller") && !newProductCodeField.getText().isEmpty() && !newBrandField.getText().isEmpty() && !newProductNameField.getText().isEmpty() && !newPriceField.getText().isEmpty() && !newStockCountField.getText().isEmpty() && !newDescriptionField.getText().isEmpty() && Controller.validController(newBrandField.getText(), newProductNameField.getText(), newProductCodeField.getText(), newPriceField.getText(), Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText())) {
                 Item.addNewController(newProductCodeField.getText(), newBrandField.getText(), newProductNameField.getText(), Double.parseDouble(newPriceField.getText()),
                         Integer.parseInt(newStockCountField.getText()), newDescriptionField.getText());
                 System.out.println("controller added");
-            }
-            else {
+            } else {
                 JOptionPane.showMessageDialog(null, "Fill in all fields correctly.");
                 return;
             }
@@ -262,22 +247,6 @@ public class staffCatalog extends JFrame {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void displayItemInformation(int rowIndex, List<Item> allItems, User user) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         // Retrieve information about the selected item
@@ -298,27 +267,23 @@ public class staffCatalog extends JFrame {
             panel.add(new JLabel("Gauge: " + gauge));
             String era = locomotive.getEra();
             panel.add(new JLabel("Era: " + era));
-        }
-        else if (selectedItem instanceof Track) {
+        } else if (selectedItem instanceof Track) {
             Track track = (Track) selectedItem;
             Item.Gauge gauge = track.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
-        }
-        else if (selectedItem instanceof Carriage) {
+        } else if (selectedItem instanceof Carriage) {
             Carriage carriage = (Carriage) selectedItem;
             Item.Gauge gauge = carriage.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
             String era = carriage.getEra();
             panel.add(new JLabel("Era: " + era));
-        }
-        else if (selectedItem instanceof TrackPack) {
+        } else if (selectedItem instanceof TrackPack) {
             TrackPack trackPack = (TrackPack) selectedItem;
             Item.Gauge gauge = trackPack.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
             String description = trackPack.getDescription();
             panel.add(new JLabel("Description: " + description));
-        }
-        else if (selectedItem instanceof TrainSet) {
+        } else if (selectedItem instanceof TrainSet) {
             TrainSet trainSet = (TrainSet) selectedItem;
             Item.Gauge gauge = trainSet.getGauge();
             panel.add(new JLabel("Gauge: " + gauge));
@@ -392,10 +357,6 @@ public class staffCatalog extends JFrame {
                 new Object[]{},
                 null);
     }
-
-
-
-
 
 
 }

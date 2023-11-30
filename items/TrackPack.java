@@ -8,10 +8,11 @@ public class TrackPack extends Item {
 
 
     public TrackPack(Gauge gauge, String brand, String productName,
-                      String productCode, Double price, Integer stockCount, String description) {
+                     String productCode, Double price, Integer stockCount, String description) {
         super(brand, productName, productCode, price, stockCount, description);
         this.gauge = gauge;
     }
+
     public String toString() {
         return "TrackPack{" +
                 "gauge=" + gauge +
@@ -29,7 +30,7 @@ public class TrackPack extends Item {
     }
 
     public static boolean validTrackPack(String gaugeString, String brand, String productName,
-                                        String productCode, String price, Integer stockCount, String description) {
+                                         String productCode, String price, Integer stockCount, String description) {
 
         try {
             Double parsedPrice = Double.parseDouble(price);

@@ -1,6 +1,7 @@
 package user;
 
 import database.database;
+
 import java.sql.SQLException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class Address {
         } catch (SQLException e) {
             e.printStackTrace();
 
-    }
+        }
         Address address = new Address(houseNumber, streetName, postcode, city);
         addresses.add(address);
     }
@@ -73,7 +74,7 @@ public class Address {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "UPDATE addresses SET street = ?, city = ? " +
-                     "WHERE houseNo = ? AND postcode = ?")) {
+                             "WHERE houseNo = ? AND postcode = ?")) {
             preparedStatement.setString(1, newStreet);
             preparedStatement.setString(2, newCity);
             preparedStatement.setInt(3, oldHouseNo);

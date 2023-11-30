@@ -39,7 +39,7 @@ public class managerDashboard {
                 //Get user from email
                 String enteredEmail = emailField.getText();
                 User userToPromote = null;
-                for (User u: User.users) {
+                for (User u : User.users) {
                     if (Objects.equals(u.getEmail(), enteredEmail)) {
                         userToPromote = u;
                         break;
@@ -83,7 +83,7 @@ public class managerDashboard {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Check if a staff has been selected
-                if(staff.getSelectedIndex() != -1)  {
+                if (staff.getSelectedIndex() != -1) {
                     //Get staffID
                     int staffID = allStaffUsers.get(staff.getSelectedIndex()).getId();
                     //Connect to database
@@ -128,10 +128,10 @@ public class managerDashboard {
     private void loadStaffUsers() {
         allStaffUsers = new ArrayList<>();
         staffDetails = new ArrayList<>();
-        for (User u: User.users) {
+        for (User u : User.users) {
             if (u.getIsStaff() == 1 && u.getIsManager() == 0) {
                 allStaffUsers.add(u);
-                staffDetails.add(u.getForename()+ " | " + u.getSurname() + " | " + u.getEmail());
+                staffDetails.add(u.getForename() + " | " + u.getSurname() + " | " + u.getEmail());
             }
         }
     }

@@ -45,9 +45,13 @@ public class Item {
         return description;
     }
 
-    public int getStockCount() { return stockCount; }
+    public int getStockCount() {
+        return stockCount;
+    }
 
-    public String getProductCode() { return productCode; }
+    public String getProductCode() {
+        return productCode;
+    }
 
     public static String[] getItemDetails(String productCode) {
         ResultSet resultItem = null;
@@ -70,6 +74,7 @@ public class Item {
 
         return details;
     }
+
     public static ResultSet loadTrainsets() {
         Connection con = null;
         try {
@@ -86,12 +91,14 @@ public class Item {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            trainsetSet = preparedStatement.executeQuery();;
+            trainsetSet = preparedStatement.executeQuery();
+            ;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
         return trainsetSet;
     }
+
     public static ResultSet loadTrackPacks() {
         Connection con = null;
         try {
@@ -108,12 +115,14 @@ public class Item {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            trackPackSet = preparedStatement.executeQuery();;
+            trackPackSet = preparedStatement.executeQuery();
+            ;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
         return trackPackSet;
     }
+
     public static ResultSet loadCarriages() {
         Connection con = null;
         try {
@@ -130,12 +139,14 @@ public class Item {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            carriageSet = preparedStatement.executeQuery();;
+            carriageSet = preparedStatement.executeQuery();
+            ;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
         return carriageSet;
     }
+
     public static ResultSet loadTrack() {
         Connection con = null;
         try {
@@ -152,12 +163,14 @@ public class Item {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            trackSet = preparedStatement.executeQuery();;
+            trackSet = preparedStatement.executeQuery();
+            ;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
         return trackSet;
     }
+
     public static ResultSet loadControllers() {
         Connection con = null;
         try {
@@ -174,12 +187,14 @@ public class Item {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            controllerSet = preparedStatement.executeQuery();;
+            controllerSet = preparedStatement.executeQuery();
+            ;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
         return controllerSet;
     }
+
     public static ResultSet loadLocomotives() {
         Connection con = null;
         try {
@@ -196,13 +211,15 @@ public class Item {
         try {
             preparedStatement = con.prepareStatement(sql);
 
-            locomotiveSet = preparedStatement.executeQuery();;
+            locomotiveSet = preparedStatement.executeQuery();
+            ;
         } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
         return locomotiveSet;
     }
-    public static void setStock (String productCode, int newStock) {
+
+    public static void setStock(String productCode, int newStock) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "UPDATE items SET stockCount = ? WHERE productCode = ?;")) {
@@ -214,7 +231,7 @@ public class Item {
         }
     }
 
-    public static void deleteItem (String productCode) {
+    public static void deleteItem(String productCode) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "DELETE FROM items WHERE productCode = ?;")) {
@@ -226,9 +243,9 @@ public class Item {
         }
     }
 
-    public static void addNewLocomotive (String productCode, String brand,
-                                         String productName, Double price,
-                                         int stockCount, String era, String gauge) {
+    public static void addNewLocomotive(String productCode, String brand,
+                                        String productName, Double price,
+                                        int stockCount, String era, String gauge) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
@@ -247,10 +264,9 @@ public class Item {
     }
 
 
-
-    public static void addNewTrack (String productCode, String brand,
-                                         String productName, Double price,
-                                         int stockCount, String gauge) {
+    public static void addNewTrack(String productCode, String brand,
+                                   String productName, Double price,
+                                   int stockCount, String gauge) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
@@ -267,9 +283,10 @@ public class Item {
             e.printStackTrace();
         }
     }
-    public static void addNewCarriage (String productCode, String brand,
-                                         String productName, Double price,
-                                         int stockCount, String era, String gauge) {
+
+    public static void addNewCarriage(String productCode, String brand,
+                                      String productName, Double price,
+                                      int stockCount, String era, String gauge) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
@@ -286,10 +303,11 @@ public class Item {
             e.printStackTrace();
         }
     }
-    public static void addNewTrackPack (String productCode, String brand,
+
+    public static void addNewTrackPack(String productCode, String brand,
                                        String productName, Double price,
                                        int stockCount, String description,
-                                        String gauge) {
+                                       String gauge) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
@@ -307,10 +325,10 @@ public class Item {
         }
     }
 
-    public static void addNewTrainset (String productCode, String brand,
-                                        String productName, Double price,
-                                        int stockCount, String description,
-                                        String era, String gauge) {
+    public static void addNewTrainset(String productCode, String brand,
+                                      String productName, Double price,
+                                      int stockCount, String description,
+                                      String era, String gauge) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
@@ -328,9 +346,9 @@ public class Item {
         }
     }
 
-    public static void addNewController (String productCode, String brand,
-                                       String productName, Double price,
-                                       int stockCount, String description) {
+    public static void addNewController(String productCode, String brand,
+                                        String productName, Double price,
+                                        int stockCount, String description) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
@@ -341,7 +359,7 @@ public class Item {
             preparedStatement.setInt(5, stockCount); //stock
             preparedStatement.setString(6, description); //description
             preparedStatement.setString(7, null); //era
-            preparedStatement.setString(8,null); //gauge
+            preparedStatement.setString(8, null); //gauge
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

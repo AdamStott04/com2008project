@@ -30,24 +30,19 @@ public class Carriage extends Item {
     public Gauge getGauge() {
         return gauge;
     }
+
     public String getEra() {
         return era;
     }
 
     public static boolean validCarriage(String gaugeString, String era, String brand, String productName,
-                                          String productCode, String price, Integer stockCount) {
-
+                                        String productCode, String price, Integer stockCount) {
 
         try {
             Double parsedPrice = Double.parseDouble(price);
         } catch (NumberFormatException e) {
             return false;
         }
-
-
-
-
-
 
         try {
             Gauge gauge = Gauge.valueOf(gaugeString.toUpperCase());

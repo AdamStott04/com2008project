@@ -2,6 +2,7 @@ package ui;
 
 
 import items.Item;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -36,7 +37,6 @@ public class Checkout extends JFrame {
     public Checkout(ArrayList<OrderLine> orderItems, User user) {
 
 
-
         BankDetails bankDetails = user.getBankDetails();
         if (!(bankDetails == null)) {
             cardNo.setText(String.valueOf(bankDetails.getCardNo()));
@@ -51,7 +51,7 @@ public class Checkout extends JFrame {
             int quantity = item.getQuantity();
             String[] details = Item.getItemDetails(item.getProductCode());
             Double price = Double.parseDouble(details[2]);
-            Double pricePerQuantity = price*quantity;
+            Double pricePerQuantity = price * quantity;
             total += pricePerQuantity;
         }
 
@@ -63,7 +63,7 @@ public class Checkout extends JFrame {
                 // Check if all bank details are filled in
                 if (!areBankDetailsFilledIn()) {
                     JOptionPane.showMessageDialog(null, "Please fill in all bank details.");
-                } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText()) ) {
+                } else if (!hasBankDetailsSaved(user) && BankDetails.validBank(Long.parseLong(cardNo.getText()), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText())) {
                     BankDetails.addNewBankDetails(Long.parseLong(cardNo.getText()), cardName.getText(), expiryDate.getText(), Integer.parseInt(cvv.getText()), cardType.getText());
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     Order.addToDb(orderItems, user);
@@ -71,7 +71,7 @@ public class Checkout extends JFrame {
                     frame.dispose();
                     App.userDashboard(user);
 
-                } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user)){
+                } else if (hasBankDetailsSaved(user) && sameDetailsEntered(user)) {
                     JOptionPane.showMessageDialog(null, "Processing Order");
                     Order.addToDb(orderItems, user);
                     JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(rootPanel);
@@ -94,13 +94,8 @@ public class Checkout extends JFrame {
     }
 
 
-
-
-
-
-
     private boolean areBankDetailsFilledIn() {
-        return  !cvv.getText().isEmpty() &&
+        return !cvv.getText().isEmpty() &&
                 !cardName.getText().isEmpty() &&
                 !cardNo.getText().isEmpty() &&
                 !expiryDate.getText().isEmpty() &&
@@ -116,11 +111,11 @@ public class Checkout extends JFrame {
     }
 
     private boolean sameDetailsEntered(User user) {
-         if (user.getBankDetails().getCardName().equals(cardName.getText()) && user.getBankDetails().getCvv() == Integer.parseInt(cvv.getText()) && user.getBankDetails().getExpiryDate().equals(expiryDate.getText()) && user.getBankDetails().getCardNo() == Long.parseLong(cardNo.getText()) && user.getBankDetails().getCardType().equals(cardType.getText())) {
-                return true;
-         } else {
-                return false;
-            }
+        if (user.getBankDetails().getCardName().equals(cardName.getText()) && user.getBankDetails().getCvv() == Integer.parseInt(cvv.getText()) && user.getBankDetails().getExpiryDate().equals(expiryDate.getText()) && user.getBankDetails().getCardNo() == Long.parseLong(cardNo.getText()) && user.getBankDetails().getCardType().equals(cardType.getText())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

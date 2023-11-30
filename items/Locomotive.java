@@ -13,6 +13,7 @@ public class Locomotive extends Item {
         this.gauge = gauge;
         this.era = era;
     }
+
     public String toString() {
         return "Locomotive{" +
                 "gauge=" + gauge +
@@ -29,21 +30,20 @@ public class Locomotive extends Item {
     public Gauge getGauge() {
         return gauge;
     }
+
     public String getEra() {
         return era;
     }
 
 
     public static boolean validLocomotive(String gaugeString, String era, String brand, String productName,
-                                        String productCode, String price, Integer stockCount) {
+                                          String productCode, String price, Integer stockCount) {
 
         try {
             Double parsedPrice = Double.parseDouble(price);
         } catch (NumberFormatException e) {
             return false;
         }
-
-
 
 
         try {
@@ -89,8 +89,6 @@ public class Locomotive extends Item {
         return true;
 
     }
-
-
 
 
 }

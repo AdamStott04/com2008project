@@ -195,10 +195,6 @@ public class Catalog extends JFrame {
         for (int i = 0; i < stockCount; i++) {
             quantityOptions[i] = i + 1;
         }
-        System.out.println("stockCount: ");
-        System.out.println(stockCount);
-        System.out.println("quantity options: ");
-        System.out.println(quantityOptions);
 
         JComboBox<Integer> quantityComboBox = new JComboBox<>(quantityOptions);
         quantityComboBox.setSelectedItem(1); //default is 1

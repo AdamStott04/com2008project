@@ -59,8 +59,7 @@ public class StaffPastOrders extends JFrame {
                 row[3] = User.getEmail(order.getUserID());
                 if (counter == 0) {
                     topOrderModel.addRow(row);
-                }
-                else {
+                } else {
                     tableModel.addRow(row);
                 }
                 counter++;
@@ -118,7 +117,7 @@ public class StaffPastOrders extends JFrame {
                 }
 
                 //Attempt to fulfill the top order
-                if(Order.fulfill(topOrder)) {
+                if (Order.fulfill(topOrder)) {
                     // Remove the top order
                     topOrderModel.removeRow(0);
                     orders.remove(0);
@@ -226,6 +225,7 @@ public class StaffPastOrders extends JFrame {
         public ButtonRenderer() {
             setOpaque(true);
         }
+
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             setText("Fulfill");

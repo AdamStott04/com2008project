@@ -22,9 +22,8 @@ public class Controller extends Item {
     }
 
 
-
     public static boolean validController(String brand, String productName,
-                                        String productCode, String price, Integer stockCount, String description) {
+                                          String productCode, String price, Integer stockCount, String description) {
 
 
         try {
@@ -32,11 +31,6 @@ public class Controller extends Item {
         } catch (NumberFormatException e) {
             return false;
         }
-
-
-
-
-
 
 
         String productCodePattern = "C\\d{3,5}";
@@ -68,7 +62,6 @@ public class Controller extends Item {
         return true;
 
     }
-
 
 
 }

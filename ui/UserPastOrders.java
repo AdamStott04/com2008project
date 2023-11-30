@@ -11,7 +11,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.sql.*;
+
 import user.Order;
+
 import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -61,6 +63,7 @@ public class UserPastOrders extends JFrame {
         });
 
     }
+
     private void displayOrderInformation(int rowIndex, List<Order> orders) {
         JPanel panel = new JPanel(new GridLayout(0, 1));
         // Retrieve information about the selected item

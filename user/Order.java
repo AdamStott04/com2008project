@@ -8,7 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 import App.*;
+
 import java.sql.*;
 import java.util.List;
 
@@ -33,20 +35,23 @@ public class Order {
         this.userID = userID;
     }
 
-    public int getOrderID () {
+    public int getOrderID() {
         return orderID;
     }
-    public int getUserID () {
+
+    public int getUserID() {
         return userID;
     }
-    public Date getOrderDate () {
+
+    public Date getOrderDate() {
         return orderDate;
     }
-    public Status getStatus () {
+
+    public Status getStatus() {
         return status;
     }
 
-    public static void addToDb (ArrayList<OrderLine> currentOrder, User user) {
+    public static void addToDb(ArrayList<OrderLine> currentOrder, User user) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO orders (status, orderDate, userID) VALUES (?, ?, ?);")) {
@@ -60,7 +65,7 @@ public class Order {
         for (OrderLine item : currentOrder) {
             String productCode = item.getProductCode();
             int quantity = item.getQuantity();
-            int lineID = Order.loadOrderLinesCount()+1;
+            int lineID = Order.loadOrderLinesCount() + 1;
             int orderID = Order.loadOrdersCount();
 
             try (Connection con = database.connect();
@@ -86,7 +91,8 @@ public class Order {
                 ", status=" + status +
                 '}';
     }
-    public static void updateStock (Order order) {
+
+    public static void updateStock(Order order) {
         ArrayList<OrderLine> orderItems = Order.loadOrderLines(order.getOrderID());
         for (OrderLine item : orderItems) {
             try (Connection con = database.connect();
@@ -127,6 +133,7 @@ public class Order {
         }
         return ordersCount;
     }
+
     public static int loadOrderLinesCount() {
         Connection con = null;
         int ordersCount = 0;
@@ -153,6 +160,7 @@ public class Order {
         }
         return ordersCount;
     }
+
     public static ArrayList<OrderLine> loadOrderLines(int orderID) {
         ArrayList<OrderLine> orderLines = new ArrayList<>();
 
@@ -216,7 +224,7 @@ public class Order {
     }
 
     //Tries to fulfill and order - returns true if successful.
-    public static boolean fulfill (Order order) {
+    public static boolean fulfill(Order order) {
         boolean allInStock = true;
         //Check if order items are in stock
         ArrayList<OrderLine> orderLines = Order.loadOrderLines(order.getOrderID());
@@ -242,14 +250,13 @@ public class Order {
                 e.printStackTrace();
                 return false;
             }
-        }
-        else {
+        } else {
             JOptionPane.showMessageDialog(null, "An item in this order is out of stock.");
             return false;
         }
     }
 
-    public static void delete (Order order) {
+    public static void delete(Order order) {
         try {
             Connection con = database.connect();
             //Delete order lines

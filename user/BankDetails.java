@@ -42,7 +42,9 @@ public class BankDetails {
         return expiryDate;
     }
 
-    public String getCardType() { return cardType; }
+    public String getCardType() {
+        return cardType;
+    }
 
     // Array of all BankDetails
     public static ArrayList<BankDetails> bankDetails = new ArrayList<>();
@@ -112,8 +114,8 @@ public class BankDetails {
         ResultSet result = null;
         int bankId = 0;
         try (Connection con = database.connect();
-                            PreparedStatement preparedStatement = con.prepareStatement(
-                                    "SELECT bankID FROM bankDetails WHERE cardNo = ? AND cardName = ? AND expiryDate = ? AND cvv = ?;")) {
+             PreparedStatement preparedStatement = con.prepareStatement(
+                     "SELECT bankID FROM bankDetails WHERE cardNo = ? AND cardName = ? AND expiryDate = ? AND cvv = ?;")) {
             preparedStatement.setLong(1, cardNo);
             preparedStatement.setString(2, cardName);
             preparedStatement.setString(3, expiryDate);
@@ -128,6 +130,7 @@ public class BankDetails {
         }
         return bankId;
     }
+
     // Method to add a new bank account to the database
     public static void addNewBankDetails(long cardNo, String cardName, String expiryDate, int cvv, String cardType) {
         int ID = 0;

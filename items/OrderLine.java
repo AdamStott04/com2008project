@@ -1,6 +1,7 @@
 package items;
 
 import database.database;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,6 +25,7 @@ public class OrderLine {
     public String getProductCode() {
         return productCode;
     }
+
     public int getQuantity() {
         return quantity;
     }
@@ -37,8 +39,13 @@ public class OrderLine {
                 '}';
     }
 
-    public int getLineID() { return lineID; }
-    public int getOrderID() { return orderID; }
+    public int getLineID() {
+        return lineID;
+    }
+
+    public int getOrderID() {
+        return orderID;
+    }
 
     //Returns the stockCount of the order
     public static int loadOrderLineStock(int lineID) {
@@ -48,7 +55,7 @@ public class OrderLine {
             PreparedStatement preparedStatement = con.prepareStatement(
                     "SELECT * FROM orderLines WHERE lineID = " + lineID + " LIMIT 1;");
             ResultSet orderLinesResults = preparedStatement.executeQuery();
-            if(orderLinesResults.next()){
+            if (orderLinesResults.next()) {
                 String productCode = orderLinesResults.getString("productCode");
                 //Get stock count from product
                 preparedStatement = con.prepareStatement(
