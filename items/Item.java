@@ -289,7 +289,7 @@ public class Item {
     public static void addNewTrackPack (String productCode, String brand,
                                        String productName, Double price,
                                        int stockCount, String description,
-                                        String era, String gauge) {
+                                        String gauge) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
                      "INSERT INTO items VALUES (?, ?, ?, ?, ?, ?, ?, ?);")) {
@@ -299,7 +299,7 @@ public class Item {
             preparedStatement.setDouble(4, price); //price
             preparedStatement.setInt(5, stockCount); //stock
             preparedStatement.setString(6, description); //description
-            preparedStatement.setString(7, era); //era
+            preparedStatement.setString(7, null);
             preparedStatement.setString(8, gauge); //gauge
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
