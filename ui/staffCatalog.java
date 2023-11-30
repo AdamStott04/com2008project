@@ -25,9 +25,7 @@ public class staffCatalog extends JFrame {
     private List<Item> allItemsInOrder;
     public staffCatalog(ResultSet items, User user, String category) throws SQLException {
         try {
-            //DefaultTableModel tableModel = (DefaultTableModel) itemsTable.getModel();
             DefaultTableModel tableModel = new DefaultTableModel();
-            //itemsTable = new JTable(tableModel);
             itemsTable.setModel(tableModel);
 
             // Create columns based on ResultSet metadata
