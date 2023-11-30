@@ -43,9 +43,11 @@ public class StaffPastOrders extends JFrame {
         tableModel.addColumn("Order ID");
         tableModel.addColumn("Order Date");
         tableModel.addColumn("Status");
+        tableModel.addColumn("Email");
         topOrderModel.addColumn("Order ID");
         topOrderModel.addColumn("Order Date");
         topOrderModel.addColumn("Status");
+        topOrderModel.addColumn("Email");
 
         if (status.equals("Confirmed")) {
             int counter = 0;
@@ -54,6 +56,7 @@ public class StaffPastOrders extends JFrame {
                 row[0] = order.getOrderID();
                 row[1] = order.getOrderDate();
                 row[2] = order.getStatus();
+                row[3] = User.getEmail(order.getUserID());
                 if (counter == 0) {
                     topOrderModel.addRow(row);
                 }
@@ -71,10 +74,11 @@ public class StaffPastOrders extends JFrame {
             othersLabel.setVisible(false);
 
             for (Order order : orders) {
-                Object[] row = new Object[3];
+                Object[] row = new Object[4];
                 row[0] = order.getOrderID();
                 row[1] = order.getOrderDate();
                 row[2] = order.getStatus();
+                row[3] = User.getEmail(order.getUserID());
                 tableModel.addRow(row);
             }
         }
@@ -124,10 +128,11 @@ public class StaffPastOrders extends JFrame {
                     //Get new top order - if needed
                     if (sndOrder != null) {
                         tableModel.removeRow(0);
-                        Object[] row = new Object[3];
+                        Object[] row = new Object[4];
                         row[0] = sndOrder.getOrderID();
                         row[1] = sndOrder.getOrderDate();
                         row[2] = sndOrder.getStatus();
+                        row[3] = User.getEmail(sndOrder.getUserID());
                         topOrderModel.addRow(row);
                         topOrderModel.fireTableRowsInserted(0, 0);
                         tableModel.fireTableRowsDeleted(0, 0);
@@ -156,10 +161,11 @@ public class StaffPastOrders extends JFrame {
 
                 //Get new top order
                 tableModel.removeRow(0);
-                Object[] row = new Object[3];
+                Object[] row = new Object[4];
                 row[0] = sndOrder.getOrderID();
                 row[1] = sndOrder.getOrderDate();
                 row[2] = sndOrder.getStatus();
+                row[3] = User.getEmail(sndOrder.getUserID());
                 topOrderModel.addRow(row);
                 topOrderModel.fireTableRowsInserted(0, 0);
                 tableModel.fireTableRowsDeleted(0, 0);

@@ -193,6 +193,32 @@ public class User {
         currentOrder.add(newLine);
     }
 
+    public static String getEmail (int userID) {
+        Connection con = null;
+        try {
+            con = DriverManager.getConnection(database.url, database.username, database.password);
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        // Create the sql to gather all user data from sql table.
+        String sql = "SELECT * FROM users WHERE userID = " + userID+ ";";
+        ResultSet user = null;
+        String userEmail = null;
+
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = con.prepareStatement(sql);
+
+            user = preparedStatement.executeQuery();;
+            while (user.next()) {
+                userEmail = user.getString("email");
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return userEmail;
+    }
 
 
 }
