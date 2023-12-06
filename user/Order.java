@@ -54,10 +54,11 @@ public class Order {
     public static void addToDb(ArrayList<OrderLine> currentOrder, User user) {
         try (Connection con = database.connect();
              PreparedStatement preparedStatement = con.prepareStatement(
-                     "INSERT INTO orders (status, orderDate, userID) VALUES (?, ?, ?);")) {
-            preparedStatement.setString(1, Status.Confirmed.name());
-            preparedStatement.setDate(2, Date.valueOf(LocalDate.now()));
-            preparedStatement.setInt(3, user.getId());
+                     "INSERT INTO orders (orderID, status, orderDate, userID) VALUES (?, ?, ?, ?);")) {
+            preparedStatement.setInt(1, Order.loadOrdersCount() + 1);
+            preparedStatement.setString(2, Status.Confirmed.name());
+            preparedStatement.setDate(3, Date.valueOf(LocalDate.now()));
+            preparedStatement.setInt(4, user.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -70,10 +71,10 @@ public class Order {
 
             try (Connection con = database.connect();
                  PreparedStatement preparedStatement = con.prepareStatement(
-                         "INSERT INTO orderLines (productCode, quantity, lineID, orderID) VALUES (?, ?, ?, ?);")) {
-                preparedStatement.setString(1, productCode);
-                preparedStatement.setInt(2, quantity);
-                preparedStatement.setInt(3, lineID);
+                         "INSERT INTO orderLines (lineID, productCode, quantity, orderID) VALUES (?, ?, ?, ?);")) {
+                preparedStatement.setInt(1, lineID);
+                preparedStatement.setString(2, productCode);
+                preparedStatement.setInt(3, quantity);
                 preparedStatement.setInt(4, orderID);
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {
